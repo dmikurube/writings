@@ -1,0 +1,116 @@
+---
+---
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
+
+article {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+h1#title {
+    border-bottom: solid 2px;
+    font-size: 24px;
+    color: #333333;
+}
+
+section#content {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+section#content p, table, ul, ol {
+    margin-left: 3em;
+}
+
+section#content pre {
+    margin-left: 5em;
+}
+
+section#content p, table, ul, ol {
+    line-height: 180%;
+    color: #555555;
+}
+
+section#content table {
+    margin-top: 1.5em;
+    margin-bottom: 2.5em;
+    border-collapse: collapse;
+}
+
+section#content table th {
+    font-weight: bold;
+    text-align: left;
+    border-bottom: solid 2px;
+    padding-right: 1em;
+}
+
+section#content table td {
+    border-bottom: solid 1px;
+    padding-right: 1em;
+}
+
+section#content pre {
+    background-color: #eeeeee;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    line-height: 200%;
+    overflow-x: auto;
+    whitespace: pre-wrap;
+    text-indent: 0px;
+}
+
+section#content code {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #eeeeee;
+    color: #444444;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+section#content a code {
+    color: #1188ff;
+}
+
+section#content pre > code {
+    padding: 0px;
+}
+
+section#content h1 {
+    margin-left: 1em;
+    border-bottom: solid 1px;
+    font-size: 22px;
+    color: #333333;
+}
+
+section#content h2 {
+    margin-left: 2em;
+    border-bottom: solid 1px;
+    font-size: 20px;
+    color: #333333;
+}
+
+section#content h3 {
+    margin-left: 2.5em;
+    font-size: 18px;
+    color: #333333;
+}
+
+section#content a, a:visited {
+    font-weight: bold;
+    text-decoration: none;
+    color: #1188ff;
+}
+
+section#content a:hover, a:active {
+    text-decoration: underline;
+}
+
+section#content div.footnotes {
+    border-top: solid 1px;
+}
