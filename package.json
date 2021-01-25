@@ -1,0 +1,23 @@
+{
+  "name": "writings",
+  "version": "1.0.0",
+  "description": "writings =========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmikurube/writings.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmikurube/writings/issues"
+  },
+  "homepage": "https://github.com/dmikurube/writings#readme",
+  "dependencies": {
+    "zenn-cli": "^0.1.72"
+  }
+}
