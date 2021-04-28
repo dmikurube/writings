@@ -4,6 +4,7 @@ emoji: "🚢" # アイキャッチとして使われる絵文字（1文字だけ
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [ "embulk" ]
 layout: default
+published: true
 ---
 
 プラグイン型バルク・データ・ローダーの [Embulk](https://www.embulk.org/) をメンテナンスしている [@dmikurube](https://github.com/dmikurube) です。
