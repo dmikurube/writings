@@ -99,7 +99,7 @@ Maven Central にリリースするには Maven の `groupId` を設定する必
 
 例えば GitHub ドメイン名を使って `io.github.your_github_username` などにする案があります。その場合は、リリースする前に [GitHub Pages を設定・公開](https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages) しておくことをおすすめします。
 
-あなたのプラグインの `groupId` に `org.embulk` を使わないでください。 `org.embulk` は [https://github.com/embulk](https://github.com/embulk) 以下で管理しているプラグイン用だとしています。
+あなたのプラグインの `groupId` に `org.embulk` を使わないでください。 `org.embulk` は [https://github.com/embulk](https://github.com/embulk) 以下で管理しているプラグイン用に予約されています。
 
 #### Maven リポジトリに Embulk プラグインをリリースする設定をする
 
