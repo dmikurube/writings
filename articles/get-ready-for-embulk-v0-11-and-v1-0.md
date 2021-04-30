@@ -410,7 +410,7 @@ Java プラグインから JRuby を呼ぶ必要があった典型例は、日�
 
 `org.embulk:embulk-core` は、もう FindBugs の `com.google.code.findbugs:annotations` (`@SuppressFBWarnings`) への依存を持っていません。
 
-[FindBugs](http://findbugs.sourceforge.net/) はもう長い間メンテナンスされていないことが知られています。少なくとも FindBugs 使うのは止めることをおすすめします。
+[FindBugs](http://findbugs.sourceforge.net/) はもう長い間メンテナンスされていないことが知られています。少なくとも FindBugs を使うのは止めることをおすすめします。
 
 [SpotBugs](https://spotbugs.github.io/) は FindBugs のいい置き換えになるかもしれません。ですが Embulk 本体から SpotBugs 向けのサポートを特別に用意する予定はありません。プラグインの中でご自分で試してみてください。
 
