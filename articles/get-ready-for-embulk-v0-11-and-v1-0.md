@@ -308,9 +308,9 @@ compile "org.embulk:embulk-util-timestamp:0.2.1"
 
 Embulk の [`org.embulk.spi.time.Timestamp`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/time/Timestamp.html) も非推奨になっています。 [`java.time.Instant`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/Instant.html) を代わりに使ってください。
 
-Joda-Time の [`DateTime`](https://www.joda.org/joda-time/apidocs/org/joda/time/DateTime.html) は、代わりに [`java.time.OffsetDateTime`](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html) または [`java.time.ZonedDateTime`](https://docs.oracle.com/javase/8/docs/api/java/time/ZonedDateTime.html) を使ってください。 `OffsetDateTime` で十分な場合は、基本的に `OffsetDateTime` の方を使っておくことをおすすめします。地理的地域ベースのタイムゾーンを使うと、その複雑さからすべてが面倒くさくなります。 (タイムゾーンのデフォルトを `America/Los_Angeles` にしているときに `2017-03-12 02:30:00` を受け取ったらどうなるか想像してみましょう。)
+Joda-Time の [`DateTime`](https://www.joda.org/joda-time/apidocs/org/joda/time/DateTime.html) は、代わりに [`java.time.OffsetDateTime`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/OffsetDateTime.html) または [`java.time.ZonedDateTime`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZonedDateTime.html) を使ってください。 `OffsetDateTime` で十分な場合は、基本的に `OffsetDateTime` の方を使っておくことをおすすめします。地理的地域ベースのタイムゾーンを使うと、その複雑さからすべてが面倒くさくなります。 (タイムゾーンのデフォルトを `America/Los_Angeles` にしているときに `2017-03-12 02:30:00` を受け取ったらどうなるか想像してみましょう。)
 
-Joda-Time の [`DateTimeZone`](https://www.joda.org/joda-time/apidocs/org/joda/time/DateTimeZone.html) は、代わりに [`java.time.ZoneOffset`](https://docs.oracle.com/javase/8/docs/api/java/time/ZoneOffset.html) または [`java.time.ZoneId`](https://docs.oracle.com/javase/8/docs/api/java/time/ZoneId.html) を使ってください。上と同じ理由から、それで足りる場合は `ZoneOffset` に制限しておくことをおすすめします。
+Joda-Time の [`DateTimeZone`](https://www.joda.org/joda-time/apidocs/org/joda/time/DateTimeZone.html) は、代わりに [`java.time.ZoneOffset`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneOffset.html) または [`java.time.ZoneId`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html) を使ってください。上と同じ理由から、それで足りる場合は `ZoneOffset` に制限しておくことをおすすめします。
 
 `org.embulk.spi.time.TimestampFormatter` と `org.embulk.spi.time.TimestampParser` は前述のとおり非推奨です。 `embulk-util-timestamp` の [`org.embulk.util.timestamp.TimestampFormatter`](https://dev.embulk.org/embulk-util-timestamp/0.2.1/javadoc/org/embulk/util/timestamp/TimestampFormatter.html) を代わりに使ってください。「そのまま」移行する典型的なやり方は以下のようになります。
 
@@ -386,11 +386,11 @@ Embulk の `org.embulk.spi.json.JsonParser` は非推奨です。 [`org.embulk:e
 
 Java 8 は十分に強力です。 Google Guava や Apache Commons Lang 3 に強く依存した使い方をしているのでなければ Java 8 の標準クラスで置き換えるのをおすすめします。それらのライブラリ (特に Guava) にはときどき非互換が入ってきて、イライラさせられることがあるでしょう。
 
-少なくとも Guava の [`com.google.common.base.Optional`](https://guava.dev/releases/18.0/api/docs/com/google/common/base/Optional.html) は `embulk-util-config` では動きません。これは [`java.util.Optional`](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html) に置き換える必要があります。
+少なくとも Guava の [`com.google.common.base.Optional`](https://guava.dev/releases/18.0/api/docs/com/google/common/base/Optional.html) は `embulk-util-config` では動きません。これは [`java.util.Optional`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Optional.html) に置き換える必要があります。
 
 Guava の典型的なちょっとした使い方は、以下のように置き換えられます。
 
-* Guava のイミュータブル・コレクション (immutable collections) は [`java.util.Collections`](https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html) の `unmodifiable*` メソッド群で置き換えられます。
+* Guava のイミュータブル・コレクション (immutable collections) は [`java.util.Collections`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Collections.html) の `unmodifiable*` メソッド群で置き換えられます。
 * Guava の [`Throwables`](https://guava.dev/releases/18.0/api/docs/com/google/common/base/Throwables.html) は非推奨になっています。 [Guava のドキュメント](https://github.com/google/guava/wiki/Why-we-deprecated-Throwables.propagate) を呼んでください。
 * Guava の [`Preconditions`](https://guava.dev/releases/18.0/api/docs/com/google/common/base/Preconditions.html) は単純に置き換えられます。
 
