@@ -416,7 +416,7 @@ Java プラグインから JRuby を呼ぶ必要があった典型例は、日�
 
 ##### Java 11 以降への準備
 
-Java エコシステムでは、新しい Java のバージョンに向けて準備をしていかなければなりません。 Java 8 から 11 以降に移る際には大きなギャップがあり、特に Java EE 関連のクラス群 (典型例は JAXB `javax.xml.*`) が Java 11 の実行環境から消えるのは影響が大きいです。もしプラグインがこれらのクラスを使っている場合は、そのままでは Java 11 以降では動きません。詳細は [JEP 320](https://openjdk.java.net/jeps/320) を確認してください。
+Java エコシステムでは、新しい Java のバージョンに向けて準備をしていかなければなりません。 Java 8 から 11 以降に移るのには大きなギャップがありますが、その中でも Java EE 関連のクラス群 (典型例は JAXB `javax.xml.*`) が Java 11 の実行環境から消えるのは特に影響が大きいところでしょう。もしプラグインがこれらのクラスを使っている場合、そのままでは Java 11 以降では動きません。詳細は [JEP 320](https://openjdk.java.net/jeps/320) を確認してください。
 
 Embulk v0.11 以降では、プラグインからこれらのクラスが使われたことを検出すると (Java 8 で動かしていても) 以下のような警告メッセージをログに出します。
 
@@ -424,7 +424,7 @@ Embulk v0.11 以降では、プラグインからこれらのクラスが使わ�
 Class javax.xml.bind.JAXB is loaded by the parent ClassLoader, which is removed by JEP 320. The plugin needs to include it on the plugin side. See https://github.com/embulk/embulk/issues/1270 for more details.
 ```
 
-フレームワークとしての Embulk からは、これ以上のサポートは特に提供しません。もしプラグインが Java EE のクラス群を使っている場合は、代わりになる依存関係を明示的に自分で明示的に追加してください。
+フレームワークとしての Embulk からは、これ以上のサポートは特に提供しません。もしプラグインがこれらのクラスを使っている場合は、代わりになる依存関係を明示的に自分で明示的に追加してください。
 
 典型例をいくつか以下に掲載します。
 
