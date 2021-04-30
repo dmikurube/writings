@@ -90,7 +90,7 @@ Gradle プラグインのガイドに従って適用してみてください: [h
 
 前述のとおり JRuby は Embulk v0.11 以降にビルトインではありません。 Ruby gems は、今後 Embulk プラグインで最も使われるフォーマットではなくなっていきます。 Maven リポジトリにリリースされる Maven artifacts がその代わりになっていきます。
 
-オープンソースの Embulk プラグインは、いくつかある他の Maven リポジトリではなく [Maven Central](https://search.maven.org/) にリリースするのをおすすめしています。 ([Bintray and JCenter が終了する](https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/)のは見ましたよね?)
+オープンソースの Embulk プラグインは、いくつかある他の Maven リポジトリではなく [Maven Central](https://search.maven.org/) にリリースするのをおすすめしています。 ([Bintray と JCenter が終了する](https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/)のは見ましたよね?)
 
 Maven Central にリリースするには Maven の `groupId` を設定する必要があります。また、その `groupId` に対する権限を Maven Central / Sonatype で持っている必要があります。以下の Maven と Java のガイドラインに従って `groupId` を決めてください。
 
@@ -108,7 +108,7 @@ Maven Central にリリースするには Maven の `groupId` を設定する必
 その設定は以下のようになります。 Maven Cetnral であれば [Maven のガイド (Getting started)](https://central.sonatype.org/publish/publish-guide/)や[必要事項](https://central.sonatype.org/pages/requirements.html)を確認してください。
 
 ```
-// Maven Central では "-javadoc" and "-sources" JAR もリリースする必要があります。
+// Maven Central では "-javadoc" と "-sources" JAR もリリースする必要があります。
 // Gradle 6 以降なら、この設定で自動的に生成できます。
 java {
     withJavadocJar()
@@ -125,8 +125,8 @@ publishing {
 
             from components.java
 
-            // Maven Central では "-javadoc" and "-sources" JAR もリリースする必要があります。
-            // "javadocJar" と "sourcesJar" は、上の "java.withJavadocJar()" and "java.withSourcesJar()" があれば自動で追加されます。
+            // Maven Central では "-javadoc" と "-sources" JAR もリリースする必要があります。
+            // "javadocJar" と "sourcesJar" は、上の "java.withJavadocJar()" と "java.withSourcesJar()" があれば自動で追加されます。
             // See: https://docs.gradle.org/current/javadoc/org/gradle/api/plugins/JavaPluginExtension.html
 
             pom {  // https://central.sonatype.org/pages/requirements.html
@@ -204,7 +204,7 @@ signing {
 
 Embulk v0.11 以降の `org.embulk:embulk-api` と `org.embulk:embulk-spi` は、本体とプラグインの間の「契約 (contract)」になります。これらはあまり頻繁には更新せず、プラグインが本体の変更に影響されないよう、互換性を保って注意深くメンテナンスされます。一方の `org.embulk:embulk-core` は、新しい機能のためにもっと頻繁に更新されるでしょう。
 
-`embulk-api` と `embulk-spi` は `org.embulk:embulk-core` とは違うバージョン体系になります。 `embulk-api` と `embulk-spi` のバージョンは `embulk-core` と違って、単に `0.11`, `1.0`, `1.1`, `1.2` のようになります。この一・二桁目も同期しません。たとえば `org.embulk:embulk-core:1.3.2` が `org.embulk:embulk-api:1.1` and `org.embulk:embulk-spi:1.1` を想定する、というようなこともありえます。
+`embulk-api` と `embulk-spi` は `org.embulk:embulk-core` とは違うバージョン体系になります。 `embulk-api` と `embulk-spi` のバージョンは `embulk-core` と違って、単に `0.11`, `1.0`, `1.1`, `1.2` のようになります。この一・二桁目も同期しません。たとえば `org.embulk:embulk-core:1.3.2` が `org.embulk:embulk-api:1.1` と `org.embulk:embulk-spi:1.1` を想定する、というようなこともありえます。
 
 `org.embulk:embulk-api:0.11` と `org.embulk:embulk-spi:0.11` は Embulk v0.11.0 と同時にリリースされます。同様に `org.embulk:embulk-api:1.0` と `org.embulk:embulk-spi:1.0` は Embulk v1.0.0 と同時にリリースされます。しかし、以降の `embulk-api` と `embulk-spi` は、あまり頻繁ではない API と SPI への追加があったときのみリリースされます。
 
