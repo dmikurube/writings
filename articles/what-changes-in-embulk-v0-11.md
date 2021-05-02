@@ -56,7 +56,7 @@ Maven アーティファクトのための `m2_repo` も含め、これらは以
 
 ### JRuby
 
-Embulk の実行可能バイナリには JRuby がバンドルされません。 JRuby を Embulk とともに使いたい場合 (現時点ではほとんどの場合) JRuby の `Complete jar` ファイルを [JRuby Downloads](https://www.jruby.org/download) からダウンロードし、その `.jar` ファイルへのパスを `file:` URL 形式で Embulk System Properties `jruby` に指定する必要があります。例えば `-X jruby=file:///your/path/to/jruby-complete-9.1.15.0.jar` のようになります。 (今のところ `file:` 形式しか動きません)
+Embulk v0.11 以降の実行可能バイナリには JRuby がバンドルされません。 JRuby を Embulk とともに使いたい場合 (現時点ではほとんどの場合) JRuby の `Complete jar` ファイルを [JRuby Downloads](https://www.jruby.org/download) からダウンロードし、その `.jar` ファイルへのパスを `file:` URL 形式で Embulk System Properties `jruby` に指定する必要があります。例えば `-X jruby=file:///your/path/to/jruby-complete-9.1.15.0.jar` のようになります。 (今のところ `file:` 形式しか動きません)
 
 これは一見すると面倒くさいかもしれません。しかしこのいい点として、好きな JRuby のバージョンを自分で指定できることには注目する価値があるでしょう。 Embulk の開発チームではまだ JRuby 9.1.15.0 でしかテストしていませんが、よくコントリビュートしてくれる佐藤さんが [JRuby 9.2.14.0 でも動いたことを確認してくれています](https://twitter.com/hiroysato/status/1339919262798864384)。
 
