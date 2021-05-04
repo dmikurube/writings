@@ -23,7 +23,7 @@ published: true
 
 プラグインが以下の条件を満たしたら、そのプラグインは「Embulk v0.11 / v1.0 対応」と言って大丈夫です。
 
-* Maven アーティファクトの `org.embulk:embulk-core` に依存していない。
+* Maven artifact の `org.embulk:embulk-core` に依存していない。
 * `org.embulk:embulk-api` と `org.embulk:embulk-spi` に `compileOnly` で依存している。
 * Gradle プラグインの `org.embulk.embulk-plugins` でビルドされている。
 
@@ -294,6 +294,8 @@ private static final ConfigMapperFactory CONFIG_MAPPER_FACTORY =
 + final PluginTask task = taskMapper.map(taskSource, PluginTask.class);
 ```
 
+もし、プラグインが [`Exec.newConfigDiff()`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/Exec.html#newConfigDiff--), [`Exec.newConfigSource()`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/Exec.html#newConfigSource--), [`Exec.newTaskReport()`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/Exec.html#newTaskReport--), [`Exec.newTaskSource()`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/Exec.html#newTaskSource--) などを使って各インスタンスを生成している場合は、それぞれ [`CONFIG_MAPPER_FACTORY.newConfigDiff()`](https://dev.embulk.org/embulk-util-config/0.3.0/javadoc/org/embulk/util/config/ConfigMapperFactory.html#newConfigDiff--), [`CONFIG_MAPPER_FACTORY.newConfigSource()`](https://dev.embulk.org/embulk-util-config/0.3.0/javadoc/org/embulk/util/config/ConfigMapperFactory.html#newConfigSource--), [`CONFIG_MAPPER_FACTORY.newTaskReport()`](https://dev.embulk.org/embulk-util-config/0.3.0/javadoc/org/embulk/util/config/ConfigMapperFactory.html#newTaskReport--), [`CONFIG_MAPPER_FACTORY.newTaskSource()`](https://dev.embulk.org/embulk-util-config/0.3.0/javadoc/org/embulk/util/config/ConfigMapperFactory.html#newTaskSource--) に置き換えましょう。旧 `Exec.new...()` メソッド群は旧 `org.embulk.config` 用のインスタンスを生成するもので、これは `embulk-util-config` では動作しません。
+
 `embulk-util-config` 自体が Jackson に依存しているので、これを使うとプラグインは Jackson への依存を直接持つようになります。
 
 プラグインが Embulk v0.9 でもしばらくは動くようにするには、新しい Embulk v0.11.0 がリリースされても、しばらくは Jackson 2.6.7 のままにしておくことを検討してください。他の多くのプラグインが v0.11 対応になり、多くのユーザーが v0.11.0 以降を使うようになったら、もうプラグインがどの Jackson バージョンを使っても動くはずです!
@@ -307,6 +309,8 @@ compile "org.embulk:embulk-util-timestamp:0.2.1"
 ```
 
 Embulk の [`org.embulk.spi.time.Timestamp`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/time/Timestamp.html) も非推奨になっています。 [`java.time.Instant`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/Instant.html) を代わりに使ってください。
+
+v0.10.13 から [`PageBuilder#setTimestamp(Column, Instant)`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/PageBuilder.html#setTimestamp-org.embulk.spi.Column-java.time.Instant-), [`PageBuilder#setTimestamp(int, Instant)`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/PageBuilder.html#setTimestamp-int-java.time.Instant-), [`PageReader#getTimestampInstant(Column)`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/PageReader.html#getTimestampInstant-org.embulk.spi.Column-), [`PageReader#getTimestampInstant(int)`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/PageReader.html#getTimestampInstant-int-) などの [`java.time.Instant`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/Instant.html) を引数に取ったり返したりするメソッドが追加されています。しかしこれらは v0.9.23 には実装されていないので、プラグインからこれらのメソッドを使うと、そのプラグインは v0.9.23 では動かなくなってしまいます。 v0.9.23 でも動かしたい場合は、旧 [`org.embulk.spi.Timestamp`](https://dev.embulk.org/embulk-api/0.10.31/javadoc/org/embulk/spi/time/Timestamp.html) を使うメソッドを使いましょう。 `Timestamp` と `Instant` は相互変換できます。 (これらをバックポートしたバージョンを v0.9.24 としてリリースする計画もありますが、基本的には旧メソッドを使っておくほうがしばらくは安全です)
 
 Joda-Time の [`DateTime`](https://www.joda.org/joda-time/apidocs/org/joda/time/DateTime.html) は、代わりに [`java.time.OffsetDateTime`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/OffsetDateTime.html) または [`java.time.ZonedDateTime`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZonedDateTime.html) を使ってください。 `OffsetDateTime` で十分な場合は、基本的に `OffsetDateTime` の方を使っておくことをおすすめします。地理的地域ベースのタイムゾーンを使うと、その複雑さからすべてが面倒くさくなります。 (タイムゾーンのデフォルトを `America/Los_Angeles` にしているときに `2017-03-12 02:30:00` を受け取ったらどうなるか想像してみましょう。)
 
