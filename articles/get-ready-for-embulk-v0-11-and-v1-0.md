@@ -15,7 +15,7 @@ published: true
 * [More detailed plan of Embulk v0.10, v0.11, and v1 -- Meetup!](https://www.embulk.org/articles/2020/07/01/meetup-20200709.html)
 * [Java plugins to catch up with Embulk v0.10 from v0.9](https://dev.embulk.org/topics/catchup-with-v0.10.html)
 
-それから一年経ち、その v0.11.0 のリリースがいよいよ視界に入り、プラグイン API/SPI の(再)定義もほぼ固まりました。本記事は Embulk プラグインを v0.11 / v1.0 対応させる手順を解説するものです。
+それから一年経ち、その v0.11.0 のリリースがいよいよ視界に入り、プラグイン API/SPI の(再)定義もほぼ固まりました。本記事は Embulk プラグインを v0.11 / v1.0 対応させる手順を解説するものです。 (プラグイン開発者ではなくユーザー向けのまとめは[こちら](https://zenn.dev/dmikurube/articles/what-changes-in-embulk-v0-11))
 
 ([Embulk 開発者サイトにある英語版](https://dev.embulk.org/topics/get-ready-for-v0.11-and-v1.0.html) の翻訳ですが、同一人物が書いているので、おそらく同じ内容になっていると思います。もし違いがありましたら、英語版の方を一次情報として解釈しつつ、ぜひ筆者までご連絡ください)
 
