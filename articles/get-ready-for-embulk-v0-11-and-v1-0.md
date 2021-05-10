@@ -19,7 +19,7 @@ published: true
 
 ([Embulk 開発者サイトにある英語版](https://dev.embulk.org/topics/get-ready-for-v0.11-and-v1.0.html) の翻訳ですが、同一人物が書いているので、おそらく同じ内容になっていると思います。もし違いがありましたら、英語版の方を一次情報として解釈しつつ、ぜひ筆者までご連絡ください)
 
-### まず、どうなればプラグインは「Embulk v0.11 / v1.0 対応」と言えるの?
+# まず、どうなればプラグインは「Embulk v0.11 / v1.0 対応」と言えるの?
 
 プラグインが以下の条件を満たしたら、そのプラグインは「Embulk v0.11 / v1.0 対応」と言って大丈夫です。
 
@@ -64,15 +64,15 @@ dependencies {
 
 言い換えると、もしプラグインをビルドするのに `org.embulk:embulk-core` が必要なら、そのプラグインはまだ Embulk v0.11 対応とは言えません。
 
-### Ruby プラグインはどうすれば?
+# Ruby プラグインはどうすれば?
 
 JRuby は Embulk v0.11 以降にビルトインではありません。 Embulk v1.0 以降では JRuby との連携はあまりアクティブにはメンテナンスされない予定です。言い換えると Ruby (プラグイン) は Embulk の第一線の機能としてはサポートされなくなります。
 
 今ある Ruby プラグインは Embulk v1.0.0 でもおそらくそのまま動きます。しかし v1.0.0 以降のどこかで、急に一部の Ruby プラグインが動かなくなる、ということがありうると想定しておいてください。 Ruby プラグインを新しく作ることはお勧めしません。また、既存の Ruby プラグインもできれば Java に書き換えていくことをお勧めします。 (JRuby 連携のメンテナンスに参加してくれる方は今も歓迎しています)
 
-### で、どうすれば Embulk v0.11 対応できるの?
+# で、どうすれば Embulk v0.11 対応できるの?
 
-#### Gradle wrapper を Gradle 6 に上げる
+## Gradle wrapper を Gradle 6 に上げる
 
 ```
 ./gradlew wrapper --gradle-version=6.8.3
@@ -82,11 +82,11 @@ JRuby は Embulk v0.11 以降にビルトインではありません。 Embulk v
 
 前述の通り、まだ Gradle 7 には対応していません。
 
-#### Gradle プラグイン `org.embulk.embulk-plugins` を適用する
+## Gradle プラグイン `org.embulk.embulk-plugins` を適用する
 
 Gradle プラグインのガイドに従って適用してみてください: [https://github.com/embulk/gradle-embulk-plugins](https://github.com/embulk/gradle-embulk-plugins)
 
-#### Maven `groupId` を決める
+## Maven `groupId` を決める
 
 前述のとおり JRuby は Embulk v0.11 以降にビルトインではありません。 Ruby gems は、今後 Embulk プラグインで最も使われるフォーマットではなくなっていきます。 Maven リポジトリにリリースされる Maven artifacts がその代わりになっていきます。
 
@@ -101,7 +101,7 @@ Maven Central にリリースするには Maven の `groupId` を設定する必
 
 あなたのプラグインの `groupId` に `org.embulk` を使わないでください。 `org.embulk` は [https://github.com/embulk](https://github.com/embulk) 以下で管理しているプラグイン用に予約されています。
 
-#### Maven リポジトリに Embulk プラグインをリリースする設定をする
+## Maven リポジトリに Embulk プラグインをリリースする設定をする
 
 前述のとおり、オープンソースの Embulk プラグインは [Maven Central](https://search.maven.org/) にリリースするのをおすすめしています。他へのリリースを制限しているわけではありませんが、いずれにせよ、どんな Maven リポジトリにリリースするのでもそのリポジトリ用に `build.gradle` を設定する必要があります。
 
@@ -190,7 +190,7 @@ signing {
 }
 ```
 
-#### 依存関係の整理
+## 依存関係の整理
 
 最初に挙げたとおり Embulk v0.11 以降対応のプラグインは `org.embulk:embulk-core` に依存できません。つまり、最新のプラグインは `org.embulk:embulk-core` だけにあって `org.embulk:embulk-api` か `org.embulk:embulk-spi` に入っていないクラスを使えません。
 
@@ -208,7 +208,7 @@ Embulk v0.11 以降の `org.embulk:embulk-api` と `org.embulk:embulk-spi` は�
 
 `org.embulk:embulk-api:0.11` と `org.embulk:embulk-spi:0.11` は Embulk v0.11.0 と同時にリリースされます。同様に `org.embulk:embulk-api:1.0` と `org.embulk:embulk-spi:1.0` は Embulk v1.0.0 と同時にリリースされます。しかし、以降の `embulk-api` と `embulk-spi` は、あまり頻繁ではない API と SPI への追加があったときのみリリースされます。
 
-##### Embulk config の処理
+### Embulk config の処理
 
 これまでプラグインは config を処理するのに `org.embulk.config.ConfigSource#loadConfig` と `org.embulk.config.TaskSource#loadTask` を使ってきました. しかし、これらはもう非推奨になりました。外部ライブラリになった [`org.embulk:embulk-util-config`](https://dev.embulk.org/embulk-util-config/) を代わりに使ってください。
 
@@ -300,7 +300,7 @@ private static final ConfigMapperFactory CONFIG_MAPPER_FACTORY =
 
 プラグインが Embulk v0.9 でもしばらくは動くようにするには、新しい Embulk v0.11.0 がリリースされても、しばらくは Jackson 2.6.7 のままにしておくことを検討してください。他の多くのプラグインが v0.11 対応になり、多くのユーザーが v0.11.0 以降を使うようになったら、もうプラグインがどの Jackson バージョンを使っても動くはずです!
 
-##### 日付・時刻とタイムゾーンの扱い
+### 日付・時刻とタイムゾーンの扱い
 
 Embulk から [Joda-Time](https://www.joda.org/joda-time/) は削除されます。 `org.embulk.spi.time.TimestampFormatter` と `org.embulk.spi.time.TimestampParser` は非推奨です。 Java 8 標準の `java.time` クラス群と、外部ライブラリの [`org.embulk:embulk-util-timestamp`](https://dev.embulk.org/embulk-util-timestamp/) を代わりに使ってください.
 
@@ -374,7 +374,7 @@ String formatted = formatter.format(Instant.ofEpochSecond(1009110896));
 System.out.println(formatted);  // => "2017-12-23 12:34:56 UTC"
 ```
 
-##### Jackson と JSON の扱い
+### Jackson と JSON の扱い
 
 `org.embulk:embulk-core` はもう Jackson への依存を持っていません。プラグイン自体の中で Jackson を使う必要がある場合は、明示的に Jackson を依存に持つ必要があります。
 
@@ -384,7 +384,7 @@ Embulk の `org.embulk.spi.json.JsonParser` は非推奨です。 [`org.embulk:e
 
 前述したように、プラグインが古い Embulk v0.9 でも今しばらく動くようにするには Jackson 2.6.7 に留めておいてください。
 
-##### Google Guava と Apache Commons Lang 3
+### Google Guava と Apache Commons Lang 3
 
 `org.embulk:embulk-core` はもう Google Guava と Apache Commons Lang 3 への依存を持っていません。プラグインがそれらを使っている場合は Java 8 の標準クラスで置き換えるか、それらへの依存を明示的に持たせてください。
 
@@ -398,19 +398,19 @@ Guava の典型的なちょっとした使い方は、以下のように置き�
 * Guava の [`Throwables`](https://guava.dev/releases/18.0/api/docs/com/google/common/base/Throwables.html) は非推奨になっています。 [Guava のドキュメント](https://github.com/google/guava/wiki/Why-we-deprecated-Throwables.propagate) を呼んでください。
 * Guava の [`Preconditions`](https://guava.dev/releases/18.0/api/docs/com/google/common/base/Preconditions.html) は単純に置き換えられます。
 
-##### Guice
+### Guice
 
 プラグインの中で Guice を使うのはできるだけ止めてください。
 
 もし、他の依存ライブラリが Guice を使っているなどの理由で避けられない場合は、明示的に Guice を依存に持ってください。ただし、古い Embulk v0.9 では即座に動かなくなる可能性があります。
 
-##### JRuby (`org.jruby` クラス)
+### JRuby (`org.jruby` クラス)
 
 プラグインの中で JRuby やそのクラスを使うのは止めてください。
 
 Java プラグインから JRuby を呼ぶ必要があった典型例は、日付・時刻の解釈や出力でした。これは [`embulk-util-timestamp`](https://dev.embulk.org/embulk-util-timestamp/) や [`embulk-util-rubytime`](https://dev.embulk.org/embulk-util-rubytime/) で置き換えられます。
 
-##### FindBugs
+### FindBugs
 
 `org.embulk:embulk-core` は、もう FindBugs の `com.google.code.findbugs:annotations` (`@SuppressFBWarnings`) への依存を持っていません。
 
@@ -418,7 +418,7 @@ Java プラグインから JRuby を呼ぶ必要があった典型例は、日�
 
 [SpotBugs](https://spotbugs.github.io/) は FindBugs のいい置き換えになるかもしれません。ですが Embulk 本体から SpotBugs 向けのサポートを特別に用意する予定はありません。プラグインの中でご自分で試してみてください。
 
-##### Java 11 以降への準備
+### Java 11 以降への準備
 
 Java エコシステムでは、新しい Java のバージョンに向けて準備をしていかなければなりません。 Java 8 から 11 以降に移るのには大きなギャップがありますが、その中でも Java EE 関連のクラス群 (典型例は JAXB `javax.xml.*`) が Java 11 の実行環境から消えるのは特に影響が大きいところでしょう。もしプラグインがこれらのクラスを使っている場合、そのままでは Java 11 以降では動きません。詳細は [JEP 320](https://openjdk.java.net/jeps/320) を確認してください。
 
@@ -467,11 +467,11 @@ compile "javax.activation:activation:1.1.1"
 compile "javax.annotation:javax.annotation-api:1.2"
 ```
 
-##### ログ
+### ログ
 
 `org.embulk.spi.Exec.getLogger` は非推奨です。 [SLF4J](http://www.slf4j.org/) の [`org.slf4j.LoggerFactory.getLogger`](https://www.javadoc.io/doc/org.slf4j/slf4j-api/1.7.30/org/slf4j/LoggerFactory.html) を直接使ってください。
 
-##### `embulk-standards` の利用
+### `embulk-standards` の利用
 
 Embulk v0.11 以降 `org.embulk:embulk-standards` という Maven artifact はなくなりました。旧標準プラグインは個別の Maven artifacts に分割して Maven 形式のプラグインとして Maven Central にアップロードされています。 (例: [`embulk-input-file`](https://repo1.maven.org/maven2/org/embulk/embulk-input-file/) / [`embulk-guess-csv`](https://repo1.maven.org/maven2/org/embulk/embulk-guess-csv/))
 
@@ -483,7 +483,7 @@ compile "org.embulk:embulk-guess-csv:0.10.??"
 
 テストコードで標準プラグインを使いたい場合は `testCompile` や `testImplementation` で各プラグインを参照した上で、多くの場合はテストコードから明示的に登録する必要があります。 (参考: [`embulk-parser-csv:0.10.31` のテスト](https://github.com/embulk/embulk/blob/v0.10.31/embulk-parser-csv/src/test/java/org/embulk/standards/preview/TestFilePreview.java#L54-L61))
 
-##### `org.embulk:embulk-core` にあるその他のユーティリティクラス
+### `org.embulk:embulk-core` にあるその他のユーティリティクラス
 
 * File-like なバイト列の処理 (`org.embulk.spi.util` の `FileInputInputStream` や `FileOutputOutputStream`)
     * [`embulk-util-file`](https://dev.embulk.org/embulk-util-file/) として外部ライブラリ化
@@ -494,9 +494,9 @@ compile "org.embulk:embulk-guess-csv:0.10.??"
 * リトライ (`org.embulk.spi.util` の `RetryExecutor`)
     * [`embulk-util-retryhelper`](https://dev.embulk.org/embulk-util-retryhelper/) として外部ライブラリ化
 
-#### 置き換えのまとめ
+## 置き換えのまとめ
 
-##### Embulk config の処理
+### Embulk config の処理
 
 | 旧 | 新 |
 |---|---|
@@ -515,7 +515,7 @@ compile "org.embulk:embulk-guess-csv:0.10.??"
 | `Schema` in `PluginTask` | [embulk-util-config](https://dev.embulk.org/embulk-util-config/) の `org.embulk.util.config.modules.SchemaModule` |
 | `Type` in `PluginTask` | [embulk-util-config](https://dev.embulk.org/embulk-util-config/) の `org.embulk.util.config.modules.TypeModule` |
 
-##### 日付・時刻とタイムゾーンの扱い
+### 日付・時刻とタイムゾーンの扱い
 
 | 旧 | 新 |
 |---|---|
@@ -526,50 +526,50 @@ compile "org.embulk:embulk-guess-csv:0.10.??"
 | `TimestampFormatter` | [embulk-util-timestamp](https://dev.embulk.org/embulk-util-timestamp/) の `org.embulk.util.timestamp.TimestampFormatter` |
 | `TimestampParser` | [embulk-util-timestamp](https://dev.embulk.org/embulk-util-timestamp/) の `org.embulk.util.timestamp.TimestampFormatter` |
 
-##### Jackson と JSON の扱い
+### Jackson と JSON の扱い
 
 | 旧 | 新 |
 |---|---|
 | `org.embulk.spi.json.*` | [embulk-util-json](https://dev.embulk.org/embulk-util-json/) の `org.embulk.util.json.*` |
 
-##### Google Guava と Apache Commons Lang 3
+### Google Guava と Apache Commons Lang 3
 
 | 旧 | 新 |
 |---|---|
 | Guava `Optional` | `java.util.Optional` |
 | Guava `Throwables` | [Guava のドキュメント](https://github.com/google/guava/wiki/Why-we-deprecated-Throwables.propagate) を読んでください |
 
-##### JRuby (`org.jruby` クラス)
+### JRuby (`org.jruby` クラス)
 
 | 旧 | 新 |
 |---|---|
 | `org.jruby.*` | 使うのを止めてください。日付・時刻の操作には [embulk-util-tiemstamp](https://dev.embulk.org/embulk-util-timestamp/) や [embulk-util-rubytime](https://dev.embulk.org/embulk-util-rubytime/) を使ってください。 |
 
-##### FindBugs
+### FindBugs
 
 | 旧 | 新 |
 |---|---|
 | `@SuppressFBWarnings` | 削除するか、使い方を模索してみてください。 |
 
-##### Java 11 以降への準備
+### Java 11 以降への準備
 
 | 旧 | 新 |
 |---|---|
 | `javax.*` | [JEP 320](https://openjdk.java.net/jeps/320) を見て、それが Java 11 以降で消えたものかどうか確認してください。 ([Issue](https://github.com/embulk/embulk/issues/1270)) |
 
-##### ログ
+### ログ
 
 | 旧 | 新 |
 |---|---|
 | `Exec.getLogger` | `org.slf4j.LoggerFactory.getLogger` |
 
-##### `org.embulk:embulk-core` にあるその他のユーティリティクラス
+### `org.embulk:embulk-core` にあるその他のユーティリティクラス
 
 | 旧 | 新 |
 |---|---|
 | `org.embulk.spi.util.*` | [embulk-util-file](https://dev.embulk.org/embulk-util-file/), [embulk-util-text](https://dev.embulk.org/embulk-util-text/), [embulk-util-dynamic](https://dev.embulk.org/embulk-util-dynamic/), [embulk-util-retryhelper](https://dev.embulk.org/embulk-util-retryhelper/) |
 
-#### テスト
+## テスト
 
 v0.9 までテストで使っていた `org.embulk:embulk-test` は `org.embulk:embulk-junit4` に名前が変わっています。
 
@@ -593,7 +593,7 @@ testCompile "org.embulk:embulk-deps:0.10.??"
 
 今後 v0.11 系の開発の中で、テスト用のフレームワークを拡充する予定です。
 
-### 最後に
+# 最後に
 
 これまで Embulk プラグインを開発してくれた方々には、ご面倒をおかけします。
 
