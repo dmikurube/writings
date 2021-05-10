@@ -56,7 +56,7 @@ dependencies {
 
     testCompile "org.embulk:embulk-api:0.10.??"
     testCompile "org.embulk:embulk-spi:0.10.??"
-    testCompile "org.embulk:embulk-junit4:0.10.??"
+    testCompile "org.embulk:embulk-junit4:0.10.??"  // "embulk-test" から名前が変わりました
     testCompile "org.embulk:embulk-core:0.10.??"  // "testCompile" では "embulk-core" を使っても大丈夫
     testCompile "org.embulk:embulk-deps:0.10.??"  // "testCompile" では "embulk-deps" を使っても大丈夫
 }
@@ -558,6 +558,12 @@ compile "javax.annotation:javax.annotation-api:1.2"
 | `org.embulk.spi.util.*` | [embulk-util-file](https://dev.embulk.org/embulk-util-file/), [embulk-util-text](https://dev.embulk.org/embulk-util-text/), [embulk-util-dynamic](https://dev.embulk.org/embulk-util-dynamic/), [embulk-util-retryhelper](https://dev.embulk.org/embulk-util-retryhelper/) |
 
 #### テスト
+
+v0.9 までテストで使っていた `org.embulk:embulk-test` は `org.embulk:embulk-junit4` に名前が変わっています。
+
+```
+testCompile "org.embulk:embulk-junit4:0.10.??"
+```
 
 テストでは、まだ `org.embulk:embulk-core` と、さらに `org.embulk:embulk-deps` を、依存に追加する必要があります。
 
