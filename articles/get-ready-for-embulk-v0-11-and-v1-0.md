@@ -471,6 +471,18 @@ compile "javax.annotation:javax.annotation-api:1.2"
 
 `org.embulk.spi.Exec.getLogger` は非推奨です。 [SLF4J](http://www.slf4j.org/) の [`org.slf4j.LoggerFactory.getLogger`](https://www.javadoc.io/doc/org.slf4j/slf4j-api/1.7.30/org/slf4j/LoggerFactory.html) を直接使ってください。
 
+##### `embulk-standards` の利用
+
+Embulk v0.11 以降 `org.embulk:embulk-standards` という Maven artifact はなくなりました。旧標準プラグインは個別の Maven artifacts に分割して Maven 形式のプラグインとして Maven Central にアップロードされています。 (例: [`embulk-input-file`](https://repo1.maven.org/maven2/org/embulk/embulk-input-file/) / [`embulk-guess-csv`](https://repo1.maven.org/maven2/org/embulk/embulk-guess-csv/))
+
+プラグインは、標準プラグインのクラスやメソッドを直接使うことはできなくなります。プラグイン本体でそれが必要な場合は、標準プラグインの Maven artifact をライブラリとして使用してください。
+
+```
+compile "org.embulk:embulk-guess-csv:0.10.??"
+```
+
+テストコードで標準プラグインを使いたい場合は `testCompile` や `testImplementation` で各プラグインを参照した上で、多くの場合はテストコードから明示的に登録する必要があります。 (参考: [`embulk-parser-csv:0.10.31` のテスト](https://github.com/embulk/embulk/blob/v0.10.31/embulk-parser-csv/src/test/java/org/embulk/standards/preview/TestFilePreview.java#L54-L61))
+
 ##### `org.embulk:embulk-core` にあるその他のユーティリティクラス
 
 * File-like なバイト列の処理 (`org.embulk.spi.util` の `FileInputInputStream` や `FileOutputOutputStream`)
