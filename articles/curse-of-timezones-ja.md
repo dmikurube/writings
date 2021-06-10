@@ -217,32 +217,32 @@ Unix time がわかっていれば、任意のタイムゾーンにおける年�
 
 [Google が 2008年に実施した最初の Leap Smear](https://googleblog.blogspot.com/2011/09/time-technology-and-leaping-seconds.html) は、うるう秒をその「前」の「20時間」に「非線形に」分散させるものでした。次の [2012年から 2016年のうるう秒における Google の Leap Smear](https://cloudplatform.googleblog.com/2015/05/Got-a-second-A-leap-second-that-is-Be-ready-for-June-30th.html) は、うるう秒の「前後」の「20時間」に「線形に」分散させるものになったようです。その後 [Google はうるう秒の「前後」の「24時間」に「線形に」分散させるやり方を標準とすることを提案しています](https://developers.google.com/time/smear)。 [Amazon が 2015年と 2016年に実施した Leap Smear](https://aws.amazon.com/jp/blogs/aws/look-before-you-leap-the-coming-leap-second-and-aws/) も、同様に 24時間に分散させるもので、クラウドサービスではこのやり方が一般的になると思ってよさそうな雰囲気です。
 
-技術的な標準・規格
-===================
+タイムゾーンの業界標準と注意点
+-------------------------------
 
-(TODO: IATA, Microsoft)
+### Time Zone Database (tzdb)
 
-tz database
-------------
+ソフトウェアの分野で、タイムゾーンに関する最も標準的なデータが [Time Zone Database](https://www.iana.org/time-zones) ([Wikipedia:tz database](https://ja.wikipedia.org/wiki/Tz_database)) でしょう。見たことのある方が多いであろう `Asia/Tokyo` や `Europe/London` のような ID は、この Time Zone Database のものです。
 
-タイムゾーンに関する、ソフトウェア・エンジニアにとって最も標準的なデータが [tz database](https://www.iana.org/time-zones) ([Wikipedia](https://ja.wikipedia.org/wiki/Tz_database)) でしょう。 `"Asia/Tokyo"` や `"Europe/London"` のようなタイムゾーンの名前は、この tz database のものです。
+もともと "tz database" や、それを略して "tzdb" と、または単に "tz" などと呼ばれていました。本記事ではおもに "tzdb" と呼びます。 Unix-like な OS で歴史的に使われているパス名から "zoneinfo" とも呼ばれます。もともと Arthur David Olson (達?) が始めたもので、遅くとも 1986年にはメンテナンスされていた記録があります。 [^olson-history] そこから "Olson database" と呼ばれることもあります。
 
-tz database のタイムゾーンは `"/"` の前の最初の部分に大陸名・海洋名を用い、続いて、典型的にはそのタイムゾーン内の著名な都市名・島名をその代表として名付けられています。[^19] 国名は基本的に使われません。[^20] `"America/Indiana/Indianapolis"` のように3要素で構成されるタイムゾーンも少数ながら存在します。
+[^olson-history]: ["seismo!elsie!tz ; new versions of time zone stuff" (Nov 25, 1986)](http://mm.icann.org/pipermail/tz/1986-November/008946.html)
 
-[^19]: 日本語でも「東京時間で」「ニューヨーク時間で」などというのと同じような感覚だと思います。
-[^20]: 国が関係する状態は変わりやすいので、[政治的事情による変更に対して頑強であるためと記述されています](https://github.com/eggert/tz/blob/2018e/theory.html#L116-L122)。人が生活する単位としての「都市」はそれよりは長く維持される傾向にあると考えられているようです。要出典。ちなみに[初期の提案](https://mm.icann.org/pipermail/tz/1993-October/009233.html)では使うつもりがあったようです。
+tzdb のタイムゾーン ID は、最初の `/` の前に大陸・海洋名を、後ろにそのタイムゾーンを代表する都市名・島名などを用いてつけられます。 [^cities-in-tzdb] 国名は基本的に使われません。 [^countries-in-tzdb] `"America/Indiana/Indianapolis"` のように 3要素で構成されるタイムゾーンも少数ながら存在します。
 
-tz database はボランティアによってメンテナンスされています。タイムゾーンの情報は意外なほど頻繁に変わっており、年に数回は新しい版の tz database がリリースされます。先のサモア独立国のように政治的理由からオフセットが変わる場合、夏時間制度を新しく導入する場合・取りやめる場合、国や地域の境界線に変化があった場合など、様々な理由があります。もちろん、登録されたデータに間違いが見つかることもあります。[^21]
+[^cities-in-tzdb]: 日本語でも「東京時間で」「ニューヨーク時間で」などというのと同じような感覚だと思います。
 
-[^21]: `"Asia/Tokyo"` についても、古い BSD ユーザーにはおなじみの [South Ryukyu Islands時間問題](https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82#South_Ryukyu_Islands%E6%99%82%E9%96%93) ([調査報告](http://www.tomo.gr.jp/root/9925.html)) があったり、比較的最近でも[戦時中の情報について一部修正されたり](http://mm.icann.org/pipermail/tz/2018-January/025896.html)しています。
+[^countries-in-tzdb]: 国が関係する状態は変わりやすいので、[政治的事情による変更に対して頑健であるためだとする記載があります](https://github.com/eggert/tz/blob/2021a/theory.html#L143-L151)。人が生活する単位としての「都市」はそれよりは長く維持される傾向にあると考えられているようです。要出典。ちなみに、[初期の提案](https://mm.icann.org/pipermail/tz/1993-October/009233.html)では、国名を使うつもりがあったようです。
 
-tz database は、特に1970年1月1日以降の全ての変更、夏時間などのあらかじめ定められた切り替わりのルール、うるう秒の情報まで様々な情報を含むことを目標にメンテナンスが続けられています。新しい版は OS や JRE などの処理系、ライブラリなどのメンテナによって更新が取り入れられ、それらを組み込んだアップデートとしてそれぞれ世界中に配信されています。
+tzdb は、今でもボランティアによってメンテナンスされています。タイムゾーンの情報は、世界のどこかで意外なほど頻繁に変わっており、年に数回は新しい版の tzdb がリリースされます。前述のサモア独立国のように政治的理由から変わる場合、夏時間制を新しく導入する場合・取りやめる場合、国や地域の境界線が変わる場合など、様々な理由があります。既に登録されたデータに間違いが見つかることもあります。 [^south-ryukyu-island] 更新はギリギリになることも多く、前述のサモア標準時の変更が tzdb に適用されたのは、[実際に標準時が変わる 2011年 12月のわずか 4ヶ月前のこと](http://mm.icann.org/pipermail/tz/2011-August/008703.html)でした。
 
-ちなみに、前述のサモア標準時の変更が tz database に適用されたのは、[実際に標準時が変わる2011年12月のわずか4ヶ月前のこと](http://mm.icann.org/pipermail/tz/2011-August/008703.html)でした。
+[^south-ryukyu-island]: たとえば `Asia/Tokyo` でも、古い BSD ユーザーにはおなじみの [South Ryukyu Islands 時間問題](https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82#South_Ryukyu_Islands%E6%99%82%E9%96%93) がありました。その [South Ryukyu Islands 時間問題に関する調査報告](http://www.tomo.gr.jp/root/9925.html)などもあります。比較的最近でも、[第二次世界大戦中の情報について一部修正されたり](http://mm.icann.org/pipermail/tz/2018-January/025896.html)しています。
 
-1970年1月1日以前の情報もある程度は含まれていますが、暦の違い、歴史資料の問題などもあって、完全に正確なものにしようとはそもそも考えられていないようです。[^22] 特に、個別のタイムゾーン名は「1970 年以降に区別する必要のあるタイムゾーン」のみを定義する、という方針らしいです。例えばブラジルのサンパウロを含む一部地域で 1963 年に実施された夏時間を表すために [`"America/Sao_Paulo"` の新設が提案された](https://mm.icann.org/pipermail/tz/2010-January/016007.html)ことがありますが、[この方針により却下されています](https://mm.icann.org/pipermail/tz/2010-January/016010.html)。
+tzdb は、特に 1970年 1月 1日以降のすべての変更、夏時間などのオフセット切り替え規則、うるう秒の情報まで、さまざまな情報を含むことを目標にメンテナンスが続けられています。 tzdb は OS や Java などの実行環境、ライブラリなどに組み込まれていて、更新版が出るとそれぞれのメンテナによって取り込まれ、それを組み込んだアップデートとしてそれぞれ世界中に配信されています。
 
-[^22]: 歴史の解釈にも揺れがあるため、「正確なもの」はそもそも存在しない、と考えられます。
+tzdb には 1970年 1月 1日以前の情報もある程度は含まれていますが、暦の違い、歴史資料の問題などもあって、古い情報まで正確なものにしようというモチベーションはあまり無いようです。 [^tzdb-before-1970] 特にタイムゾーン ID の定義は「1970年以降も区別する必要のあるタイムゾーン」のみを定義する、という方針のようです。例えばブラジルのサンパウロを含む一部地域で 1963年に実施された夏時間を表すために [`America/Sao_Paulo` の新設が提案された](https://mm.icann.org/pipermail/tz/2010-January/016007.html)ことがありますが、[この方針により却下されています](https://mm.icann.org/pipermail/tz/2010-January/016010.html)。
+
+[^tzdb-before-1970]: 歴史の解釈にも揺れがあるため、「正確なもの」はそもそも存在しない、と考えられます。
 
 3文字/4文字の略称
 ------------------
