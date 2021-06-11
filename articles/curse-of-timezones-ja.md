@@ -244,37 +244,175 @@ tzdb には 1970年 1月 1日以前の情報もある程度は含まれていま
 
 [^tzdb-before-1970]: 歴史の解釈にも揺れがあるため、「正確なもの」はそもそも存在しない、と考えられます。
 
-3文字/4文字の略称
-------------------
+### タイムゾーンの略称
 
-### `"JST"`: Jerusalem Standard Time?
+#### `JST`: Jerusalem Standard Time?
 
-日本標準時 (Japan Standard Time) は、しばしば `"JST"` と略されているのを見かけます。しかし [tz database を眺めてみる](https://github.com/eggert/tz/blob/2018c/asia)と、実際には以下のように Jerusalem Standard Time を `"JST"` とするコメントも見つかります。
+日本標準時 (Japan Standard Time) は、よく `JST` と略して呼ばれます。これは tzdb にも以下のように[言及](https://github.com/eggert/tz/blob/2021a/asia#L2087-L2093)があります。
 
-    # JST  Jerusalem Standard Time [Danny Braniss, Hebrew University]
-    # JST (Japan Standard Time) has been used since 1888-01-01 00:00 (JST).
+```
+# From Hideyuki Suzuki (1998-11-09):
+# 'Tokyo' usually stands for the former location of Tokyo Astronomical
+# Observatory: 139 degrees 44' 40.90" E (9h 18m 58.727s),
+# 35 degrees 39' 16.0" N.
+# This data is from 'Rika Nenpyou (Chronological Scientific Tables) 1996'
+# edited by National Astronomical Observatory of Japan....
+# JST (Japan Standard Time) has been used since 1888-01-01 00:00 (JST).
+# The law is enacted on 1886-07-07.
+```
 
-3文字4文字のタイムゾーン略称は一見使いやすいのですが、このように、実は一意に特定できるものではありません。このことから、少なくともソフトウェアに再度読み込ませる可能性のあるデータを出力するのに `"JST"` のような略称を用いるのはできるだけ避けましょう。日本では動いていたのに、国外のお客さんがついてから、なんかデータがおかしくなり始めた、みたいな地獄が待っています。
+[`Asia/Tokyo` の定義](https://github.com/eggert/tz/blob/2021a/asia#L2166-L2168) も以下のようになっています。 (`J%sT` は `%s` のところに `S` (標準時) を入れたり `D` (夏時間) を入れたりする記法です。現在の日本で夏時間が実施されているわけではありませんが。)
 
-詳しくは後述しますが、出力の際は多くの場合 `"+09:00"` などの固定オフセットを用いるのがいいでしょう。どうしても地域ベースのタイムゾーン名を使わなければならない場合も、少なくとも `"Asia/Tokyo"` などの tz database 名を使いましょう。既に `"JST"` などを用いたデータが生成されてしまっている場合は、データ処理プロセスのできるだけ初期のステージのうちに変換しましょう。
+```
+# Zone  NAME            STDOFF  RULES   FORMAT  [UNTIL]
+Zone    Asia/Tokyo      9:18:59         -       LMT     1887 Dec 31 15:00u
+                        9:00    Japan   J%sT
+```
 
-不幸にしてこのような略称を入力しなければならない際は、諦めて決め打ちで読み込むしかありません。世界で使われている多くの略称を収集し、その中から「`"JST"` は `"Asia/Tokyo"` として読み込むよ」などと、仕様を明確にしておきましょう。
+しかし、もう少し tzdb を眺めてみると、以下のように [Jerusalem Standard Time を `JST` と呼んでいるコメント](https://github.com/eggert/tz/blob/2021a/asia#L1706-L1713)も同時に存在するのです。
 
-JSR 310 の [`java.util.TimeZone`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) においても、「互換性のために残してはあるけど非推奨だよ」と明確に記述されています。 [`java.time.ZoneId`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html) においては、標準ではサポートされず、[略称と tz database 名の対応を後から追加する仕組み](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html#SHORT_IDS)が導入されています。
+```
+# From Ephraim Silverberg (2001-01-11):
+#
+# I coined "IST/IDT" circa 1988.  Until then there were three
+# different abbreviations in use:
+#
+# JST  Jerusalem Standard Time [Danny Braniss, Hebrew University]
+# IZT  Israel Zonal (sic) Time [Prof. Haim Papo, Technion]
+# EEST Eastern Europe Standard Time [used by almost everyone else]
+```
 
-これらの略称は、文脈が明らかな対人コミュニケーションにおいて**のみ**用いるのがいいでしょう。
+と言っても tzdb の解釈としては、実際のところ [Jerusalem Standard Time としての `JST` は、以下のコメントのように除外 (ruled out)](https://github.com/eggert/tz/blob/2021a/asia#L1715-L1720) されてはいます。
 
-### `"EST"`, `"EDT"`, `"CST"`, `"CDT"`, `"MST"`, `"MDT"`, `"PST"`, `"PDT"`
+```
+# Since timezones should be called by country and not capital cities,
+# I ruled out JST.  As Israel is in Asia Minor and not Eastern Europe,
+# EEST was equally unacceptable.  Since "zonal" was not compatible with
+# any other timezone abbreviation, I felt that 'IST' was the way to go
+# and, indeed, it has received almost universal acceptance in timezone
+# settings in Israeli computers.
+```
 
-Ruby の `Time.strptime` に見られるように、[アメリカ合衆国の一部略称のみ標準で解釈できる](https://svn.ruby-lang.org/cgi-bin/viewvc.cgi/tags/v2_5_0/lib/time.rb?view=markup#l103)ようになっている処理系があります。これは [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) などに、これらの略称が標準として含まれていることに由来するようです。
+それでも "Jerusalem Standard Time" という呼び方は各所で現役です。 [^jerusalem-standard-time] [GE Digital のドキュメント](https://www.ge.com/digital/documentation/meridium/Help/V43070/r_apm_pla_valid_time_zones.html)に含まれていたり [Windows のタイムゾーン情報](https://support.microsoft.com/en-us/topic/israel-and-libya-time-zone-update-for-windows-operating-systems-7c6a08aa-8c56-4d7a-2aa8-b956602ebf0a)に含まれていたりします。この呼び方が存在するということは、これを略して `JST` と呼ぶ人々も当地には当然いるのだと思われます。名前が衝突していると、特にソフトウェア対ソフトウェアのやり取りではとても厄介ですね。
 
-ただし、それでもこれらの略称の使用はできるだけ避けるべきです。夏時間などの扱いに処理系による違いが見られるからです。
+[^jerusalem-standard-time]: もちろん、これを "Israel Standard Time" などに呼び替えるのが極めて難しいのは想像に難くないでしょう。 tzdb が ID に国名を使わない方針にしたのと同じ理由で、都市名で呼び続けるのが現実的だということではないでしょうか。
 
-例えば Ruby の `Time.strptime` は RFC に則って `"PST"` を常に `"-08:00"` として扱い、逆に `"PDT"` は常に `"-07:00"` として扱います。これは、例えば夏時間期間である `"2017-07-01 12:34:56"` に `"PST"` を付けた場合でも同様で `"2017-07-01 12:34:56 -08:00"` として解釈されます。
+#### `CST`
 
-しかし、例えば JSR 310 の前身である [Joda-Time](http://www.joda.org/joda-time/) では少し事情が異なります。[`org.joda.time.DateTimeUtils#getDefaultTimeZoneNames`](http://www.joda.org/joda-time/apidocs/org/joda/time/DateTimeUtils.html#getDefaultTimeZoneNames--) は、例えば `"PST"`, `"PDT"` をともに `"America/Los_Angeles"` に対応させます。どうやら [`org.joda.time.format.DateTimeFormat.forPattern`](http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html#forPattern-java.lang.String-) では間接的にこの `getDefaultTimeZoneNames` が使われているようで[^23]、このため Ruby の `Time.strptime` や RFC とは異なり `"2017-07-01 12:34:56 PST"` は `"2017-07-01 12:34:56 -07:00"` として解釈されます。
+もっとわかりやすく衝突している例があります。 `CST` です。
 
-[^23]: Joda-Time のコードをあまり深く追えてはいないので要検証。
+日本やアメリカ合衆国でソフトウェア・エンジニアとして働いていると `CST` と聞けば「[中部標準時 (Central Standard Time)](https://ja.wikipedia.org/wiki/%E4%B8%AD%E9%83%A8%E6%A8%99%E6%BA%96%E6%99%82)」のことだと思ってしまいがちですが、「[中国標準時 (China Standard Time, Chinese Standard Time)](https://ja.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E6%A8%99%E6%BA%96%E6%99%82)」も `CST` です。さらに、キューバ標準時 (Cuba Standard Time) も `CST` です。 [^relationship-with-usa]
+
+[^relationship-with-usa]: アメリカ合衆国とはややこしい関係にある国ばかりですが、偶然か必然か。
+
+"China Standard Time" は、[現在も tzdb にも記載されています](https://github.com/eggert/tz/blob/2021a/asia#L40-L55)。 "Jerusalem Standard Time" のように除外されているわけでも非推奨にもなっているわけでもありません。
+
+```
+# The following alphabetic abbreviations appear in these tables
+# (corrections are welcome):
+#            std  dst
+#            LMT        Local Mean Time
+#       2:00 EET  EEST  Eastern European Time
+#       2:00 IST  IDT   Israel
+#       5:30 IST        India
+#       7:00 WIB        west Indonesia (Waktu Indonesia Barat)
+#       8:00 WITA       central Indonesia (Waktu Indonesia Tengah)
+#       8:00 CST        China
+#       8:00 HKT  HKST  Hong Kong (HKWT* for Winter Time in late 1941)
+#       8:00 PST  PDT*  Philippines
+#       8:30 KST  KDT   Korea when at +0830
+#       9:00 WIT        east Indonesia (Waktu Indonesia Timur)
+#       9:00 JST  JDT   Japan
+#       9:00 KST  KDT   Korea when at +09
+```
+
+[`Asia/Shanghai` の定義](https://github.com/eggert/tz/blob/2021a/asia#L668-L672)が以下のとおりです。最後の行の `[UNTIL]` 列が空欄なので、現在でも有効ということですね。
+
+```
+# Zone  NAME            STDOFF  RULES   FORMAT  [UNTIL]
+# Beijing time, used throughout China; represented by Shanghai.
+Zone    Asia/Shanghai   8:05:43         -       LMT     1901
+                        8:00    Shang   C%sT    1949 May 28
+                        8:00    PRC     C%sT
+```
+
+[`America/Havana` も同様に定義](https://github.com/eggert/tz/blob/2021a/northamerica#L3373-L3376)されています。
+
+```
+# Zone  NAME            STDOFF  RULES   FORMAT  [UNTIL]
+Zone    America/Havana  -5:29:28 -      LMT     1890
+                        -5:29:36 -      HMT     1925 Jul 19 12:00 # Havana MT
+                        -5:00   Cuba    C%sT
+```
+
+`CST` の重複については [`java.util.TimeZone` の公式 Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) にも注意書きがあります。
+
+#### `EST`, `EDT`, `CST`, `CDT`, `MST`, `MDT`, `PST`, `PDT`
+
+さて `CST` の衝突は前段で確認しましたが、一部のソフトウェアでは (`CST` を含む) アメリカ合衆国内の一部のタイムゾーン略称を、優先的に解釈するようになっています。たとえば [Ruby の `Time`](https://github.com/ruby/ruby/blob/v3_0_1/lib/time.rb#L40-L43) や [Java の `java.util.TimeZone`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) がそうです。これは [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) などでこれらの略称が標準として含まれていることが、おおもとの理由としてあるようです。 [^rfc2822]
+
+[^rfc2822]: 要出典。
+
+しかしこれらには実装によって微妙な扱いの違いがあり、それが今後、夏時間制の変更をきっかけとして噴出する可能性がありそうです。
+
+まず本来、これらの略称はそれぞれ標準時、または夏時間のどちらか一方に対応します。たとえば `PST` はあくまで Pacific "Standard Time" (標準時) であり、太平洋時間のうちの夏時間を指すことはありません。太平洋時間の夏時間は、あくまで `PDT` (Pacific "Daylight (Saving) Time") です。つまり `PST` が指すのは (太平洋時間の規定が変わらないかぎり) 常に `-08:00` であり、「夏になるとカリフォルニア時間が `PST` (`-08:00`) から `PDT` (`-07:00`) に移行する」のであって、「夏になると `PST` が `-07:00` になる」わけではありません。上記の [RFC 2822 にも、明確に `PST is semantically equivalent to -0800` などと記載されています](https://datatracker.ietf.org/doc/html/rfc2822#section-4.3)。
+
+実際 [Ruby の `Time` はこれにのっとった実装をしています](https://github.com/ruby/ruby/blob/v3_0_1/lib/time.rb#L40-L43)。 `PST` は常に `-8` として扱い、そして `PDT` は常に `-7` として扱います。これは正しいです。
+
+しかし Java と Java の挙動を継承した [Joda-Time](https://www.joda.org/joda-time/) は、少し違う扱いをしてしまいました。 `PST` などの略称を `America/Los_Angeles` などの地域ベースのタイムゾーン ID に対応付けてしまったのです。
+
+カリフォルニアが夏時間の 2020年 7月 1日のとある日時を表現した文字列 `2020-07-01 12:34:56 PST` は、本来 `2020-07-01 12:34:56 -08:00` と等価に解釈しなければなりません。しかし、このあたりの Java 標準 API はこれを `2020-07-01 12:34:56 America/Los_Angeles` と等価に解釈します。するとこれは `2020-07-01` という日付が夏時間であることから `2020-07-01 12:34:56 -07:00` と等価に解釈されてしまうのです。
+
+「2020年 7月 1日が夏時間なのは明らかなんだから `2020-07-01 12:34:56 PST` なんて書くほうが悪いでしょ」と思われるかもしれません。…しかし、本当にそうでしょうか?
+
+同じことは `MST` (Mountain Standard Time; 山岳部標準時) でも起きています。 Java や Joda-Time は `MST` を `America/Denver` と等価に解釈します。 Denver のあるコロラド州は夏時間を採用しているので、冬に `-07:00` だった `MST` は、夏には `-06:00` と解釈されるようになります。これは Denver ではたしかに正しい解釈です。
+
+しかし同じ山岳部時間を使うアリゾナ州では、前述のとおり、一部 (Navajo Nation) を除いて夏時間を採用していないのです。ということは、夏の日付に `MST` を合わせた `2020-07-01 12:34:56 MST` は (Navajo Nation を除く) アリゾナ州では有効なはずの表現であり、これは本来 `2020-07-01 12:34:56 -07:00` と等価に解釈されなければなりません。しかし Java 標準 API では `2020-07-01 12:34:56 -06:00` と等価に解釈されてしまいます。
+
+このことは、以下のコードで容易に確認できます。
+
+```
+import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
+
+public final class MountainTime {
+    public static void main(final String[] args) throws Exception {
+        System.out.println(ZonedDateTime.parse("2020/01/01 12:34:56 MST", FORMATTER));
+        System.out.println(ZonedDateTime.parse("2020/01/01 12:34:56 MDT", FORMATTER));
+        System.out.println(ZonedDateTime.parse("2020/07/01 12:34:56 MST", FORMATTER));
+        System.out.println(ZonedDateTime.parse("2020/07/01 12:34:56 MDT", FORMATTER));
+
+        // America/Phoenix はアリゾナ州で、夏時間を採用していません。
+        System.out.println(ZonedDateTime.parse("2020/01/01 12:34:56 America/Phoenix", FORMATTER));
+        System.out.println(ZonedDateTime.parse("2020/01/01 12:34:56 America/Phoenix", FORMATTER));
+        System.out.println(ZonedDateTime.parse("2020/07/01 12:34:56 America/Phoenix", FORMATTER));
+        System.out.println(ZonedDateTime.parse("2020/07/01 12:34:56 America/Phoenix", FORMATTER));
+    }
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss zzz");
+}
+```
+
+出力は以下のようになります。 (ここでは Java 8 で確認していますが OpenJDK 16.0.1 でも同様の結果になることを確認しています。)
+
+```
+$ java -version
+openjdk version "1.8.0_292"
+OpenJDK Runtime Environment (build 1.8.0_292-8u292-b10-0ubuntu1~20.04-b10)
+OpenJDK 64-Bit Server VM (build 25.292-b10, mixed mode)
+
+$ java MountainTime
+2020-01-01T12:34:56-07:00[America/Denver]
+2020-01-01T12:34:56-07:00[America/Denver]
+2020-07-01T12:34:56-06:00[America/Denver]
+2020-07-01T12:34:56-06:00[America/Denver]
+2020-01-01T12:34:56-07:00[America/Phoenix]
+2020-01-01T12:34:56-07:00[America/Phoenix]
+2020-07-01T12:34:56-07:00[America/Phoenix]
+2020-07-01T12:34:56-07:00[America/Phoenix]
+```
+
+Java のこのあたりの挙動を掘り下げていくと無駄に長大になったので、興味がある方は最下部の「おまけ」をご覧ください。
 
 Military time zones
 --------------------
@@ -515,3 +653,164 @@ JSR 310 の場合の一般化になりますが、以下の点に気をつける
     * タイムゾーン無しの日付時刻や地域ベースのタイムゾーンを扱う範囲を、コードの一部に限定できないか検討する。
 * 地域ベースタイムゾーンを使う場合は、実行環境 (OS, ランタイム) やライブラリの仕様を調べて tz database の更新戦略を立てる。
 * 3文字/4文字のタイムゾーン略語は使わず、地域ベースのタイムゾーンが必要な場合は、できるだけ tz database 名を使う。略語を使わざるをえない場合は、どの略語がどのタイムゾーンに対応するか、仕様から明示する。
+
+おまけ
+=======
+
+Java のタイムゾーン略称の扱い
+------------------------------
+
+このおまけは、上の方で少し触れた Java の `MST` などのタイムゾーン略称に関する深堀りです。
+
+たとえば `MST` などが `America/Denver` と等価に解釈されてしまい、その結果 `2020-07-01 12:34:56 MST` が `2020-07-01 12:34:56 -07:00` と等価に解釈されるべきところを `2020-07-01 12:34:56 -06:00` と解釈されてしまう、という話でした。
+
+### 旧 `java.util.TimeZone`
+
+この話、実は Java ではもっと昔に解決されていたはずだったのです。というのは JSR 310: Date and Time API が導入される Java 8 より前、既に Java 1.5 の時代にはこの話は認知されて Java 6 で対処されていました。 Oracle Community の投稿 ["EST, MST, and HST time zones in Java 6 and Java 7"](https://community.oracle.com/tech/developers/discussion/2539847/est-mst-and-hst-time-zones-in-java-6-and-java-7) を見ると、なんとなく経緯がわかります。
+
+Java に昔からある [`java.util.TimeZone`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) では、最初期から `MST` などの省略形を `America/Denver` などのタイムゾーン ID にマッピングしてしまっていました。しかしあまりにも昔からそうなっていたため、互換性を考えると、安易には変えられなかったようです。 [^abbreviations-in-java-1-3] [^abbreviations-in-java-1-1-6]
+
+[^abbreviations-in-java-1-3]: ちなみに省略タイムゾーンの利用そのものは [Java 1.3 の頃には既に deprecated だと宣言されています](https://javaalmanac.io/jdk/1.3/api/java/util/TimeZone.html)。 deprecate されてこんなに長い時間が経ったのにまだ振り回されるというのも悲しい話ですね。
+
+[^abbreviations-in-java-1-1-6]: ちなみに [(なぜか MIT の Web に置かれている) Java 1.1.6 の頃の `java.util.TimeZone` の実装](http://web.mit.edu/java_v1.1.6/distrib/sun4x_57/src/java/util/TimeZone.java)を見ると、いくつかのタイムゾーン略称から地域ベースのタイムゾーン ID へのマッピングがハードコードされているのがわかります。このうちいくつかは明らかに一般的とは言えないマッピングなんですが (なんで [`AST`](https://www.timeanddate.com/time/zones/ast) が "Alaska Standard Time" で `America/Anchorage` やねん) そこについて掘り下げるのはまた別の機会に…。一度埋めてしまった地雷はなかなか除去できないという典型例ですね。
+
+しかし Java 6 で重い腰を上げ、夏時間を実施しない州を含む `EST`, `MST`, `HST` だけは、それぞれ固定オフセットの `-05:00`, `-07:00`, `-10:00` にマッピングするようになりました。同時に、互換性のために `sun.timezone.ids.oldmapping` という Java システム・プロパティが用意され、これを `"true"` にセットしておくと旧来のマッピングを使用するようになります。以下のコードでこのことを確認できます。
+
+```
+import java.util.TimeZone;
+
+public final class OldMapping {
+    public static void main(final String[] args) throws Exception {
+        System.out.println(TimeZone.getTimeZone("EST"));
+        System.out.println(TimeZone.getTimeZone("EST").hasSameRules(TimeZone.getTimeZone("GMT-5")));
+        System.out.println(TimeZone.getTimeZone("EST").hasSameRules(TimeZone.getTimeZone("America/New_York")));
+
+        System.out.println(TimeZone.getTimeZone("MST"));
+        System.out.println(TimeZone.getTimeZone("MST").hasSameRules(TimeZone.getTimeZone("GMT-7")));
+        System.out.println(TimeZone.getTimeZone("MST").hasSameRules(TimeZone.getTimeZone("America/Denver")));
+
+        System.out.println(TimeZone.getTimeZone("HST"));
+        System.out.println(TimeZone.getTimeZone("HST").hasSameRules(TimeZone.getTimeZone("GMT-10")));
+        System.out.println(TimeZone.getTimeZone("HST").hasSameRules(TimeZone.getTimeZone("Pacific/Honolulu")));
+    }
+}
+```
+
+この実行結果は以下のようになります。
+
+```
+$ java -version
+openjdk version "1.8.0_292"
+OpenJDK Runtime Environment (build 1.8.0_292-8u292-b10-0ubuntu1~20.04-b10)
+OpenJDK 64-Bit Server VM (build 25.292-b10, mixed mode)
+
+$ java OldMapping
+sun.util.calendar.ZoneInfo[id="EST",offset=-18000000,dstSavings=0,useDaylight=false,transitions=0,lastRule=null]
+true
+false
+sun.util.calendar.ZoneInfo[id="MST",offset=-25200000,dstSavings=0,useDaylight=false,transitions=0,lastRule=null]
+true
+false
+sun.util.calendar.ZoneInfo[id="HST",offset=-36000000,dstSavings=0,useDaylight=false,transitions=0,lastRule=null]
+true
+false
+
+$ java -Dsun.timezone.ids.oldmapping=true OldMapping
+sun.util.calendar.ZoneInfo[id="EST",offset=-18000000,dstSavings=3600000,useDaylight=true,transitions=235,lastRule=java.util.SimpleTimeZone[id=EST,offset=-18000000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=3,startMonth=2,startDay=8,startDayOfWeek=1,startTime=7200000,startTimeMode=0,endMode=3,endMonth=10,endDay=1,endDayOfWeek=1,endTime=7200000,endTimeMode=0]]
+false
+true
+sun.util.calendar.ZoneInfo[id="MST",offset=-25200000,dstSavings=3600000,useDaylight=true,transitions=157,lastRule=java.util.SimpleTimeZone[id=MST,offset=-25200000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=3,startMonth=2,startDay=8,startDayOfWeek=1,startTime=7200000,startTimeMode=0,endMode=3,endMonth=10,endDay=1,endDayOfWeek=1,endTime=7200000,endTimeMode=0]]
+false
+true
+sun.util.calendar.ZoneInfo[id="HST",offset=-36000000,dstSavings=0,useDaylight=false,transitions=7,lastRule=null]
+false
+true
+```
+
+### JSR 310 の `DateTimeFormatter`
+
+`EST`, `MST`, `HST` が直って、めでたしめでたし… (?) と思っていたところに Java 8 で JSR 310 が実装されました。
+
+最初に参照したとおり、この JSR 310 は日付・時刻・タイムゾーンの「現実」を忠実にモデル化していて、かなりよくできていると筆者は考えています。タイムゾーン略称についても、実は本丸の `java.time.ZoneId` では略称の使用をかなり制限していて、[名前から `ZoneId` を作るときに `aliasMap` を明示的に与えないと略称は使えない](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html#of-java.lang.String-java.util.Map-)ようになっています。さらに、[互換性のための標準 Map](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html#SHORT_IDS)も用意されていて、ここでは `EST`, `MST`, `HST` はちゃんと固定オフセットにマッピングされています。
+
+では、なぜ前述した例では `2020/07/01 12:34:56 MST` が `2020-07-01T12:34:56-06:00[America/Denver]` になってしまったのでしょうか?
+
+その答えは [`java.util.format.DateTimeFormatter`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html) の実装でした。
+
+`DateTimeFormatter` の最も手軽な使い方である [`#ofPattern(String)`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html#ofPattern-java.lang.String-) で `time-zone name` を表す `z` や `zzzz` を使用すると、それは [`DateTimeFormatterBuilder#appendZoneText(TextStyle)`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatterBuilder.html#appendZoneText-java.time.format.TextStyle-) の呼び出しに相当します。この `appendZoneText` はかなり幅広いタイムゾーン名表現を受け付けるようになっているようです。 Javadoc にも以下のように注意書きがあります。
+
+> 解析時には、テキストでのゾーン名、ゾーンID、またはオフセットが受け入れられます。テキストでのゾーン名には、一意でないものが多くあります。たとえば、CSTは「Central Standard Time (中部標準時)」と「China Standard Time (中国標準時)」の両方に使用されます。この状況では、フォーマッタのlocaleから得られる地域情報と、その地域の標準ゾーンID (たとえば、America Easternゾーンの場合はAmerica/New_York)により、ゾーンIDが決定されます。appendZoneText(TextStyle, Set)を使用すると、この状況で優先するZoneIdのセットを指定できます。
+
+だからと言って `MST` は `America/Denver` にしないで `-07:00` にしてくれれば…。
+
+### `DateTimeFormatter` に深入り
+
+そんなわけで、少しだけ OpenJDK のコードに深入りしてみました。ひとまず [`DateTimeFormatterBuilder#appendZoneText` がタイムゾーン名の候補を引っ張ってきているのはこの行](https://github.com/openjdk/jdk/blob/jdk8-b120/jdk/src/share/classes/java/time/format/DateTimeFormatterBuilder.java#L3708)のようです。
+
+```
+                zoneStrings = TimeZoneNameUtility.getZoneStrings(locale);
+```
+
+[`sun.util.locale.provider.TimeZoneNameUtility`](https://github.com/openjdk/jdk/blob/jdk8-b120/jdk/src/share/classes/sun/util/locale/provider/TimeZoneNameUtility.java) という内部クラスから Locale をベースにしてタイムゾーン名の候補を出しているみたいですね。ここまで来たらもう少しだけ追ってみましょう、以下のコードでこの候補を無理やり読んでみます。
+
+```
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Locale;
+
+public final class TimeZoneNames throws Exception {
+    public static void main(final String[] args) throws Exception {
+        for (final String[] e : getZoneStrings()) {
+            System.out.println(String.join(", ", Arrays.asList(e)));
+        }
+    }
+
+    private static String[][] getZoneStrings() throws Exception {
+        final Class<?> clazz = Class.forName("sun.util.locale.provider.TimeZoneNameUtility");
+        final Method method = clazz.getMethod("getZoneStrings", Locale.class);
+        final Object zoneStringsObject = method.invoke(null, Locale.ENGLISH);
+        return (String[][]) zoneStringsObject;
+    }
+}
+```
+
+実行してみると…。
+
+```
+America/Los_Angeles, Pacific Standard Time, PST, Pacific Daylight Time, PDT, Pacific Time, PT
+PST, Pacific Standard Time, PST, Pacific Daylight Time, PDT, Pacific Time, PT
+America/Denver, Mountain Standard Time, MST, Mountain Daylight Time, MDT, Mountain Time, MT
+... (snip) ...
+America/New_York, Eastern Standard Time, EST, Eastern Daylight Time, EDT, Eastern Time, ET
+... (snip) ...
+Pacific/Honolulu, Hawaii Standard Time, HST, Hawaii Daylight Time, HDT, Hawaii Time, HT
+... (snip) ...
+```
+
+あー、いますね。 `America/Denver` と `MST` が紐付いているような雰囲気がぷんぷんします。この結果からすると、犯人はハードコードされているのではなく Locale データの中にいるのかもしれません。
+
+筆者はここで追うのをやめましたが、興味のある方はぜひ追いかけてみてください。 [^tell-me]
+
+[^tell-me]: そしてぜひ筆者に教えてください。
+
+### `DateTimeFormatter` 対策
+
+さて、こういう混乱なく `DateTimeFormatter` を使うにはどうしたらいいでしょうか。以下は完全に筆者の私見ですが、少し検討してみます。
+
+まず Locale に踏み込むのはかなり大変そうです。
+
+そもそも `DateTimeFormatterBuilder#appendZoneText` が自由すぎる・寛容すぎるので、この問題だけがどうにかなっても、さらに予想外の地雷を踏む可能性が高そうだなあ、という気がします。
+
+`DateTimeFormatterBuilder` でタイムゾーン情報の処理を追加するメソッドは `appendZoneText` 以外にもいくつかあります。そこで、用途に合うものから厳密に処理してくれるものを探して使う、というのが、一つよさそうな方針ではないでしょうか。
+
+たとえば、固定オフセットのみを処理する [`appendOffset`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatterBuilder.html#appendOffset-java.lang.String-java.lang.String-) や、タイムゾーン ID そのものの文字列のみを処理する [`appendZoneId`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatterBuilder.html#appendZoneId--) などです。パターン文字列を使う場合は `XXX`, `ZZZ`, `VV` などに当たります。いずれの場合も、用途に合った適切なものを考えて選ぶのがいいでしょう。
+
+パターン文字列の詳細な解説は [`DateTimeFormatterBuilder#appendPattern` の Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatterBuilder.html#appendPattern-java.lang.String-) にあります。
+
+### どうなる `PST`
+
+ところで、最初の方にも書きましたが、カリフォルニア州では 2018年の住民投票で夏時間の変更が支持されたそうです。
+
+もしこれが実施されたら、今まで `EST`, `MST`, `HST` だけだった特例に、今度は `PST` も追加する必要が出てくるかもしれません。はたして、これからなにが起こるでしょうか。
+
+タイムゾーンの呪いは、そう簡単に解けることはなさそうです。
