@@ -219,10 +219,8 @@ Unix time がわかっていれば、任意のタイムゾーンにおける年�
 
 [Google が 2008年に実施した最初の Leap Smear](https://googleblog.blogspot.com/2011/09/time-technology-and-leaping-seconds.html) は、うるう秒をその「前」の「20時間」に「非線形に」分散させるものでした。次の [2012年から 2016年のうるう秒における Google の Leap Smear](https://cloudplatform.googleblog.com/2015/05/Got-a-second-A-leap-second-that-is-Be-ready-for-June-30th.html) は、うるう秒の「前後」の「20時間」に「線形に」分散させるものになったようです。その後 [Google はうるう秒の「前後」の「24時間」に「線形に」分散させるやり方を標準とすることを提案しています](https://developers.google.com/time/smear)。 [Amazon が 2015年と 2016年に実施した Leap Smear](https://aws.amazon.com/jp/blogs/aws/look-before-you-leap-the-coming-leap-second-and-aws/) も、同様に 24時間に分散させるもので、クラウドサービスではこのやり方が一般的になると思ってよさそうな雰囲気です。
 
-タイムゾーンの業界標準と注意点
--------------------------------
-
-### Time Zone Database (tzdb)
+tzdb: タイムゾーン表現の業界標準
+---------------------------------
 
 ソフトウェアの分野で、タイムゾーンに関する最も標準的なデータが [Time Zone Database](https://www.iana.org/time-zones) ([Wikipedia:tz database](https://ja.wikipedia.org/wiki/Tz_database)) でしょう。見たことのある方が多いであろう `Asia/Tokyo` や `Europe/London` のような ID は、この Time Zone Database のものです。
 
@@ -246,9 +244,19 @@ tzdb には 1970年 1月 1日以前の情報もある程度は含まれていま
 
 [^tzdb-before-1970]: 歴史の解釈にも揺れがあるため、「正確なもの」はそもそも存在しない、と考えられます。
 
-### タイムゾーンの略称
+Military time zones
+--------------------
 
-#### `JST`: Jerusalem Standard Time?
+主に米軍で使われているタイムゾーン表現で、地域によらない固定オフセットに対応します。 `"A"` 〜 `"Z"` までの大文字アルファベット (`"J"` のみ不使用) を `"-12:00"` から `"+12:00"` まで 1 時間おきに 25 個のオフセットに割り当てています。 ([Wikipedia:en](https://en.wikipedia.org/wiki/List_of_military_time_zones))
+
+`"Z"` の一文字で `"UTC"`/`"GMT"` を指す表現は見たことがある人が多いと思いますが、ここから来ています。
+
+これらも `"PST"` などと同様に [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) に標準として含まれています。こちらは一意に定まる固定オフセット表現なので「避けるべき」というほどではありません。が、有名な `"Z"` 以外は一般的に知られているとは言い難いので、出力の際にわざわざ選ぶようなものでもないでしょう。 Military time zone では UTC から30分差や15分差のタイムゾーンを表現できない、という問題もあります。
+
+タイムゾーン略称
+-----------------
+
+### `JST`: Jerusalem Standard Time?
 
 日本標準時 (Japan Standard Time) は、よく `JST` と略して呼ばれます。これは tzdb にも以下のように[言及](https://github.com/eggert/tz/blob/2021a/asia#L2087-L2093)があります。
 
@@ -299,7 +307,7 @@ Zone    Asia/Tokyo      9:18:59         -       LMT     1887 Dec 31 15:00u
 
 [^jerusalem-standard-time]: もちろん、これを "Israel Standard Time" などに呼び替えるのが極めて難しいのは想像に難くないでしょう。 tzdb が ID に国名を使わない方針にしたのと同じ理由で、都市名で呼び続けるのが現実的だということではないでしょうか。
 
-#### `CST`
+### `CST`
 
 もっとわかりやすく衝突している例があります。 `CST` です。
 
@@ -349,7 +357,7 @@ Zone    America/Havana  -5:29:28 -      LMT     1890
 
 `CST` の重複については [`java.util.TimeZone` の公式 Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) にも注意書きがあります。
 
-#### `EST`, `EDT`, `CST`, `CDT`, `MST`, `MDT`, `PST`, `PDT`
+### `EST`, `EDT`, `CST`, `CDT`, `MST`, `MDT`, `PST`, `PDT`
 
 さて `CST` の衝突は前段で確認しましたが、一部のソフトウェアでは (`CST` を含む) アメリカ合衆国内の一部のタイムゾーン略称を、優先的に解釈するようになっています。たとえば [Ruby の `Time`](https://github.com/ruby/ruby/blob/v3_0_1/lib/time.rb#L40-L43) や [Java の `java.util.TimeZone`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) がそうです。これは [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) などでこれらの略称が標準として含まれていることが、おおもとの理由としてあるようです。 [^rfc2822]
 
@@ -415,15 +423,6 @@ $ java MountainTime
 ```
 
 Java のこのあたりの挙動を掘り下げていくと無駄に長大になったので、興味がある方は最下部の「おまけ」をご覧ください。
-
-Military time zones
---------------------
-
-主に米軍で使われているタイムゾーン表現で、地域によらない固定オフセットに対応します。 `"A"` 〜 `"Z"` までの大文字アルファベット (`"J"` のみ不使用) を `"-12:00"` から `"+12:00"` まで 1 時間おきに 25 個のオフセットに割り当てています。 ([Wikipedia:en](https://en.wikipedia.org/wiki/List_of_military_time_zones))
-
-`"Z"` の一文字で `"UTC"`/`"GMT"` を指す表現は見たことがある人が多いと思いますが、ここから来ています。
-
-これらも `"PST"` などと同様に [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) に標準として含まれています。こちらは一意に定まる固定オフセット表現なので「避けるべき」というほどではありません。が、有名な `"Z"` 以外は一般的に知られているとは言い難いので、出力の際にわざわざ選ぶようなものでもないでしょう。 Military time zone では UTC から30分差や15分差のタイムゾーンを表現できない、という問題もあります。
 
 発展: 昔の日付・時刻
 =====================
