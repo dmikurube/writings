@@ -56,16 +56,20 @@ published: false
 
 [^dateline]: いわゆる「日付変更線」も同様で、日付変更線という線が国際的に定められているわけではありません。
 
-タイムゾーンの定義と実際の用法
-------------------------------
+タイムゾーンの定義と用例
+-------------------------
 
-前述のとおり「タイムゾーン」は標準時をもとに定義されます。標準時は、後述する夏時間とは独立した概念で、たとえばアメリカのユタ州とアリゾナ州は同じ「[山岳部標準時 (Mountain Standard Time, MST)](https://ja.wikipedia.org/wiki/%E5%B1%B1%E5%B2%B3%E9%83%A8%E6%A8%99%E6%BA%96%E6%99%82)」を使いますが、夏時間制には差があります。 [^summer-time-in-utah-and-arizona] そしてこの2州は、定義上は同じタイムゾーンに属します。
+「タイムゾーン」は、前述のとおり標準時をもとに「同じ標準時を使う地域」として定義するのが一般的です。 [^wikipedia-time-zone] 標準時は、後述する「夏時間」とは独立していて、たとえばアメリカのユタ州とアリゾナ州は同じ「[山岳部標準時 (Mountain Standard Time, `MST`)](https://ja.wikipedia.org/wiki/%E5%B1%B1%E5%B2%B3%E9%83%A8%E6%A8%99%E6%BA%96%E6%99%82)」を使いますが、夏時間制には違いがあります。 [^summer-time-in-utah-and-arizona] そしてこの 2 州は、この定義上は同じタイムゾーンに属します。
+
+[^wikipedia-time-zone]: "A time zone is an area that observes a uniform standard time for legal, commercial and social purposes." ([Wikipedia (en): Time zone](https://en.wikipedia.org/wiki/Time_zone))
 
 [^summer-time-in-utah-and-arizona]: [ユタ州](https://ja.wikipedia.org/wiki/%E3%83%A6%E3%82%BF%E5%B7%9E)は夏時間を採用し、[アリゾナ州](https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AA%E3%82%BE%E3%83%8A%E5%B7%9E)の大部分は[夏時間を採用していません](https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AA%E3%82%BE%E3%83%8A%E6%99%82%E9%96%93)。
 
-しかし「タイムゾーン」という言葉は、実態としてはきわめて多様な使われ方をしています。ユタ州とアリゾナ州を別のタイムゾーンと呼ぶ例も多くあります。逆に、異なる標準時の国や地域でも、等価な時刻系を使っていたものをまとめて一つのタイムゾーンと呼んだ例もあります。 [^old-windows-timezones-in-japan-korea] 後述する `UTC+9` などの特定の時刻系そのものをタイムゾーンと呼ぶこともあります。
+しかしこの「タイムゾーン」という言葉は、実態としてはとても多様であいまいな使われ方をしています。ユタ州とアリゾナ州のようなケースを別のタイムゾーンと呼ぶ例は、後述する Time Zone Database のタイムゾーン ID のように数多くあります。政治主体が違うなどの理由で標準時の定義は異なるものの、時差としては等価な標準時を使っていた国や地域を、まとめて一つのタイムゾーンと呼んだ例もあります。 [^old-windows-timezones-in-japan-korea] 後述する `UTC+9` などの特定の時差そのものをタイムゾーンと呼ぶこともあります。
 
 [^old-windows-timezones-in-japan-korea]: 古い Windows 95 などでは、タイムゾーンの設定が「(GMT+09:00) 東京、大阪、札幌、ソウル、ヤクーツク」などとなっていたのを覚えている方もいるかもしれません。
+
+タイムゾーンをあつかう上では、このことを頭に留めておきましょう。
 
 タイムゾーンの基準: UTC
 ------------------------
