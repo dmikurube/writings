@@ -325,9 +325,9 @@ Java 旧標準ライブラリの [`java.util.TimeZone`](https://docs.oracle.com/
 
 ### `CST`
 
-もっとわかりやすく衝突している例があります。 `CST` です。
+`JST` よりわかりやすく衝突している例があります。 `CST` です。 [`java.util.TimeZone` の公式 Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) でも `CST` のことは触れられています。
 
-日本やアメリカ合衆国でソフトウェア・エンジニアとして働いていると `CST` と聞けば「[中部標準時 (Central Standard Time)](https://ja.wikipedia.org/wiki/%E4%B8%AD%E9%83%A8%E6%A8%99%E6%BA%96%E6%99%82)」のことだと思ってしまいがちですが、「[中国標準時 (China Standard Time, Chinese Standard Time)](https://ja.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E6%A8%99%E6%BA%96%E6%99%82)」も `CST` です。さらに、キューバ標準時 (Cuba Standard Time) も `CST` です。 [^relationship-with-usa]
+日本やアメリカ合衆国でソフトウェア・エンジニアとして働いていると `CST` は「[中部標準時 (Central Standard Time)](https://ja.wikipedia.org/wiki/%E4%B8%AD%E9%83%A8%E6%A8%99%E6%BA%96%E6%99%82)」のことだと思ってしまいがちです。しかし、「[中国標準時 (China Standard Time, Chinese Standard Time)](https://ja.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E6%A8%99%E6%BA%96%E6%99%82)」も `CST` です。さらに、キューバ標準時 (Cuba Standard Time) も `CST` です。 [^relationship-with-usa]
 
 [^relationship-with-usa]: アメリカ合衆国とはややこしい関係にある国ばかりですが、偶然か必然か。
 
@@ -352,17 +352,17 @@ Java 旧標準ライブラリの [`java.util.TimeZone`](https://docs.oracle.com/
 #       9:00 KST  KDT   Korea when at +09
 ```
 
-[`Asia/Shanghai` の定義](https://github.com/eggert/tz/blob/2021a/asia#L668-L672)が以下のとおりです。最後の行の `[UNTIL]` 列が空欄なので、現在でも有効ということですね。
+[`Asia/Shanghai` の定義](https://github.com/eggert/tz/blob/2021a/asia#L668-L672)が以下のとおりです。最後の行の `[UNTIL]` 列が空欄なので、現在でも有効ということですね。 (`J%sT` と同様に `C%sT` の `%s` は `S` (標準時) を入れたり `D` (夏時間) を入れたりする記法です。)
 
 ```
 # Zone  NAME            STDOFF  RULES   FORMAT  [UNTIL]
 # Beijing time, used throughout China; represented by Shanghai.
-Zone    Asia/Shanghai   8:05:43         -       LMT     1901
+Zone    Asia/Shanghai   8:05:43 -       LMT     1901
                         8:00    Shang   C%sT    1949 May 28
                         8:00    PRC     C%sT
 ```
 
-[`America/Havana` も同様に定義](https://github.com/eggert/tz/blob/2021a/northamerica#L3373-L3376)されています。
+キューバの [`America/Havana` も同様に定義](https://github.com/eggert/tz/blob/2021a/northamerica#L3373-L3376)されています。
 
 ```
 # Zone  NAME            STDOFF  RULES   FORMAT  [UNTIL]
@@ -371,15 +371,15 @@ Zone    America/Havana  -5:29:28 -      LMT     1890
                         -5:00   Cuba    C%sT
 ```
 
-`CST` の重複については [`java.util.TimeZone` の公式 Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) にも注意書きがあります。
-
 ### `EST`, `EDT`, `CST`, `CDT`, `MST`, `MDT`, `PST`, `PDT`
 
 さて `CST` の衝突は前段で確認しましたが、一部のソフトウェアでは (`CST` を含む) アメリカ合衆国内の一部のタイムゾーン略称を、優先的に解釈するようになっています。たとえば [Ruby の `Time`](https://github.com/ruby/ruby/blob/v3_0_1/lib/time.rb#L40-L43) や [Java の `java.util.TimeZone`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) がそうです。これは [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) などでこれらの略称が標準として含まれていることが、おおもとの理由としてあるようです。 [^rfc2822]
 
 [^rfc2822]: 要出典。
 
-しかしこれらには実装によって微妙な扱いの違いがあり、それが今後、夏時間制の変更をきっかけとして噴出する可能性がありそうです。
+しかし実は、これらにはソフトウェアによって微妙な扱いの違いがあります。夏時間制の変更を引き金として、今後それが問題として表出する可能性がありそうです。その可能性について以下で紹介します。
+
+#### 略称の解釈による違い
 
 まず本来、これらの略称はそれぞれ標準時、または夏時間のどちらか一方に対応します。たとえば `PST` はあくまで Pacific "Standard Time" (標準時) であり、太平洋時間のうちの夏時間を指すことはありません。太平洋時間の夏時間は、あくまで `PDT` (Pacific "Daylight (Saving) Time") です。つまり `PST` が指すのは (太平洋時間の規定が変わらないかぎり) 常に `-08:00` であり、「夏になるとカリフォルニア時間が `PST` (`-08:00`) から `PDT` (`-07:00`) に移行する」のであって、「夏になると `PST` が `-07:00` になる」わけではありません。上記の [RFC 2822 にも、明確に `PST is semantically equivalent to -0800` などと記載されています](https://datatracker.ietf.org/doc/html/rfc2822#section-4.3)。
 
