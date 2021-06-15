@@ -255,7 +255,7 @@ Military time zones
 
 [^echo-star]: [Wikipedia (en): Indian Standard Time](https://en.wikipedia.org/wiki/Indian_Standard_Time)
 
-Military time zones も RFC 822 / 2822 などに記載があり、標準で扱えるライブラリは多いです。しかし `Z` 以外はあまり使わないほうがいいでしょう。
+Military time zones も [RFC 822](https://datatracker.ietf.org/doc/html/rfc822) / [RFC 2822](https://datatracker.ietf.org/doc/html/rfc2822) などに記載があり、標準で扱えるライブラリは多いです。しかし `Z` 以外はあまり使わないほうがいいでしょう。
 
 その第一の理由は、初期の RFC 822 の記述に誤りがあったことです。歴史的に、その誤りに由来して異なる扱い方をしていた実装がいくつかあり、後に RFC 2822 で扱いが変わっています。ほかにも `UTC+13` のように扱えないタイムゾーンがあることや `Z` 以外はあまり知られていないことなど、使用を避ける理由はいくつか挙げられます。
 
@@ -375,7 +375,7 @@ Zone    America/Havana  -5:29:28 -      LMT     1890
 
 ### `EST`, `EDT`, `CST`, `CDT`, `MST`, `MDT`, `PST`, `PDT`
 
-さて `CST` の衝突は前段で確認しましたが、一部のソフトウェアでは (`CST` を含む) アメリカ合衆国内の一部のタイムゾーン略称を、優先的に解釈するようになっています。たとえば [Ruby の `Time`](https://github.com/ruby/ruby/blob/v3_0_1/lib/time.rb#L40-L43) や [Java の `java.util.TimeZone`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) がそうです。これは [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) などでこれらの略称が標準として含まれていることが、おおもとの理由としてあるようです。 [^rfc2822]
+さて `CST` の衝突は前段で確認しましたが、一部のソフトウェアでは (`CST` を含む) アメリカ合衆国内の一部のタイムゾーン略称を、優先的に解釈するようになっています。たとえば [Ruby の `Time`](https://github.com/ruby/ruby/blob/v3_0_1/lib/time.rb#L40-L43) や [Java の `java.util.TimeZone`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) がそうです。これは [RFC 2822](https://datatracker.ietf.org/doc/html/rfc2822) などでこれらの略称が標準として含まれていることが、おおもとの理由としてあるようです。 [^rfc2822]
 
 [^rfc2822]: 要出典。
 
