@@ -1,6 +1,6 @@
 ---
 title: "タイムゾーン呪いの書 (Java 編)"
-emoji: "🌏" # アイキャッチとして使われる絵文字（1文字だけ）
+emoji: "🌎" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [ "timezone", "jsr310", "java" ]
 layout: default
