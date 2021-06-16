@@ -1,5 +1,5 @@
 ---
-title: "タイムゾーン呪いの書 (一般教養編)"
+title: "タイムゾーン呪いの書 (教養編)"
 emoji: "🌍" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [ "timezone", "tzdb" ]
@@ -7,7 +7,12 @@ layout: default
 published: false
 ---
 
-(もともと [Qiita に載せていた記事](https://qiita.com/dmikurube/items/15899ec9de643e91497c)でしたが、改訂と同時に [Zenn](https://zenn.dev/) に引っ越すことにしました。 Qiita の方には引っ越した旨と引っ越し先の追記だけして、しばらくはそのまま残すつもりです。)
+「タイムゾーン呪いの書」は、もともと 2018年に [Qiita に投稿した記事](https://qiita.com/dmikurube/items/15899ec9de643e91497c)でしたが、大幅な改訂と同時に [Zenn](https://zenn.dev/) に引っ越すことにしました。この改訂では、技術評論社の [Software Design 誌 2018年 12月号](https://gihyo.jp/magazine/SD/archive/2018/201812)の特集に寄稿した内容を取り込みつつ、夏時間をめぐる 2021年 6月現在の各地の状況なども追加しました。
+
+Qiita のほうは、引っ越した旨とこちらの引っ越し先へのリンクの追記だけして、しばらくそのまま残すつもりです。
+
+はじめに
+=========
 
 タイムゾーンという概念はほぼ全ての人が聞いたことがあると思います。ソフトウェア・エンジニアなら多くの方が、自分の得意な言語で、日付・時刻・タイムゾーンにかかわるコードを書いたことがなにかしらあるでしょう。ですが日本に住んで日本の仕事をしていると、国内時差もなく [^no-time-diff-for-now] 夏時間もなく [^no-summer-time-for-now] ほぼ[日本標準時 (Japan Standard Time)](https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82) のみで用が足りることもあって、タイムゾーンというこの厄介な概念について成り立ちから実装上の注意点まで解説した日本語の文書は、残念ながらあまり見つかりませんでした。
 
@@ -59,19 +64,19 @@ published: false
 タイムゾーンの定義と用例
 -------------------------
 
-「タイムゾーン」は、前述のとおり標準時をもとに「同じ標準時を使う地域」として定義するのが一般的です。 [^wikipedia-time-zone] 標準時は、後述する「夏時間」とは独立していて、たとえばアメリカのコロラド州とアリゾナ州は同じ「[山岳部標準時 (Mountain Standard Time, `MST`)](https://ja.wikipedia.org/wiki/%E5%B1%B1%E5%B2%B3%E9%83%A8%E6%A8%99%E6%BA%96%E6%99%82)」を使いますが、夏時間制には違いがあります。 [^summer-time-in-colorado-and-arizona] そしてこの 2 州は、この定義上は同じタイムゾーンに属します。
+「タイムゾーン」は、前述のとおり標準時をもとに「同じ標準時を使う地域」として定義するのが一般的です。 [^wikipedia-time-zone] 標準時は、後述する「夏時間」とは独立していて、たとえばアメリカのコロラド州とアリゾナ州は同じ「[山岳部標準時 (Mountain Standard Time, `MST`)](https://ja.wikipedia.org/wiki/%E5%B1%B1%E5%B2%B3%E9%83%A8%E6%A8%99%E6%BA%96%E6%99%82)」を使いますが、夏時間制には違いがあります。 [^summer-time-in-colorado-and-arizona] この二州は、この定義上は同じタイムゾーンに属します。
 
 [^wikipedia-time-zone]: "A time zone is an area that observes a uniform standard time for legal, commercial and social purposes." ([Wikipedia (en): Time zone](https://en.wikipedia.org/wiki/Time_zone))
 
 [^summer-time-in-colorado-and-arizona]: [コロラド州](https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%AD%E3%83%A9%E3%83%89%E5%B7%9E)は夏時間を採用し、[アリゾナ州](https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AA%E3%82%BE%E3%83%8A%E5%B7%9E)の大部分は[夏時間を採用していません](https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AA%E3%82%BE%E3%83%8A%E6%99%82%E9%96%93)。
 
-しかしこの「タイムゾーン」という言葉は、実態としてはとても多様であいまいな使われ方をしています。コロラド州とアリゾナ州のようなケースを別のタイムゾーンと呼ぶ例は、後述する Time Zone Database のタイムゾーン ID のように数多くあります。政治主体が違うなどの理由で標準時の定義は異なるものの、時差としては等価な標準時を使っていた国や地域を、まとめて一つのタイムゾーンと呼んだ例もあります。 [^old-windows-timezones-in-japan-korea] 後述する `UTC+9` などの特定の時差そのものをタイムゾーンと呼ぶこともあります。
+しかしこの「タイムゾーン」という言葉は、実態としてはとても多様であいまいな使われ方をしています。後述する Time Zone Database のタイムゾーン ID のように、コロラド州とアリゾナ州のようなケースを異なるタイムゾーンとして分ける例は数多くあります。逆に、政治主体が違うなどの理由で本来「標準時」の定義は異なるものの、時差としては同等な標準時を使っていた国や地域を、まとめて一つのタイムゾーンと呼んだ例もあります。 [^old-windows-timezones-in-japan-korea] 後述する `UTC+9` などの特定の時差そのものをタイムゾーンと呼ぶこともあります。
 
 [^old-windows-timezones-in-japan-korea]: 古い Windows 95 などでは、タイムゾーンの設定が「(GMT+09:00) 東京、大阪、札幌、ソウル、ヤクーツク」などとなっていたのを覚えている方もいるかもしれません。
 
 タイムゾーンをあつかう上では、このことを頭に留めておきましょう。
 
-タイムゾーンの基準: UTC
+UTC: タイムゾーンの基準
 ------------------------
 
 (おそらく、この項には不正確な記述が特に多く含まれています。 [^utc-and-leap-second])
@@ -95,14 +100,14 @@ published: false
 
 こうして現在では、各国や地域の時差は UTC からの差 (オフセット) で表現するのが一般的になりました。たとえば UTC から 9 時間進んだ日本の時刻は `UTC+9` `UTC+09:00` `+09:00` などと表記します。多くのタイムゾーンは UTC から 1 時間単位の差ですが、そうではない[オーストラリア中部標準時](https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%BC%E3%82%B9%E3%83%88%E3%83%A9%E3%83%AA%E3%82%A2%E6%99%82%E9%96%93) (`UTC+09:30`) や[ネパール標準時](https://ja.wikipedia.org/wiki/%E3%83%8D%E3%83%91%E3%83%BC%E3%83%AB%E6%A8%99%E6%BA%96%E6%99%82) (`UTC+05:45`) のようなタイムゾーンも存在します。
 
-「地域ベースタイムゾーン」と「固定オフセット」
--------------------------------------------
+「地域ベース」と「オフセット」
+-------------------------------
 
 前述のように、地域によらない `UTC+09:00` のような時刻系のことも「タイムゾーン」と呼ぶことがあります。筆者の知るかぎりでは、「地域を表すタイムゾーン」と、「地域によらず時刻系を表すタイムゾーン」を区別する一般的な言葉は無いようです。 [^wording-fixed-offset-and-region-based]
 
 [^wording-fixed-offset-and-region-based]: ご存じの方、教えてください。
 
-本記事では Java の JSR 310 を参考に、前者を「地域ベース (region-based) タイムゾーン」と、後者を「固定オフセット (fixed offsets)」と呼ぶことにします。具体的には [`java.time.ZoneId`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html) と [`java.time.ZoneOffset`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneOffset.html) を参照してください。
+本記事では Java の JSR 310 を参考に、前者を「地域ベース (region-based) タイムゾーン」と、後者を「(固定) オフセット (fixed offsets)」と呼ぶことにします。具体的には [`java.time.ZoneId`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html) と [`java.time.ZoneOffset`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneOffset.html) を参照してください。
 
 タイムゾーンの遷移 (切り替わり)
 ================================
@@ -460,3 +465,17 @@ $ java MountainTime
 本記事内でそこまで扱おうとすると、記事が倍以上の長さになってしまいそうなので、とてもよくまとまったブログ記事を紹介して、その代わりとしたいと思います。
 
 [「西暦1年は閏年か？」 (2020年 10月 30日、なぎせゆうきさんのブログ記事)](https://nagise.hatenablog.jp/entry/2020/10/30/173911)
+
+実装に反映する
+===============
+
+さて、時刻とタイムゾーンというこの厄介な概念について話を続けるときりがないのですが、ここまでである程度の一般的な概念については概観できたと思います。ではこれを実装に落とし込むには、具体的になににどう気をつけたらいいのでしょうか?
+
+[Qiita に載せていた 2018年版の旧記事](https://qiita.com/dmikurube/items/15899ec9de643e91497c)では、ここから Java を具体例として実装に関する検討をしていました。しかし、実装について言語などを問わない一般論を書いた [Software Design 誌 2018年 12月号](https://gihyo.jp/magazine/SD/archive/2018/201812) の内容を取り込んだ上で Java 特有のトピックもさらに追加した結果、全体が大幅に長くなってしまいました。そこで、実装の話や、言語などに特有の話は、記事を分けることにしました。
+
+* [タイムゾーン呪いの書 (実装編)](./curse-of-timezones-impl-ja)
+* [タイムゾーン呪いの書 (Java 編)](./curse-of-timezones-java-ja)
+
+いまのところ Software Design 誌から抜き出した実装編と、元記事から分割した Java 編のみにリンクを張っています。他の言語やソフトウェア特有の話をまとめた記事があったら、そちらも紹介させていただくかもしれません。 [^implementation-and-software-specific]
+
+[^implementation-and-software-specific]: 本記事の筆者も、もう少しがんばったら Ruby の話 (Rails 以外) と Linux の話を少しくらいは書けるかもしれません。しかし Rails 特有の話や JavaScript を含む Web ブラウザ環境の話、あと MySQL の話など、本当に必要とされていそうなあたりの話は難しそうだなあ、と思っております。よければぜひ。
