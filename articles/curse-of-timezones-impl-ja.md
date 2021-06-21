@@ -212,10 +212,8 @@ tzdb は、新しいバージョンがかなり頻繁にリリースされます
 
 ネイティブ・アプリケーションや、ライブラリの開発などは tzdb のバージョン管理とは独立です。 tzdb データの更新は、おもにそれぞれのアプリケーションやライブラリを動かすコンピュータの管理者の責任です。しかし Web サービスを開発・運用しているなら、もちろんそんなことは言っていられません。 tzdb データ更新の戦略も、サービス運用の一環としてしっかり立てておかなければなりません。
 
-tzdb のデータは OS や Java VM などの実行環境、ライブラリなどに、それぞれ埋め込まれています。開発しているサービスがが、どこに入っている tzdb データを参照していて、なにを更新すればサービスが使う tzdb データが更新されるのか、把握しておきましょう。
+tzdb のデータは OS や Java などの実行環境、ライブラリなどに、それぞれ埋め込まれています。開発しているサービスがが、どこに入っている tzdb データを参照していて、なにを更新すればサービスが使う tzdb データが更新されるのか、把握しておきましょう。
 
-たとえば Java が使う tzdb データは、基本的に Java VM に同梱されています。 Java VM を更新すれば、同梱の tzdb データも更新されます。 Java VM を更新せずに tzdb データだけを更新する方法もいちおうあります。 [^jdk-9-or-later]
-
-[^jdk-9-or-later]: JDK 9 からリリース・モデルが変わって、バイナリを配布する主体が複数になったため、配布者によってあつかいに違いがあるかもしれません。少なくとも [Oracle JDK には今も TZUpdater がある](https://www.oracle.com/java/technologies/javase/tzupdater-readme.html)ようです。 [Azul Zulu build にも ZIUpdater というのがあるっぽい (?)](https://www.azul.com/products/components/ziupdater-time-zone-tool/) ですね。
+たとえば Java が使う tzdb データは、基本的に JDK や Java の実行環境と一体になっています。 JDK や Java 実行環境を更新すれば、同梱の tzdb データも更新されます。
 
 Ruby で tzdb ベースのタイムゾーンをあつかうには [`tzinfo` gem](https://rubygems.org/gems/tzinfo) を使います。関連 gem に tzdb データを埋め込んだ [`tzinfo-data` gem](https://rubygems.org/gems/tzinfo-data) があり、これが見つかるか見つからないかで挙動が変わります。この `tzinfo-data` が見つかると `tzinfo` はそのデータを優先的に使い、見つからないと OS に入った tzdb データ (`zoneinfo`) を探して使う、という動作になるようです。 Ruby のアプリケーションを運用していて `tzinfo-data` を使っているのか OS のデータを使っているのかをすぐに特定するのは、あまり簡単ではないかもしれませんね。なにか起こる前にちゃんと把握しておきましょう。

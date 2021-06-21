@@ -14,19 +14,22 @@ published: false
 Java と tzdb
 =============
 
-tz database の説明で「tz database は年に数回は新しい版がリリースされます」と紹介しました。 Java の場合は Java Runtime Environment (JRE) にコンパイル済みの tz database が付属する形になっています。 JRE をアップデートすると、新しいバージョンの tz database もくっついてきて更新されます。 [^24]
+[「教養編」](./curse-of-timezones-common-ja)の tzdb の説明で、「年に数回は新しいバージョンの tzdb がリリースされます」と紹介しました。そして[「実装編」](./curse-of-timezones-impl-ja) の最後でも少し紹介しましたが、基本的に Java で使う tzdb データは JDK や Java の実行環境と一体になっています。 JDK や Java 実行環境を更新すれば、同梱の tzdb データも更新されます。
 
-[^24]: タイミングによってはその JRE バージョンのリリース時点で tz database の対応が間に合わず、最新よりちょっとだけ古い tz database がやってくる可能性はあります。
+JDK や Java 実行環境のバージョンはそのままで tzdb データだけを更新する方法も、いちおうあります。 [Oracle 社が配布する "Timezone Updater Tool" (通称 "TZUpdater")](https://www.oracle.com/java/technologies/javase/tzupdater-readme.html) というツールがあり、このツールで Oracle 社の JDK や JRE (Java Runtime Environment) に同梱の tzdb データは更新できます。 JDK のリリース・モデルが変わる前の JDK 8u202 までは、このツールが事実上 Java の標準でした。それ以降もこのツールは、少なくとも Oracle 社が配布する JDK に対しては有効です。
 
-JRE 自体はアップデートしたくないけど tz database だけアップデートしたい、という場合は [Timezone Updator Tool (TZUpdater)](http://www.oracle.com/technetwork/jp/java/javase/tzupdater-readme-136440.html) を使うことができます。[^25]
+ただ JDK のリリース・モデルが変わって JDK や実行環境のディストリビューターが複数になったため、このようなツールのサポートにはディストリビューションによって差があり、微妙に複雑な状況になっています。 Oracle の TZUpdater 以外にも、現在はたとえば [Azul 社の "ZIUpdater" というツール](https://www.azul.com/products/components/ziupdater-time-zone-tool/) があります。 ZIUpdater は基本的には Azul 社の Zulu Builds of OpenJDK 向けに設計されているものの、いちおう OpenJDK や Oracle JDK でもテストできているそうです。正式サポートというわけではなさそうですが。
 
-[^25]: 数年前に Oracle の方針云々で「TZUdater 提供されなくなる!」と混乱が起きたことがあります。2018年1月現在、サポートが打ち切られていないバージョンの JRE であれば TZUpdater は提供されています。
+AdoptOpenJDK や Amazon Corretto などのその他のディストリビューションでは、このようなツールのサポートはまだ流動的な状況にあるようです。たとえば [AdoptOpenJDK では "How to update timezone data with AdoptOpenJDK" という GitHub Issue](https://github.com/adoptium/temurin-build/issues/1057) が立っていますが、そこでは Oracle 社の TZUpdater を AdoptOpenJDK でも使う方法が議論されています。 OpenJDK 版の Timezone Updater は、いまのところ「できたらいいね」くらいの雰囲気ですね。
 
-tz database が Java 実行環境 (JRE) に付属するものであって Java アプリケーションに付属するものではない、という点には注意が必要です。つまり、あるアプリケーションをホスト A で動かしたときとホスト B で動かしたときで tz database のバージョンがずれてしまう可能性がある、ということです。
+Java アプリケーションと tzdb
+-----------------------------
 
-後述する地域ベースタイムゾーン (`ZoneId`) やそれを利用した日付時刻 (`ZonedDateTime`) を使う場合は、アプリケーションの更新・管理とは別に、戦略的に tz database のバージョン管理も行う必要があります。
+いずれのディストリビューションでも、要注意なのは tzdb が Java の実行環境に付属するものだということです。開発している Java アプリケーションのバージョン管理とは独立です。つまり、ある Java アプリケーションを複数のホストで動かすとき、実行環境の違いで tzdb のバージョンがずれてしまい、そのために挙動が変わる可能性がある、ということです。
 
-前述のサモア標準時のように大規模な変更が直前に行われる可能性を考えると、ただ最新を追いかけるというだけでもそんなに簡単ではありません。
+地域ベースのタイムゾーン (`java.time.ZoneId` や旧 `java.util.TimeZone`) や、それを利用した日付・時刻クラス (`java.time.ZonedDateTime`) を使う場合は、アプリケーションのバージョン管理だけではなく tzdb のバージョン管理も同時に行う必要があります。アプリケーションと JDK を Docker などで同時に管理してしまうのが、こういう混乱を避けるためにもいい案の一つかもしれません。
+
+[「教養編」](./curse-of-timezones-common-ja)で例に出したサモア標準時のように大規模な変更が直前に行われる可能性を考えると、単に最新を追いかけるだけでも、そんなに簡単なことではありません。
 
 [JSR 310: Date and Time API](https://jcp.org/en/jsr/detail?id=310)
 ===========================
