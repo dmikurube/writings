@@ -46,7 +46,7 @@ JSR 310: Date and Time API
 
 JSR 310 はその複雑な概念をかなり忠実にモデル化しており、例外的な状況も明示的にあつかえるように設計されています。それは同時に、複雑な概念や例外的な状況を明示的にあつかわなければならないということでもあり、そのことが「JSR 310 は複雑すぎる」「`OffsetDateTime` と `ZonedDateTime` の違いがよくわからない」のような声にもしばしばつながります。ですがこの複雑さを中途半端に隠蔽してしまうと、例外的な状況のあつかいがうやむやになりがちです。そしてその例外的な状況はめったに起こらないので、起きて初めてうやむやなあつかいが露見する、ということにもなりがちです。 [^date-time-formatter]
 
-[^date-time-formatter]: とはいえ [`fjava.time.format.DateTimeFormatter`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html) は使いづらいよねー、という気持ちは正直わかる。
+[^date-time-formatter]: とはいえ [`java.time.format.DateTimeFormatter`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html) は使いづらいよねー、という気持ちは正直わかる。
 
 この「Java 編」では、おもに JSR 310 の各クラス (中でも基本となる日付/時間データクラス) の使いかたについて、「教養編」と「実装編」で検討してきた一般論をベースに考えていきたいと思います。
 
@@ -59,7 +59,7 @@ Unix time に相当する、世界共通の時間軸上の一点を表すのが 
 
 Java タイム・スケールでは 1972年 11月 3日以降の時刻に UTC-SLS が適用され、うるう秒は、うるう秒が適用される日の最後の 1000 秒で希釈されます。 Java タイム・スケールは `Instant` だけではなく、すべての日付/時間クラスで使われます。
 
-Unix time に相当する `Instant` は、うるう秒の希釈さえ問題なければ、「実装編」でも検討したように時刻の内部データ表現として有力な候補です。 Unix time を `long` や `double` などの数値型であつかうわけでもないので、変な取り違えをするリスクも小さいでしょう。
+Unix time に相当する `Instant` は、「実装編」でも検討したように、うるう秒の希釈さえ問題なければ時刻の内部データ表現として有力な候補です。 `long` や `double` などのプリミティブな数値型で Unix time をあつかうわけでもないので、変な取り違えをするリスクも小さいでしょう。
 
 ZoneId と ZoneOffset
 ---------------------
