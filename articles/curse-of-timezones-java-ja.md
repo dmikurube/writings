@@ -48,7 +48,18 @@ JSR 310 はその複雑な概念をかなり忠実にモデル化しており、
 
 [^date-time-formatter]: とはいえ [`fjava.time.format.DateTimeFormatter`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html) は使いづらいよねー、という気持ちは正直わかる。
 
-この「Java 編」では、おもに JSR 310 の各クラス (中でも基本データクラス) の使いかたについて、「教養編」と「実装編」で検討してきた一般論をベースに考えていきたいと思います。
+この「Java 編」では、おもに JSR 310 の各クラス (中でも基本となる日付/時間データクラス) の使いかたについて、「教養編」と「実装編」で検討してきた一般論をベースに考えていきたいと思います。
+
+Instant: Unix time
+-------------------
+
+Unix time に相当する、世界共通の時間軸上の一点を表すのが [`java.time.Instant`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/Instant.html) です。これは Unix time と「ほぼ」同じもので、違いはうるう秒の扱いです。「教養編」で、うるう秒を「希釈」する手法をいくつか取り上げましたが、その一つである ["UTC-SLS"](https://www.cl.cam.ac.uk/~mgk25/time/utc-sls/) を用いた「Java タイム・スケール」が使われます。 [^java-time-scale]
+
+[^java-time-scale]: Java タイム・スケールの詳しい説明は [`java.time.Instant` の Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/time/Instant.html) にあります。
+
+Java タイム・スケールでは 1972年 11月 3日以降の時刻に UTC-SLS が適用され、うるう秒は、うるう秒が適用される日の最後の 1000 秒で希釈されます。 Java タイム・スケールは `Instant` だけではなく、すべての日付/時間クラスで使われます。
+
+Unix time に相当する `Instant` は、うるう秒の希釈さえ問題なければ、「実装編」でも検討したように時刻の内部データ表現として有力な候補です。 Unix time を `long` や `double` などの数値型であつかうわけでもないので、変な取り違えをするリスクも小さいでしょう。
 
 ZoneId と ZoneOffset
 ---------------------
@@ -143,17 +154,6 @@ ZoneOffset:[+09:00]
 
 固定オフセットが、地域ベースのタイムゾーンとは別のクラスで実装されている、というのが JSR 310 のキモです。これについては `java.time.OffsetDateTime` と `java.time.ZonedDateTime` に触れる際に後述します。
 
-[`Instant`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/Instant.html)
---------
-
-時間軸上の特定の一点を表すのが [`java.time.Instant`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/Instant.html) です。前述の UNIX 時間 (秒) と、小数部としてナノ秒を用いています。
-
-うるう秒を無視することによる問題が無さそうであれば[^A1] 特に内部表現としては `java.time.Instant` を使うことをまず検討するべきでしょう。曖昧さがなく、メモリの消費も小さく、前後の比較も簡単で、例えばイベントが起こった時刻の記録としては必要十分です。
-
-[^A1]: ほとんどの場合では、問題になることは無いと思います。
-
-次項の日付時刻クラス群は、「一週間先」「一ヶ月先」のような日付時刻の計算を行うとき、ユーザーが関係する入出力、外部データの入出力、などのタイミングで使うことが多いでしょう。
-
 `Local/Offset/Zoned-DateTime`
 ----------------------------
 
@@ -204,6 +204,13 @@ JSR 310 に関する日本語記事を探すと「とりあえず `LocalDateTime
 とは言え `ZonedDateTime` を使うべきケースはあります。 `OffsetDateTime` は夏時間の計算をやってくれませんし、地理的地域の情報は `ZonedDateTime` でしか持つことができません。例えば「夏時間がある地域で店舗の営業時間を扱う」ような場合は、下手に自力で計算してバグを埋めるより JSR 310 に任せてやってもらいましょう。必要性と厄介さのトレードオフです。日付時刻計算の途中で `ZonedDateTime` が必要になるようなケースは、しばしばあると思います。
 
 ただし `ZonedDateTime` を他のコンポーネントとのインターフェースとして使う場合や、外部に保存するデータとして使う際は注意が必要です。そのような場合は補助の `ZoneOffset` を常に入れるように保証できないか、仕様から検討することをお勧めします。
+
+ThreeTen-Extra: うるう秒
+=========================
+
+Java タイム・スケールがうるう秒を希釈することを前提としていることもあって、残念ながら JSR 310 の範疇ではうるう秒をそのままあつかうことができません。どうしてもうるう秒をそのままあつかう必要がある場合は [ThreeTen-Extra](https://www.threeten.org/threeten-extra/) という外部ライブラリを JSR 310 と組み合わせて使うことができます。
+
+JSR 310 は異なるタイム・スケールを独自に実装して拡張できるように設計されていて、この ThreeTen-Extra は、そのような拡張の一つです。もともと JSR 310 の一部として検討されていたクラス群ですが、その JSR 310 があまりに肥大化したために、整理して ThreeTen-Extra という外部ライブラリとして切り出されました。たとえば [`org.threeten.extra.scale.UtcInstant`](https://www.threeten.org/threeten-extra/apidocs/org.threeten.extra/org/threeten/extra/scale/UtcInstant.html) は、うるう秒を考慮した `Instant` のようなクラスになっています。
 
 `java.util.Date` と `java.util.Calendar`
 =====================================
