@@ -29,22 +29,28 @@ Java アプリケーションと tzdb
 
 地域ベースのタイムゾーン (`java.time.ZoneId` や旧 `java.util.TimeZone`) や、それを利用した日付・時刻クラス (`java.time.ZonedDateTime`) を使う場合は、アプリケーションのバージョン管理だけではなく tzdb のバージョン管理も同時に行う必要があります。アプリケーションと JDK を Docker などで同時に管理してしまうのが、こういう混乱を避けるためにもいい案の一つかもしれません。
 
-[「教養編」](./curse-of-timezones-common-ja)で例に出したサモア標準時のように大規模な変更が直前に行われる可能性を考えると、単に最新を追いかけるだけでも、そんなに簡単なことではありません。
+[「教養編」](./curse-of-timezones-common-ja)で例に出したサモア標準時のような大規模な変更が直前に行われる可能性を考えると、単に最新を追いかけるだけでも、そんなに簡単なことではありません。
 
-[JSR 310: Date and Time API](https://jcp.org/en/jsr/detail?id=310)
+JSR 310: Date and Time API
 ===========================
 
-JSR 310 は (既に何度か参照していますが) 日付・時刻を扱う新しい Java API です。 Java 8 から追加されました。
+[JSR 310: Date and Time API](https://jcp.org/en/jsr/detail?id=310) は、日付・時刻をあつかう新しい Java API です。 Java 8 から追加されました。「教養編」や「実装編」でも何度か参照していますね。
 
-Stephen Colebourne 氏によって実装された [Joda-Time](http://www.joda.org/joda-time/) というライブラリが JSR 310 以前からあったのですが、これをベースとして、同じ Stephen 氏のリードで正式な Java API として再設計されたのが JSR 310 です。後述する、古くからの API である `java.util.Date` と `java.util.Calendar` を完全に置き換えることを目指した[^26] らしいです。
+[Joda-Time](http://www.joda.org/joda-time/) というオープンソースの日付・時刻ライブラリが 2005年ごろには公開されていたのですが、その作者である Stephen Colebourne 氏が共同リーダーとして参加し、正式な Java API として Joda-Time をベースに再設計されたのが JSR 310 です。
 
-[^26]: 要出典。
+古くからの Java API である [`java.util.Date`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Date.html) や [`java.text.SimpleDateFormatter`](https://docs.oracle.com/javase/jp/8/docs/api/java/text/SimpleDateFormat.html) にはスレッド安全性や API 設計など多くの問題があり、それらの問題に対処すべく JSR 310 を設計した、ということです。 [^new-date-time-api]
 
-JSR 310 は「ただ日付・時刻を扱うだけなのに複雑すぎる!」という声もよく耳にします。が、日付・時刻というものが、上で書いてきたようにそもそも超複雑なんです。 JSR 310 のオブジェクトモデルは、この「超複雑な日付・時刻というモノ」をできるだけ忠実にモデル化しようとしており、とてもよくできているという認識を筆者は持っています。確かに複雑だけどそもそも超複雑なんだから仕方ないじゃん! という感じ。[^27]
+[^new-date-time-api]: ["Java SE 8 Date and Time" by Ben Evans and Richard Warburton (January/February 2014, Oracle Technical Article)](https://www.oracle.com/technical-resources/articles/java/jf14-date-time.html)
 
-[^27]: Parser による解釈が厳密すぎて大変、というのはわかる。
+「教養編」や「実装編」で触れてきたように、時刻やタイムゾーンというのはそもそも複雑な概念です。特に地域ベースのタイムゾーンが絡んでくると、例外的な状況がさまざまなパターンで起こります。
 
-[`ZoneId`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html) と [`ZoneOffset`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneOffset.html)
+JSR 310 はその複雑な概念をかなり忠実にモデル化しており、例外的な状況も明示的にあつかえるように設計されています。それは同時に、複雑な概念や例外的な状況を明示的にあつかわなければならないということでもあり、そのことが「JSR 310 は複雑すぎる」「`OffsetDateTime` と `ZonedDateTime` の違いがよくわからない」のような声にもしばしばつながります。ですがこの複雑さを中途半端に隠蔽してしまうと、例外的な状況のあつかいがうやむやになりがちです。そしてその例外的な状況はめったに起こらないので、起きて初めてうやむやなあつかいが露見する、ということにもなりがちです。 [^date-time-formatter]
+
+[^date-time-formatter]: とはいえ [`fjava.time.format.DateTimeFormatter`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html) は使いづらいよねー、という気持ちは正直わかる。
+
+この「Java 編」では、おもに JSR 310 の各クラス (中でも基本データクラス) の使いかたについて、「教養編」と「実装編」で検討してきた一般論をベースに考えていきたいと思います。
+
+ZoneId と ZoneOffset
 ---------------------
 
 JSR 310 のタイムゾーンは、すべてのタイムゾーンを表す [`java.time.ZoneId`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html) 抽象クラスと、その中でも固定オフセットを表すサブクラスの [`java.time.ZoneOffset`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneOffset.html) という2つのクラスで実装されています。文字列表現からは、それぞれ `ZoneId.of("Asia/Tokyo")` や `ZoneOffset.of("+09:00")` などと呼び出してインスタンスを作成します。
