@@ -64,95 +64,139 @@ Unix time に相当する `Instant` は、「実装編」でも検討したよ�
 ZoneId と ZoneOffset
 ---------------------
 
-JSR 310 のタイムゾーンは、すべてのタイムゾーンを表す [`java.time.ZoneId`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html) 抽象クラスと、その中でも固定オフセットを表すサブクラスの [`java.time.ZoneOffset`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneOffset.html) という2つのクラスで実装されています。文字列表現からは、それぞれ `ZoneId.of("Asia/Tokyo")` や `ZoneOffset.of("+09:00")` などと呼び出してインスタンスを作成します。
+JSR 310 のタイムゾーン情報は、すべてのタイムゾーンを表す [`java.time.ZoneId`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html) 抽象クラスと、その中でも固定オフセットのみを表すサブクラスの具象クラス [`java.time.ZoneOffset`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneOffset.html) という二種類のクラスで表現されます。これらのインスタンスを使うときは `ZoneOffset.UTC` のような定数を使ったり `ZoneOffset.of("+09:00")` `ZoneOffset.ofHours(9)` `ZoneId.of("Asia/Tokyo")` などとしてインスタンスを生成したりします。このようなインスタンスは、いずれも不変インスタンス (immutable instance) です。
 
-地域ベースの `ZoneId` インスタンスには tz database のタイムゾーンが対応していて、「いつ夏時間に切り替わるか」「過去のどの時点から使うオフセットが変わったか」などの遷移ルールも実装されています。 `ZoneId` インスタンスの `ZoneId#getRules()` を呼び出すことで、ルールを実装した [`java.time.ZoneRules`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/zone/ZoneRules.html) を取得することができます。
+`ZoneId.of("Asia/Tokyo")` などとして生成した地域ベースの `ZoneId` インスタンスには tzdb のタイムゾーン ID が対応しています。「いつ夏時間に切り替わるか」「過去のどの時点でオフセットが変わったか」などの切り替わりルールも、タイムゾーン ID に対応して tzdb をもとに実装されています。 `ZoneId` インスタンスの `ZoneId#getRules()` を呼び出すと、切り替わりルールを実装した [`java.time.ZoneRules`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/zone/ZoneRules.html) を取得することができます。
 
-`ZoneId` は抽象クラスなのでそのもののインスタンスは作れません。地域ベースタイムゾーンは、今のところ `ZoneId` のサブクラスの [`java.time.ZoneRegion`](http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/jdk8-b132/src/share/classes/java/time/ZoneRegion.java#l90) として実装されているようです。 (`ZoneRegion` は非公開なので直接は使えませんし、今後もこの実装が保証されるわけではありません。使うときはあくまで `ZoneId` として使います)
+`ZoneId` は抽象クラスなので、そのもののインスタンスを作ることはできません。固定オフセットではない地域ベースのタイムゾーンをあらわすために `ZoneId.of("Asia/Tokyo")` などとして生成したインスタンスは `ZoneId` の package-private サブクラスである [`java.time.ZoneRegion`](http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/jdk8-b132/src/share/classes/java/time/ZoneRegion.java#l90) として実装されているようです。 [^zoneregion]
 
-`"Asia/Tokyo"` `"UTC+09:00"`, `"+09:00"` のそれぞれに対して `ZoneId.of()` と `ZoneOffset.of()` を呼び出したインスタンスは、以下のように動作しています。
+[^zoneregion]: この `ZoneRegion` は package-private なので直接は使えませんし、この実装が今後も保証されるわけではありません。使うときはあくまで `ZoneId` 型として使います。
+
+固定オフセットを持つ一部の `ZoneRegion` インスタンスは `ZoneId#normalize()` を呼び出すことで正規化し、対応する `ZoneOffset` インスタンスを取得できます。 `ZoneOffset` インスタンスの `normalize()` メソッドを呼んでもなにも変わりません。
+
+`"Asia/Tokyo"` `"UTC+09:00"` `"+09:00"` のそれぞれの文字列で `ZoneId.of()` と `ZoneOffset.of()` を呼び出してみた例が、以下のとおりです。
 
 ```java
 import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.zone.ZoneOffsetTransition;
+import java.util.List;
 
 public class ZoneIds {
     public static void main(final String[] args) {
-        investigateZoneId("Asia/Tokyo");
-        investigateZoneId("UTC+09:00");
-        investigateZoneId("+09:00");
-        investigateZoneOffset("Asia/Tokyo");
-        investigateZoneOffset("UTC+09:00");
-        investigateZoneOffset("+09:00");
+        printZoneId("Asia/Tokyo");
+        printZoneOffset("Asia/Tokyo");
+
+        printZoneId("UTC+09:00");
+        printZoneOffset("UTC+09:00");
+
+        printZoneId("+09:00");
+        printZoneOffset("+09:00");
     }
 
-    private static void investigateZoneId(String id) {
-        System.out.printf("ZoneId:[%s]\n", id);
-        investigate(ZoneId.of(id));
-    }
-
-    private static void investigateZoneOffset(String id) {
-        System.out.printf("ZoneOffset:[%s]\n", id);
+    private static void printZoneId(final String id) {
+        System.out.printf("ZoneId.of(\"%s\")\n", id);
         try {
-            investigate(ZoneOffset.of(id));
+            print(ZoneId.of(id));
         } catch (DateTimeException ex) {
             System.out.printf("  DateTimeException: %s\n\n", ex.getMessage());
         }
     }
 
-    private static void investigate(ZoneId zoneId) {
-        System.out.printf("  .toString(): [%s]\n", zoneId);
-        System.out.printf("  .getClass(): [%s]\n", zoneId.getClass());
-        System.out.printf("  .normalized().toString(): [%s]\n", zoneId.normalized());
-        System.out.printf("  .normalized().getClass(): [%s]\n", zoneId.normalized().getClass());
-        System.out.printf("  .getRules().isFixedOffset(): [%s]\n", zoneId.getRules().isFixedOffset());
+    private static void printZoneOffset(final String id) {
+        System.out.printf("ZoneOffset.of(\"%s\")\n", id);
+        try {
+            print(ZoneOffset.of(id));
+        } catch (DateTimeException ex) {
+            System.out.printf("  DateTimeException: %s\n\n", ex.getMessage());
+        }
+    }
+
+    private static void print(final ZoneId zoneId) {
+        System.out.printf("  .toString(): <%s>\n", zoneId);
+        System.out.printf("  .getClass(): <%s>\n", zoneId.getClass());
+        System.out.printf("  .normalized().toString(): <%s>\n", zoneId.normalized());
+        System.out.printf("  .normalized().getClass(): <%s>\n", zoneId.normalized().getClass());
+        System.out.printf("  .getRules(): <%s>\n", zoneId.getRules());
+        System.out.printf("  .getRules().isFixedOffset(): <%s>\n", zoneId.getRules().isFixedOffset());
+        System.out.printf("  .getRules().getTransitions():\n");
+        final List<ZoneOffsetTransition> transitions = zoneId.getRules().getTransitions();
+        if (transitions.isEmpty()) {
+            System.out.printf("      (empty)\n");
+        } else {
+            for (final ZoneOffsetTransition transition : transitions) {
+                System.out.printf("      %s\n", transition.toString());
+            }
+        }
         System.out.printf("\n");
     }
 }
 ```
 
 ```
-ZoneId:[Asia/Tokyo]
-  .toString(): [Asia/Tokyo]
-  .getClass(): [class java.time.ZoneRegion]
-  .normalized().toString(): [Asia/Tokyo]
-  .normalized().getClass(): [class java.time.ZoneRegion]
-  .getRules().isFixedOffset(): [false]
+ZoneId.of("Asia/Tokyo")
+  .toString(): <Asia/Tokyo>
+  .getClass(): <class java.time.ZoneRegion>
+  .normalized().toString(): <Asia/Tokyo>
+  .normalized().getClass(): <class java.time.ZoneRegion>
+  .getRules(): <ZoneRules[currentStandardOffset=+09:00]>
+  .getRules().isFixedOffset(): <false>
+  .getRules().getTransitions():
+      Transition[Overlap at 1888-01-01T00:18:59+09:18:59 to +09:00]
+      Transition[Gap at 1948-05-02T00:00+09:00 to +10:00]
+      Transition[Overlap at 1948-09-12T01:00+10:00 to +09:00]
+      Transition[Gap at 1949-04-03T00:00+09:00 to +10:00]
+      Transition[Overlap at 1949-09-11T01:00+10:00 to +09:00]
+      Transition[Gap at 1950-05-07T00:00+09:00 to +10:00]
+      Transition[Overlap at 1950-09-10T01:00+10:00 to +09:00]
+      Transition[Gap at 1951-05-06T00:00+09:00 to +10:00]
+      Transition[Overlap at 1951-09-09T01:00+10:00 to +09:00]
 
-ZoneId:[UTC+09:00]
-  .toString(): [UTC+09:00]
-  .getClass(): [class java.time.ZoneRegion]
-  .normalized().toString(): [+09:00]
-  .normalized().getClass(): [class java.time.ZoneOffset]
-  .getRules().isFixedOffset(): [true]
-
-ZoneId:[+09:00]
-  .toString(): [+09:00]
-  .getClass(): [class java.time.ZoneOffset]
-  .normalized().toString(): [+09:00]
-  .normalized().getClass(): [class java.time.ZoneOffset]
-  .getRules().isFixedOffset(): [true]
-
-ZoneOffset:[Asia/Tokyo]
+ZoneOffset.of("Asia/Tokyo")
   DateTimeException: Invalid ID for ZoneOffset, invalid format: Asia/Tokyo
 
-ZoneOffset:[UTC+09:00]
+ZoneId.of("UTC+09:00")
+  .toString(): <UTC+09:00>
+  .getClass(): <class java.time.ZoneRegion>
+  .normalized().toString(): <+09:00>
+  .normalized().getClass(): <class java.time.ZoneOffset>
+  .getRules(): <ZoneRules[currentStandardOffset=+09:00]>
+  .getRules().isFixedOffset(): <true>
+  .getRules().getTransitions():
+      (empty)
+
+ZoneOffset.of("UTC+09:00")
   DateTimeException: Invalid ID for ZoneOffset, non numeric characters found: UTC+09:00
 
-ZoneOffset:[+09:00]
-  .toString(): [+09:00]
-  .getClass(): [class java.time.ZoneOffset]
-  .normalized().toString(): [+09:00]
-  .normalized().getClass(): [class java.time.ZoneOffset]
-  .getRules().isFixedOffset(): [true]
+ZoneId.of("+09:00")
+  .toString(): <+09:00>
+  .getClass(): <class java.time.ZoneOffset>
+  .normalized().toString(): <+09:00>
+  .normalized().getClass(): <class java.time.ZoneOffset>
+  .getRules(): <ZoneRules[currentStandardOffset=+09:00]>
+  .getRules().isFixedOffset(): <true>
+  .getRules().getTransitions():
+      (empty)
+
+ZoneOffset.of("+09:00")
+  .toString(): <+09:00>
+  .getClass(): <class java.time.ZoneOffset>
+  .normalized().toString(): <+09:00>
+  .normalized().getClass(): <class java.time.ZoneOffset>
+  .getRules(): <ZoneRules[currentStandardOffset=+09:00]>
+  .getRules().isFixedOffset(): <true>
+  .getRules().getTransitions():
+      (empty)
 ```
 
-`ZoneId#normalize()` は `ZoneOffset` に正規化できるインスタンスであれば正規化した `ZoneOffset` を返す、というメソッドです。 `ZoneId.of("UTC+09:00")` で作られたインスタンスは `ZoneRegion` ですが、それを `normalize()` してできたインスタンスは `ZoneOffset` になっていることがわかります。
+東京時間 (`ZoneId.of("Asia/Tokyo")`) が、何回かタイムゾーンの切り替わりを経験していることがわかりますね。これは国際子午線会議 (1884年) をもとにした日本標準時の導入 (1888年) と、「教養編」でも触れた、第二次世界大戦直後に数年間だけ導入された夏時間のデータです。
 
-`ZoneRules#isFixedOffset()` は、そのタイムゾーンが遷移のない固定されたタイムゾーンか否かを返すメソッドです。夏時間を採用していないはずの `"Asia/Tokyo"` が `false` なのはなんでだ! と思われるかもしれませんが、理由の一つは前述の通り、過去の一時期に夏時間を採用したことがあるためですね。 (ちなみにその夏時間以外にも遷移がありました)
+地域ベースのタイムゾーンを使うかぎり、オフセットの切り替わりにともなう「存在しない時刻」や「二重に存在する時刻」のことを検討しなければならず、「タイムゾーンの呪い」から逃げられない、というのが「教養編」と「実装編」で繰り返し検討してきたことでした。固定オフセットのみで話を完結できる要件なら、できれば地域ベースのタイムゾーンには触れずにすませたいところです。
 
-固定オフセットが、地域ベースのタイムゾーンとは別のクラスで実装されている、というのが JSR 310 のキモです。これについては `java.time.OffsetDateTime` と `java.time.ZonedDateTime` に触れる際に後述します。
+ここで JSR 310 の設計のキモの一つが、固定オフセットのみをあらわす `ZoneOffset` が、すべてのタイムゾーンをあらわす `ZoneId` とは (派生クラスですが) 別のクラスとして実装されている点にあります。タイムゾーン情報として常に `ZoneOffset` を使っていれば、タイムゾーンの呪いから大きく距離を置けていることを、コードのレベルで保証できるのです。逆にコード中に `ZoneId` がまぎれ込んできたら、タイムゾーンの呪いに気をつけよう、という警戒信号だととらえることができます。
+
+次の `OffsetDateTime` と `ZonedDateTime` にも、同様のことを言うことができます。
 
 `Local/Offset/Zoned-DateTime`
 ----------------------------
