@@ -198,56 +198,208 @@ ZoneOffset.of("+09:00")
 
 次の `OffsetDateTime` と `ZonedDateTime` にも、同様のことを言うことができます。
 
-`Local/Offset/Zoned-DateTime`
-----------------------------
+OffsetDateTime と ZonedDateTime
+--------------------------------
 
-どれも日付と時刻の組を表すクラス群ですが、用途に応じて3種類あります。筆者は、これらの使い分けは「時間軸上の一点 (前述の `Instant`) に対応できないことがあってもいいか否か」「その日付時刻から夏時間の境をまたぐ計算をするか否か」「その日付時刻表現について地理的地域は重要か否か」を基準に判断するのがいいと考えています。
+JSR 310 で「日付と時刻」をあらわすクラスには三種類あります。 [`java.time.LocalDateTime`]((https://docs.oracle.com/javase/jp/8/docs/api/java/time/LocalDateTime.html)), [`java.time.OffsetDateTime`]((https://docs.oracle.com/javase/jp/8/docs/api/java/time/OffsetDateTime.html)), [`java.time.ZonedDateTime`]((https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZonedDateTime.html)) です。これらもすべて `Instant` と同様に「Java タイム・スケール」にのっとっていて、うるう秒をあつかうことはできません。
 
-### [`LocalDateTime`]((https://docs.oracle.com/javase/jp/8/docs/api/java/time/LocalDateTime.html))
+このうち `LocalDateTime` は「タイムゾーン情報を持たない」日付と時間で、ある意味わかりやすいです。残りの二つについて「`OffsetDateTime` と `ZonedDateTime` をどう使い分ければいいのかよくわからない」というのが JSR 310 の FAQ ではないでしょうか。
 
-`LocalDateTime` は、タイムゾーン情報を一切含まない日付時刻です。このため `LocalDateTime` だけでは `Instant` には変換できず、「時間軸上のどの一点を表すのか」は `LocalDateTime` だけからはわからない、ということになります。
+一言で言えば、固定オフセットの `ZoneOffset` のみタイムゾーン情報として受け付けるのが `OffsetDateTime` で、地域ベースのものを含む `ZoneId` で任意のタイムゾーン情報を受け付けるのが `ZonedDateTime` です。と、これだけ言われて使い分けがわかるのなら、この疑問が FAQ にはなっていませんね。以下では、これらの使い分けについて検討していきます。
 
-JSR 310 に関する日本語記事を探すと「とりあえず `LocalDateTime` 使っとけばいいよ」という記述をたまに見かけますが、あえて `LocalDateTime` を使うべき状況を筆者はほとんど思いつきません。何か起きた時間のログとして使うには「どの時点だったか」を確定できないと不十分ですし、ログでは無くても `LocalDateTime` を持ち回れば「この `LocalDateTime` ってどこの時間だったっけ」とチームに混乱を引き起こす原因になります。
+### LocalDateTime
 
-同じタイムゾーンの大量の日付時刻を計算するときに、節約のために `LocalDateTime` を使うケースはあるかもしれません。その場合は、なるべくその計算のためだけの狭い範囲に限定して `LocalDateTime` が漏れないようにする、特にそのまま外部には保存しない、などの工夫をしながら使うことをお勧めします。
+「実装編」で議論した「タイムゾーンが不明なままの『年・月・日・時・分・秒』を、そのまま保持し続けない、そのまま持ち回らない」という大原則はここでも有効です。 `LocalDateTime` は、タイムゾーン情報を一切含まない日付・時刻です。そのため `LocalDateTime` だけで `Instant` には変換できませんし、ある `LocalDateTime` インスタンスが世界共通の時間軸上のどこを表すのかは特定できない、ということになります。
 
-それ以外には、あえてタイムゾーン情報と関連付けたくない場合、例えば「そのホストがどこにあるかによらずそのホストの時刻の 23:00:00 に特定の処理を実行する」のような場合以外に `LocalDateTime` をあえて使うべきケースは、ほとんど無いように思います。[^28]
+MySQL などの RDB やユーザーからの入力など外部からのデータに、タイムゾーンが不明だったり曖昧だったりする「年・月・日・時・分・秒」が入ってくることはよくあります。そのようなデータの受け渡しに `LocalDateTime` を一時的に使うことはあるでしょう。気をつけるのは、その `LocalDateaTime` をタイムゾーンと紐付けないまま、プログラム中で保持し続けない、そのまま持ち回らないことです。できるだけ早く、その日時がどのタイムゾーンのものか確定し、日時とタイムゾーンをセットで保持するようにしましょう。
 
-[^28]: 「こんな時に `LocalDateTime` 使うとよかった!」などの反例をお待ちしています。
+JSR 310 に関する日本語記事を探すと、「とりあえず `LocalDateTime` を使っとけばいいよ」という記述をたまに見かけます。日本国内のみで使用することを考えているからでしょうか。しかし「教養編」で書いたとおり、日本の夏時間情勢がいつ変わってしまうかわかりませんし、近年の AWS などのクラウド環境ではインスタンスのタイムゾーン設定が `UTC` になっていることも珍しくありません。開発しているアプリケーションで日本時間環境を仮定することは、アプリケーションを運用するのに余計な前提を一つ増やしているだけであり、もはや当初の目的だったであろう「考えることをシンプルにする」ことすらかなわない時代なのです。
 
-### [`OffsetDateTime`]((https://docs.oracle.com/javase/jp/8/docs/api/java/time/OffsetDateTime.html))
+あえて `LocalDateTime` のままで日付・時刻を持ち回るべき状況を、筆者はほとんど思いつきません。なにか起きた時刻の記録として使うにはタイムゾーンに依らない「どの瞬間だったか」を世界共通の時間軸上で確定できないと不十分ですし、タイムゾーン情報のない日付・時刻を持ち回れば、「この `LocalDateTime` ってどこの時間だったっけ?」と開発チームに混乱を引き起こします。
 
-`OffsetDateTime` はタイムゾーン情報を持つものの、固定オフセットの `java.time.ZoneOffset` のみを許す日付時刻です。「なんでわざわざ `ZoneOffset` のみに限定するのか?」「`ZoneId` や後述の `ZonedDateTime` でいいじゃないか?」という意見があるかもしれません。が、前述の通り `ZoneOffset` というクラスを用意して限定できるようにしたことが JSR 310 のキモです。
+恣意的な例を挙げれば、「そのホストがどのタイムゾーンにあるかによらずそのホストの時刻の 23:00:00 に特定の処理を実行したい」のようなケースはあるかもしれません。しかし「教養編」のサモアの例のようにその日付・時刻がまるっと消えてしまったらどうしましょう。または、その時刻が二回やってきたらどうしましょう。夏時間は午前 1時ごろに切り替えるのが 2021年現在の定番ですが、そうしなければならないと決まっているわけではないのです。ホストのタイムゾーン設定をあてにするより、タイムゾーンやその切り替わりをどうあつかうか、明示的に決めておいたほうがいいのではないでしょうか。
 
-`ZoneOffset` のみに制限することで `OffsetDateTime` は常に一意な `Instant` に変換できることを保証できるのです。[^29] 後述するように `ZonedDateTime` ではそうはいきません。
+### OffsetDateTime
 
-[^29]: 変換は「一対一」ではなく、うるう秒の場合に `Instant` への変換で情報が失われてしまうことには、若干の注意が必要です。
+`OffsetDateTime` はタイムゾーン情報を持つものの、固定オフセットの `ZoneOffset` のみを受け付ける日付・時刻です。「なんでわざわざ `ZoneOffset` のみに限定するのか」というのが「`OffsetDateTime` と `ZonedDateTime` の違いがよくわからない」という方の感想でしょう。一見すると `OffsetDateTime` はただの `ZonedDateTime` の下位互換クラスなので、「`ZonedDateTime` だけあればいいじゃないか」というのは自然な反応だと思います。
 
-`OffsetDateTime` で済む場合はできるだけ `OffsetDateTime` を使っておくと、タイムゾーンの呪いをかなり遠ざけることができます。特に、他のコンポーネントとのインターフェースに使う場合や、外部に保存する場合 (ログなど) に `OffsetDateTime` (または相当するデータ) を使っておくと、曖昧なデータになってしまったりチームメンバーを混乱させたりする危険をだいぶ減らすことができます。
+しかし前述の `ZoneOffset` と同様、この `OffsetDateTime` を別クラスとして用意して、固定オフセットに限定できるようにしたことこそが JSR 310 のキモです。 `OffsetDateTime` は、タイムゾーンを `ZoneOffset` のみに限定することで、常に `Instant` (Unix time) と一対一に変換できることを Java の型のレベルで保証できるのです。 [^leap-second-with-offset-date-time]
 
-「常に UTC を使う規約にしておけば `LocalDateTime` でもいい!」という意見はあるかもしれません。しかし、往々にしてその規約を忘れたコードが生まれるものです。常に UTC を使う場合でも `ZoneOffset.UTC` を持った `OffsetDateTime` を作るようにしておくと、多少のメモリは使いますが混乱を減らせます。例えばこのような現在時刻を取得するには `OffsetDateTime.now(ZoneOffset.UTC)` などと呼び出せばいいでしょう。
+[^leap-second-with-offset-date-time]: `OffsetDateTime` も「Java タイム・スケール」にしたがうので、うるう秒はあつかえません。その意味でも `OffsetDateTime` と `Instant` (Unix time) は一対一に対応します。 [Qiita 版](https://qiita.com/dmikurube/items/15899ec9de643e91497c)ではこの点で少し誤った記述がありましたので、念のため明記しておきます。
 
-`ZoneOffset` は[値ベースのクラス](https://docs.oracle.com/javase/jp/8/docs/api/java/lang/doc-files/ValueBased.html)ですが `ZoneOffset.UTC` は定数なので、大量の `ZoneOffset` インスタンスが作られるわけではなく、メモリへの影響もあまり大きくないと思われます。 [^30]
+日付・時刻をあつかうときに `OffsetDateTime` を使っていると、開発者はタイムゾーンの呪いをかなり遠ざけることができます。特にクラスのフィールド変数や、メソッドの引数・戻り値など他のコンポーネントとの受け渡しに `OffsetDateTime` を使っておくと、存在しない時刻や一意に特定できないあいまいな時刻を保持したり渡したりしてしまうような事故を、静的に防ぐことができます。
 
-[^30]: 要検証。
+同様の理由から、外部に日付・時刻データを保存するのに `OffsetDateTime` 相当のデータを使っておくのも有効です。
 
-### [`ZonedDateTime`]((https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZonedDateTime.html))
+「規約として常に UTC を使うことにしておけば `LocalDateTime` でいい」という意見もあるかもしれません。しかし特にチーム開発において、個々の開発者の努力のみで、ほんとうにそのような規約を有効に維持し続けられるでしょうか。まかせられるところは言語がかけてくれる制約にまかせて、開発者は本来やりたかったことに注力したいものです。
 
-`ZonedDateTime` は任意の `java.time.ZoneId` をタイムゾーン情報として持つ日付時刻です。「`OffsetDateTime` より情報量多そうだし `ZonedDateTime` 使っとけばいいだろ!」という記述もたまに見かけますが、前述したように落とし穴があります。
+そこまでして `LocalDateTime` を持ち回ることには、たいしたメリットも見いだせません。しいていえばメモリの使用量は少し変わるかもしれませんが、常に UTC なら定数 `ZoneOffset.UTC` を使っておけば、新しい `ZoneOffset` インスタンスが作られることもありません。差分は微々たるものだと思っていいでしょう。
 
-例えば `"America/Los_Angeles"` で2017年3月12日 午前2時30分、という時刻が与えられてしまったとします。が、そんな時刻は実は存在しません。夏時間のことを思い出してみるとわかりますが `"America/Los_Angeles"` では2017年3月12日 午前1時59分59秒から2017年3月12日 午前3時0分0秒に吹っ飛んでいるからです。
+### ZonedDateTime
 
-また `"America/Los_Angeles"` で2017年11月5日 午前1時30分、という時刻も困ります。この場合は2017年11月5日 午前1時30分 (-07:00) のケースと2017年11月5日 午前1時30分 (-08:00) のケースと、両方がありえてしまうからです。
+`ZonedDateTime` は、任意の `ZoneId` をタイムゾーン情報として持てる日付・時刻です。情報量的には単なる `OffsetDateTime` の上位互換のように見えますが、任意のタイムゾーンを持ててしまうことによって、解けないタイムゾーンの呪いとつきあい続けることを宿命づけられた、悲劇のクラスです。
 
-現在時刻から `ZonedDateTime` を作ったり、タイムゾーン付きの文字列を parse して `ZonedDateTime` を作ったりする場合には、このような問題は起こりにくいでしょう。このような問題が起こる代表的なケースとして、タイムゾーンなしの日付時刻データに「デフォルト」タイムゾーンとしてタイムゾーンを付加しようとするような状況が考えられます。
+`ZonedDateTime` では、たとえば `America/Los_Angeles` の 2020年 3月 8日 2時 30分、という時刻を作れてしまいます。これはロサンゼルスが太平洋標準時から太平洋夏時間に切り替わり、すっ飛ばされて存在しないはずの時刻です。同様に `America/Los_Angeles` の 2020年 11月 1日 1時 30分という時刻も作れます。こちらは太平洋夏時間から太平洋標準時に切り替わり、太平洋夏時間の 11月 1日 1時 30分と太平洋標準時の 11月 1日 1時 30分の両方が存在する時刻です。
 
-`ZonedDateTime` は補助的に `java.time.ZoneOffset` を追加で持つこともできます。[^31] このようにしたインスタンスでは、上記の後者のような問題は起こりません。しかし、あるインスタンスが `ZoneOffset` を持っているかどうかは、型からはわかりません。 `ZonedDateTime` インスタンスを受け取る人は常にこような問題に気を使わないとならなくなる、ということを意識しておく必要があります。
+このようなあいまいさを少しでも避けるために `ZonedDateTime` はオプションとして追加で `ZoneOffset` を持つこともできます。しかしこれはあくまでオプションであり、型情報としてはあらわれません。
 
-[^31]: 例: `"2017-11-05 01:30:00 -07:00[America/Los_Angeles]"`
+実際このような時刻を作ろうとしてみるとどうなるか、試してみましょう。
 
-とは言え `ZonedDateTime` を使うべきケースはあります。 `OffsetDateTime` は夏時間の計算をやってくれませんし、地理的地域の情報は `ZonedDateTime` でしか持つことができません。例えば「夏時間がある地域で店舗の営業時間を扱う」ような場合は、下手に自力で計算してバグを埋めるより JSR 310 に任せてやってもらいましょう。必要性と厄介さのトレードオフです。日付時刻計算の途中で `ZonedDateTime` が必要になるようなケースは、しばしばあると思います。
+```java
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
-ただし `ZonedDateTime` を他のコンポーネントとのインターフェースとして使う場合や、外部に保存するデータとして使う際は注意が必要です。そのような場合は補助の `ZoneOffset` を常に入れるように保証できないか、仕様から検討することをお勧めします。
+public class UseOfZonedDateTime {
+    public static void main(final String[] args) {
+        // 標準時 → 夏時間
+        printNaive( 2020,  3, 8, 2, 30, 0, 0, ZoneId.of("America/Los_Angeles"));
+        printStrict(2020,  3, 8, 2, 30, 0, 0, ZoneOffset.ofHours(-8), ZoneId.of("America/Los_Angeles"));
+        printStrict(2020,  3, 8, 2, 30, 0, 0, ZoneOffset.ofHours(-7), ZoneId.of("America/Los_Angeles"));
+
+        // 標準時 → 夏時間の一時間後
+        printNaive( 2020,  3, 8, 3, 30, 0, 0, ZoneId.of("America/Los_Angeles"));
+        printStrict(2020,  3, 8, 3, 30, 0, 0, ZoneOffset.ofHours(-8), ZoneId.of("America/Los_Angeles"));
+        printStrict(2020,  3, 8, 3, 30, 0, 0, ZoneOffset.ofHours(-7), ZoneId.of("America/Los_Angeles"));
+
+        // 夏時間 → 標準時
+        printNaive( 2020, 11, 1, 1, 30, 0, 0, ZoneId.of("America/Los_Angeles"));
+        printStrict(2020, 11, 1, 1, 30, 0, 0, ZoneOffset.ofHours(-8), ZoneId.of("America/Los_Angeles"));
+        printStrict(2020, 11, 1, 1, 30, 0, 0, ZoneOffset.ofHours(-7), ZoneId.of("America/Los_Angeles"));
+
+        // 夏時間 → 標準時の一時間後
+        printNaive( 2020, 11, 1, 2, 30, 0, 0, ZoneId.of("America/Los_Angeles"));
+        printStrict(2020, 11, 1, 2, 30, 0, 0, ZoneOffset.ofHours(-8), ZoneId.of("America/Los_Angeles"));
+        printStrict(2020, 11, 1, 2, 30, 0, 0, ZoneOffset.ofHours(-7), ZoneId.of("America/Los_Angeles"));
+    }
+
+    private static void printNaive(
+            final int year,
+            final int month,
+            final int dayOfMonth,
+            final int hour,
+            final int minute,
+            final int second,
+            final int nanoOfSecond,
+            final ZoneId zone) {
+        System.out.printf(
+                "ZonedDateTime.of(%d, %d, %d, %d, %d, %d, %d, \"%s\"):\n",
+                year, month, dayOfMonth, hour, minute, second, nanoOfSecond, zone.toString());
+        try {
+            final ZonedDateTime naive = ZonedDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, zone);
+            System.out.printf("  .toString(): %s\n", naive.toString());
+            System.out.printf("  .toInstant().toString(): %s\n", naive.toInstant().toString());
+        } catch (final DateTimeException ex) {
+            System.out.printf("  DateTimeException: %s\n", ex.getMessage());
+        }
+
+        System.out.printf("\n");
+    }
+
+    private static void printStrict(
+            final int year,
+            final int month,
+            final int dayOfMonth,
+            final int hour,
+            final int minute,
+            final int second,
+            final int nanoOfSecond,
+            final ZoneOffset offset,
+            final ZoneId zone) {
+        System.out.printf(
+                "ZonedDateTime.of(%d, %d, %d, %d, %d, %d, %d, \"%s\", \"%s\"):\n",
+                year, month, dayOfMonth, hour, minute, second, nanoOfSecond, offset.toString(), zone.toString());
+        try {
+            final ZonedDateTime strict = ZonedDateTime.ofStrict(
+                    LocalDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond), offset, zone);
+            System.out.printf("  .toString(): %s\n", strict.toString());
+            System.out.printf("  .toInstant().toString(): %s\n", strict.toInstant().toString());
+        } catch (final DateTimeException ex) {
+            System.out.printf("  DateTimeException: %s\n", ex.getMessage());
+        }
+
+        System.out.printf("\n");
+    }
+}
+```
+
+これを実行するとこうなります。
+
+```
+ZonedDateTime.of(2020, 3, 8, 2, 30, 0, 0, "America/Los_Angeles"):
+  .toString(): 2020-03-08T03:30-07:00[America/Los_Angeles]
+  .toInstant().toString(): 2020-03-08T10:30:00Z
+
+ZonedDateTime.of(2020, 3, 8, 2, 30, 0, 0, "-08:00", "America/Los_Angeles"):
+  DateTimeException: LocalDateTime '2020-03-08T02:30' does not exist in zone 'America/Los_Angeles' due to a gap in the local time-line, typically caused by daylight savings
+
+ZonedDateTime.of(2020, 3, 8, 2, 30, 0, 0, "-07:00", "America/Los_Angeles"):
+  DateTimeException: LocalDateTime '2020-03-08T02:30' does not exist in zone 'America/Los_Angeles' due to a gap in the local time-line, typically caused by daylight savings
+
+ZonedDateTime.of(2020, 3, 8, 3, 30, 0, 0, "America/Los_Angeles"):
+  .toString(): 2020-03-08T03:30-07:00[America/Los_Angeles]
+  .toInstant().toString(): 2020-03-08T10:30:00Z
+
+ZonedDateTime.of(2020, 3, 8, 3, 30, 0, 0, "-08:00", "America/Los_Angeles"):
+  DateTimeException: ZoneOffset '-08:00' is not valid for LocalDateTime '2020-03-08T03:30' in zone 'America/Los_Angeles'
+
+ZonedDateTime.of(2020, 3, 8, 3, 30, 0, 0, "-07:00", "America/Los_Angeles"):
+  .toString(): 2020-03-08T03:30-07:00[America/Los_Angeles]
+  .toInstant().toString(): 2020-03-08T10:30:00Z
+
+ZonedDateTime.of(2020, 11, 1, 1, 30, 0, 0, "America/Los_Angeles"):
+  .toString(): 2020-11-01T01:30-07:00[America/Los_Angeles]
+  .toInstant().toString(): 2020-11-01T08:30:00Z
+
+ZonedDateTime.of(2020, 11, 1, 1, 30, 0, 0, "-08:00", "America/Los_Angeles"):
+  .toString(): 2020-11-01T01:30-08:00[America/Los_Angeles]
+  .toInstant().toString(): 2020-11-01T09:30:00Z
+
+ZonedDateTime.of(2020, 11, 1, 1, 30, 0, 0, "-07:00", "America/Los_Angeles"):
+  .toString(): 2020-11-01T01:30-07:00[America/Los_Angeles]
+  .toInstant().toString(): 2020-11-01T08:30:00Z
+
+ZonedDateTime.of(2020, 11, 1, 2, 30, 0, 0, "America/Los_Angeles"):
+  .toString(): 2020-11-01T02:30-08:00[America/Los_Angeles]
+  .toInstant().toString(): 2020-11-01T10:30:00Z
+
+ZonedDateTime.of(2020, 11, 1, 2, 30, 0, 0, "-08:00", "America/Los_Angeles"):
+  .toString(): 2020-11-01T02:30-08:00[America/Los_Angeles]
+  .toInstant().toString(): 2020-11-01T10:30:00Z
+
+ZonedDateTime.of(2020, 11, 1, 2, 30, 0, 0, "-07:00", "America/Los_Angeles"):
+  DateTimeException: ZoneOffset '-07:00' is not valid for LocalDateTime '2020-11-01T02:30' in zone 'America/Los_Angeles'
+```
+
+オフセットのない `2020-03-08 02:30:00 [America/Los_Angeles]` を作ろうとした結果、存在しないので勝手に `2020-03-08 03:30:00 -07:00 [America/Los_Angeles]` にされてしまっていることがわかりますね。ほか、ためしに明示的に `-07:00` や `-08:00` のオフセットを指定して `02:30:00` を作ろうとしても、そのような時刻は存在しない、と怒られています。
+
+逆に二重に存在する `2020-11-01 01:30:00 [America/Los_Angeles]` を作ろうとした結果は、勝手に `-07:00` に寄せられて `2020-11-01 01:30:00 -07:00 [America/Los_Angeles]` にされてしまっていますね。
+
+`ZonedDateTime.of()` のこのあたりの挙動は [Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZonedDateTime.html#of-int-int-int-int-int-int-int-java.time.ZoneId-) で以下のように説明されています。
+
+> ほとんどの場合に、ローカル日付/時間の有効なオフセットは1つだけです。重複の場合は、クロックが後方向に戻されたときに、2つの有効なオフセットが存在します。このメソッドは、一般に「夏」に対応する早い方のオフセットを使用します。
+>
+> ギャップの場合は、クロックが前方向にジャンプしたときに、有効なオフセットが存在しません。代わりに、ローカル日付/時間がギャップの長さだけ後ろに調整されます。一般的な1時間の夏時間の変更では、ローカル日付/時間が、一般に「夏」に対応するオフセットの中の1時間後方に移動されます。
+
+「夏」に対応する早い方のオフセットを使用します、とか、後ろに調整されます、とか、逆がほしいときもあるはずなのに勝手に決めてくれちゃってるなあ、というようにも見えますが、同 Javadoc によれば、このメソッドは主にテスト・ケースの作成用として用意されているのだそうです。
+
+> このメソッドは、主としてテスト・ケースを作成するために存在しています。テスト・コード以外では通常、別のメソッドを使ってオフセット時間を作成します。
+
+`ZonedDateTime` を実用するときは、このようなケースでどのようなやり方を選ぶべきなのか、要件とにらめっこして検討し、処理を明示的に記述しておきましょう。エラーにする、無視して別の日にする、できるだけ切り替わり前のオフセットに寄せる、できるだけ切り替わり後のオフセットに寄せる、できるだけ「標準時」に寄せる、できるだけ「夏時間」に寄せる、などなど、このようなケースにどうすべきかは、要件次第で千差万別です。タイムゾーンの呪いとは、まさにこのような例外ケースのそれぞれについて、いちいち検討して仕様を詰めておかなければならない、ということなのです。
+
+極力 `ZonedDateTime` を使いたくない気持ちになりますが、それでも `ZonedDateTime` を使うべきケースはあります。「実装編」でも触れましたが、その代表的な例が「暦の計算、タイムゾーンの切り替わりをまたぐ計算」をするケースや、「未来に予定された時刻」をあつかうケースです。
+
+「翌日」のような暦の計算をしなければならないケースでは `ZonedDateTime` が必要なことがあります。まずは「翌日」の要件定義を明らかにしなければなりませんが、要件が「次の日付の同時刻」であった場合、それをタイムゾーンの切り替わりをまたいで計算するには `ZonedDateTime` が必須でしょう。
+
+また、未来に予定された時刻をあつかうケースでは、その予定時刻が「なに時間」での定義なのかがとても重要です。起こりうる問題を短くまとめると、「現地時刻で定義された未来の時刻を、古い tzdb を用いて一度 UTC に変換し、それをあとから新しい tzdb を用いて現地時刻に戻そうとすると、本来の予定時刻とずれることがある」ということです。
+
+たとえば[延期前の東京 2020 オリンピック開会式の開始予定時刻は 2020年 7月 24日 20時](https://sports.nhk.or.jp/olympic/schedules/sports/ceremony.html)でしたが、これは日本時間での定義です。仮にこの開始時刻が決まったあとで夏時間の導入が決定していたら、日本時間上の開始時刻は 20時で変わらず、絶対時刻への解釈の方が変わる、ということがありえたかもしれません。これと同様のことは、夏時間の廃止が決定している EU でも、これから起こる可能性があります。 [^jon-skeet]
+
+[^jon-skeet]: EU の例については、「実装編」でも参照しましたが ["STORING UTC IS NOT A SILVER BULLET" (Mar 27, 2019)](https://codeblog.jonskeet.uk/2019/03/27/storing-utc-is-not-a-silver-bullet/) で詳細に議論されています。
+
+このようなケースでは、呪いと向き合いながら `ZonedDateTime` を使う覚悟を決めましょう。つらい戦いですが、これは避けられない戦いです。逆に、必要もないのに `ZonedDateTime` を使うと無駄に呪われてしまうわけです。 `ZonedDateTime` を本当に使うべきケースを、要件から見極めましょう。
 
 ThreeTen-Extra: うるう秒
 =========================
