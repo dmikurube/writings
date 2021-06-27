@@ -419,8 +419,12 @@ Java タイム・スケールがうるう秒を希釈することを前提とし
 
 JSR 310 は異なるタイム・スケールを独自に実装して拡張できるように設計されていて、この ThreeTen-Extra は、そのような拡張の一つです。もともと JSR 310 の一部として検討されていたクラス群ですが、その JSR 310 があまりに肥大化したために、整理して ThreeTen-Extra という外部ライブラリとして切り出されました。たとえば [`org.threeten.extra.scale.UtcInstant`](https://www.threeten.org/threeten-extra/apidocs/org.threeten.extra/org/threeten/extra/scale/UtcInstant.html) は、うるう秒を考慮した `Instant` のようなクラスになっています。
 
-`java.util.Date` と `java.util.Calendar`
+java.util.Date と java.util.Calendar
 =====================================
+
+Java 7 までは [`java.util.Date`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Date.html) や [`java.util.Calendar`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Calendar.html) が日付・時刻の Java 標準クラスでした。しかしこれらのクラスにはスレッド安全性などに難があり、さらに非常にあつかいづらい設計の API でした。 JSR 310 は、これらを置き換えることを目指して設計された API です。
+
+2021 年において Java 8 にとどまる理由こそまだ一部にあるものの、もう Java 7 にとどまる合理的な理由はさすがにないと思います。ということで、これらの使用はもうやめて JSR 310 を使い始めましょう。
 
     ￣￣￣￣￣￣￣|
     ＿＿＿＿＿＿＿|
@@ -433,9 +437,11 @@ JSR 310 は異なるタイム・スケールを独自に実装して拡張でき
     [二二二二二]|   java.util.Calendar
     　　　　　　|
 
-不幸にもまだ Java 7 以前しか使えない場合でも [ThreeTen Backport](http://www.threeten.org/threetenbp/) という JSR 310 の多くの機能を Java 7 以前にバックポートしたライブラリがあります。せめてそっち使いましょう。
+とはいえ、既存のクラスやメソッドが `java.util.Date` などを使ってしまっていて、すぐに消せないことはあるでしょう。そのような場合のために `java.time.Instant` を経由して JSR 310 と `java.util.Date` を変換する [`Date.from(Instant)`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Date.html#from-java.time.Instant-) や [`Date#toInstant()`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Date.html#toInstant--) などのメソッドが用意されています。
 
-2018 年において Java 8 以降への移行すら考えていない、ということはさすがにもう無いと思うので、今から新しく Joda-Time を採用する理由はあまり無いでしょう。 Joda-Time を Java 8 以降で使うことは基本的に推奨されていません。
+Java 8 以前に発明されて JSR 310 の原型にもなった [Joda-Time](https://www.joda.org/joda-time/) を Java 8 以降であえて使うことは、基本的に推奨されていません。 [^joda-time-in-java-8]
+
+[^joda-time-in-java-8]: [Joda-Time のページ](https://www.joda.org/joda-time/)にも "Note that from Java SE 8 onwards, users are asked to migrate to java.time (JSR-310) - a core part of the JDK which replaces this project." とあります。
 
 おまけ: Java とタイムゾーン略称
 ================================
