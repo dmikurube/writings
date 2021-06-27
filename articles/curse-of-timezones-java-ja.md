@@ -401,6 +401,17 @@ ZonedDateTime.of(2020, 11, 1, 2, 30, 0, 0, "-07:00", "America/Los_Angeles"):
 
 このようなケースでは、呪いと向き合いながら `ZonedDateTime` を使う覚悟を決めましょう。つらい戦いですが、これは避けられない戦いです。逆に、必要もないのに `ZonedDateTime` を使うと無駄に呪われてしまうわけです。 `ZonedDateTime` を本当に使うべきケースを、要件から見極めましょう。
 
+日付のみと時刻のみ
+-------------------
+
+JSR 310 で「日付のみ」をあつかうクラスは [`java.time.LodalDate`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/LocalDate.html) のみで、「時刻のみ」をあつかうクラスは [`java.time.LocalTime`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/LocalTime.html) と [`java.time.OffsetTime`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/OffsetTime.html) のみです。 `OffsetDate` や `ZonedDate` のような「タイムゾーン情報と日付のみ」の組み合わせ、または `ZonedTime` のような「地域ベースのタイムゾーンと時刻のみ」の組み合わせはありません。
+
+`ZonedDate` と `ZonedTime` がないのは、日付と時刻の両方がそろわないと地域ベースのタイムゾーンはあまり意味をなさないからでしょう。たとえば「ロサンゼルス時間の 2020年 3月 8日」や「ニューヨーク時間の午前 1時 30分」のようなデータだけがあっても、「その日付のどの時刻のことか」または「その時刻がどの日付の時刻か」がわからないと、オフセットの解釈が確定できません。 `ZonedDateTime` のように暦の計算に使えるわけでもなく、標準 API に用意しても存在意義がよくわからないクラスになりそうです。
+
+そして `OffsetTime` はありますが `OffsetDate` はありません。「`+09:00` で午後 8時」は、どの日付においても不確定要素のないデータで、それなりに使いようもありそうです。それに対して「`+09:00` の 2021年 7月 23日」は、不確定要素こそないものの、使いどころはあまりなさそうです。 [^offset-date] `+09:00` がほんとうに重要なケースなら「2021年 7月 23日 0時 0分 0秒から 23時 59分 59秒」と表現するほうが合理的な気がします。
+
+[^offset-date]: 実は後述の ThreeTen-Extra には [`OffsetDate`](https://www.threeten.org/threeten-extra/apidocs/org.threeten.extra/org/threeten/extra/OffsetDate.html) があります。当初は JSR 310 に入れるつもりで設計していたものの、[あまり使いどころがないという判断で消した](https://github.com/ThreeTen/threeten/issues/228)みたいですね。
+
 ThreeTen-Extra: うるう秒
 =========================
 
