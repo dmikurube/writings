@@ -7,6 +7,9 @@ layout: default
 published: false
 ---
 
+はじめに
+=========
+
 「タイムゾーン呪いの書」は、もともと 2018年に [Qiita に投稿した記事](https://qiita.com/dmikurube/items/15899ec9de643e91497c)でしたが、大幅な改訂と同時に [Zenn](https://zenn.dev/) に引っ越してきました。この改訂で全体がさらに長くなったので、記事を分けることにしました。
 
 本記事は、導入にあたる第一部[「教養編」](./curse-of-timezones-common-ja)と、それを実装に反映するための一般論を検討した第二部[「実装編」](./curse-of-timezones-impl-ja)の続きにあたる、最終章の第三部です。記事全体を通して、「教養編」と「実装編」を読んでいることを前提にしているので、ご注意ください。
@@ -44,9 +47,9 @@ JSR 310: Date and Time API
 
 「教養編」や「実装編」で触れてきたように、時刻やタイムゾーンというのはそもそも複雑な概念です。特に地域ベースのタイムゾーンが絡んでくると、例外的な状況がさまざまなパターンで起こります。
 
-JSR 310 はその複雑な概念をかなり忠実にモデル化しており、例外的な状況も明示的にあつかえるように設計されています。それは同時に、複雑な概念や例外的な状況を明示的にあつかわなければならないということでもあり、そのことが「JSR 310 は複雑すぎる」「`OffsetDateTime` と `ZonedDateTime` の違いがよくわからない」のような声にもしばしばつながります。ですがこの複雑さを中途半端に隠蔽してしまうと、例外的な状況のあつかいがうやむやになりがちです。そしてその例外的な状況はめったに起こらないので、起きて初めてうやむやなあつかいが露見する、ということにもなりがちです。 [^date-time-formatter]
+JSR 310 はその複雑な概念をかなり忠実にモデル化しており、例外的な状況も明示的にあつかえるように設計されています。それは同時に、複雑な概念や例外的な状況を明示的にあつかわなければならないということでもあり、そのことが「JSR 310 は複雑すぎる」「`OffsetDateTime` と `ZonedDateTime` の違いがよくわからない」のような声にもしばしばつながります。 [^apache-spark] ですがこの複雑さを中途半端に隠蔽してしまうと、例外的な状況のあつかいがうやむやになりがちです。そしてその例外的な状況はめったに起こらないので、起きて初めてうやむやなあつかいが露見する、ということにもなりがちです。
 
-[^date-time-formatter]: とはいえ [`java.time.format.DateTimeFormatter`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html) は使いづらいよねー、という気持ちは正直わかる。
+[^apache-spark]: たとえば [Apache Spark でもなかなか苦労した経緯](https://databricks.com/blog/2020/07/22/a-comprehensive-look-at-dates-and-timestamps-in-apache-spark-3-0.html)があるようです。
 
 この「Java 編」では、おもに JSR 310 の各クラス (中でも基本となる日付/時間データクラス) の使いかたについて、「教養編」と「実装編」で検討してきた一般論をベースに考えていきたいと思います。
 
@@ -437,29 +440,44 @@ Java 7 までは [`java.util.Date`](https://docs.oracle.com/javase/jp/8/docs/api
     [二二二二二]|   java.util.Calendar
     　　　　　　|
 
-とはいえ、既存のクラスやメソッドが `java.util.Date` などを使ってしまっていて、すぐに消せないことはあるでしょう。そのような場合のために `java.time.Instant` を経由して JSR 310 と `java.util.Date` を変換する [`Date.from(Instant)`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Date.html#from-java.time.Instant-) や [`Date#toInstant()`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Date.html#toInstant--) などのメソッドが用意されています。
+とはいえ、既存のクラスやメソッドが `java.util.Date` などを使ってしまっていて、すぐに消せないことはあるでしょう。そのような場合のために `java.time.Instant` を経由して JSR 310 と `java.util.Date` を変換する [`Date.from(Instant)`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Date.html#from-java.time.Instant-) や [`Date#toInstant()`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Date.html#toInstant--) などのメソッドが用意されています。 [`java.sql.Timestamp`](https://docs.oracle.com/javase/jp/8/docs/api/java/sql/Timestamp.html) などの `java.sql` 系の日付・時刻クラスも、だいたい同様にあつかえます。
 
 Java 8 以前に発明されて JSR 310 の原型にもなった [Joda-Time](https://www.joda.org/joda-time/) を Java 8 以降であえて使うことは、基本的に推奨されていません。 [^joda-time-in-java-8]
 
 [^joda-time-in-java-8]: [Joda-Time のページ](https://www.joda.org/joda-time/)にも "Note that from Java SE 8 onwards, users are asked to migrate to java.time (JSR-310) - a core part of the JDK which replaces this project." とあります。
 
+まとめ
+=======
+
+ここまで、[「教養編」](./curse-of-timezones-common-ja)と[「実装編」](./curse-of-timezones-impl-ja)の一般論をベースとして Java 固有の時刻とタイムゾーンのあつかい方を検討してきました。 JSR 310 には他にもまだ多くのクラスがありますが、これら基本データクラスの考え方をおさえておけば、応用をきかせられるでしょう。
+
+「教養編」「実装編」やこの「Java 編」が、多くの Java 開発者が日付・時刻をあつかう際の助けとなることを祈ります。
+
+ちなみに、日付・時刻データから文字列へのフォーマットと、文字列から日付・時刻データへの解釈をおこなう [`java.time.format.DateTimeFormatter`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html) は、本記事ではあまり触れていません。
+
+この `DateTimeFormatter` も、それだけで長めの記事が一本書ける程度にはややこしさを抱えたクラスですが、その解説は他の機会 (または他の方) に譲りたいと思います。 [^date-time-formatter-usage]
+
+[^date-time-formatter-usage]: ひとまず `DateTimeFormatter` は、人がキーボードで手書きしたような日付・時刻文字列の解釈には、あまり向いていないかもしれません。桁を埋めるための `0` 空白と可変桁を柔軟に処理できる `DateTimeFormatter` を作るのは容易ではありません。そういったフォーマットを固定できる、プログラム同士の通信や電文用途が強く意識されていて、特に [ISO 8601](https://ja.wikipedia.org/wiki/ISO_8601) などは簡潔にあつかえます。
+
+以下では Java (特にその `DateTimeFormatter`) とタイムゾーン略称の闇について、少し深堀りしてみた内容をおまけとして残してみました。興味のある方はお楽しみください。
+
 おまけ: Java とタイムゾーン略称
 ================================
 
-このおまけは、上の方で少し触れた Java の `MST` などのタイムゾーン略称に関する深堀りです。
+このおまけは、[「実装編」](./curse-of-timezones-impl-ja)で少し触れた Java の `MST` などのタイムゾーン略称に関する深堀りです。
 
 たとえば `MST` などが `America/Denver` と等価に解釈されてしまい、その結果 `2020-07-01 12:34:56 MST` が `2020-07-01 12:34:56 -07:00` と等価に解釈されるべきところを `2020-07-01 12:34:56 -06:00` と解釈されてしまう、という話でした。
 
-旧 `java.util.TimeZone`
+旧 java.util.TimeZone
 ----------------------
 
-この話、実は Java ではもっと昔に解決されていたはずだったのです。というのは JSR 310: Date and Time API が導入される Java 8 より前、既に Java 1.5 の時代にはこの話は認知されて Java 6 で対処されていました。 Oracle Community の投稿 ["EST, MST, and HST time zones in Java 6 and Java 7"](https://community.oracle.com/tech/developers/discussion/2539847/est-mst-and-hst-time-zones-in-java-6-and-java-7) を見ると、なんとなく経緯がわかります。
+この話、実は Java ではもっと昔に解決されていたはずだったのです。 JSR 310 が導入される Java 8 より前にはこの話は認知されて Java 6 で対処されていました。 Oracle Community の投稿 ["EST, MST, and HST time zones in Java 6 and Java 7"](https://community.oracle.com/tech/developers/discussion/2539847/est-mst-and-hst-time-zones-in-java-6-and-java-7) を見ると、なんとなく経緯がわかります。
 
-Java に昔からある [`java.util.TimeZone`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) では、最初期から `MST` などの省略形を `America/Denver` などのタイムゾーン ID にマッピングしてしまっていました。しかしあまりにも昔からそうなっていたため、互換性を考えると、安易には変えられなかったようです。 [^abbreviations-in-java-1-3] [^abbreviations-in-java-1-1-6]
+Java に最初期からある [`java.util.TimeZone`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/TimeZone.html) では `MST` などの省略形を `America/Denver` などのタイムゾーン ID にマッピングしてしまっていました。あまりにも昔からそうなっていたため、互換性を考えると、これを変えることは安易にはできなかったようです。 [^abbreviations-in-java-1-3] [^abbreviations-in-java-1-1-6]
 
-[^abbreviations-in-java-1-3]: ちなみに省略タイムゾーンの利用そのものは [Java 1.3 の頃には既に deprecated だと宣言されています](https://javaalmanac.io/jdk/1.3/api/java/util/TimeZone.html)。 deprecate されてこんなに長い時間が経ったのにまだ振り回されるというのも悲しい話ですね。
+[^abbreviations-in-java-1-3]: ちなみに省略タイムゾーンの利用は [Java 1.3 の頃には既に deprecated だと宣言されています](https://javaalmanac.io/jdk/1.3/api/java/util/TimeZone.html)。非推奨とされてこんなに長い時間が経ったのに、まだ振り回されるというのも悲しい話ですね。
 
-[^abbreviations-in-java-1-1-6]: ちなみに [(なぜか MIT の Web に置かれている) Java 1.1.6 の頃の `java.util.TimeZone` の実装](http://web.mit.edu/java_v1.1.6/distrib/sun4x_57/src/java/util/TimeZone.java)を見ると、いくつかのタイムゾーン略称から地域ベースのタイムゾーン ID へのマッピングがハードコードされているのがわかります。このうちいくつかは明らかに一般的とは言えないマッピングなんですが (なんで [`AST`](https://www.timeanddate.com/time/zones/ast) が "Alaska Standard Time" で `America/Anchorage` やねん) そこについて掘り下げるのはまた別の機会に…。一度埋めてしまった地雷はなかなか除去できないという典型例ですね。
+[^abbreviations-in-java-1-1-6]: ちなみに [(なぜか MIT の Web に置かれている) Java 1.1.6 の頃の `java.util.TimeZone` の実装](http://web.mit.edu/java_v1.1.6/distrib/sun4x_57/src/java/util/TimeZone.java)を見ると、いくつかのタイムゾーン略称から地域ベースのタイムゾーン ID へのマッピングがハードコードされているのがわかります。このうちいくつかは明らかに一般的とは言えないマッピングなんですが (なんで [`AST`](https://www.timeanddate.com/time/zones/ast) が "Alaska Standard Time" で `America/Anchorage` やねん) そこについて掘り下げるのはまた別の機会に。一度埋めてしまった地雷はなかなか除去できない、という典型例ですね。
 
 しかし Java 6 で重い腰を上げ、夏時間を実施しない州を含む `EST`, `MST`, `HST` だけは、それぞれ固定オフセットの `-05:00`, `-07:00`, `-10:00` にマッピングするようになりました。同時に、互換性のために `sun.timezone.ids.oldmapping` という Java システム・プロパティが用意され、これを `"true"` にセットしておくと旧来のマッピングを使用するようになります。以下のコードでこのことを確認できます。
 
@@ -514,24 +532,24 @@ false
 true
 ```
 
-JSR 310 の `DateTimeFormatter`
+JSR 310 の DateTimeFormatter
 -----------------------------
 
 `EST`, `MST`, `HST` が直って、めでたしめでたし… (?) と思っていたところに Java 8 で JSR 310 が実装されました。
 
-最初に参照したとおり、この JSR 310 は日付・時刻・タイムゾーンの「現実」を忠実にモデル化していて、かなりよくできていると筆者は考えています。タイムゾーン略称についても、実は本丸の `java.time.ZoneId` では略称の使用をかなり制限していて、[名前から `ZoneId` を作るときに `aliasMap` を明示的に与えないと略称は使えない](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html#of-java.lang.String-java.util.Map-)ようになっています。さらに、[互換性のための標準 Map](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html#SHORT_IDS)も用意されていて、ここでは `EST`, `MST`, `HST` はちゃんと固定オフセットにマッピングされています。
+この Java 編で見てきたとおり JSR 310 は日付・時刻・タイムゾーンの「現実」をかなり忠実にモデル化していて、よくできていると筆者は考えています。タイムゾーン略称についても、実は本丸の `ZoneId` では略称の使用をかなり制限していて、[名前から `ZoneId` を作るときに `aliasMap` を明示的に与えないと略称は使えない](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html#of-java.lang.String-java.util.Map-)ようになっています。さらに、[互換性のための標準 Map](https://docs.oracle.com/javase/jp/8/docs/api/java/time/ZoneId.html#SHORT_IDS)も用意されていて、ここでは `EST`, `MST`, `HST` はちゃんと固定オフセットにマッピングされています。
 
 では、なぜ前述した例では `2020/07/01 12:34:56 MST` が `2020-07-01T12:34:56-06:00[America/Denver]` になってしまったのでしょうか?
 
 その答えは [`java.util.format.DateTimeFormatter`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html) の実装でした。
 
-`DateTimeFormatter` の最も手軽な使い方である [`#ofPattern(String)`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html#ofPattern-java.lang.String-) で `time-zone name` を表す `z` や `zzzz` を使用すると、それは [`DateTimeFormatterBuilder#appendZoneText(TextStyle)`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatterBuilder.html#appendZoneText-java.time.format.TextStyle-) の呼び出しに相当します。この `appendZoneText` はかなり幅広いタイムゾーン名表現を受け付けるようになっているようです。 Javadoc にも以下のように注意書きがあります。
+`DateTimeFormatter` の最も手軽な使い方である [`#ofPattern(String)`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatter.html#ofPattern-java.lang.String-) で `time-zone name` を表す `z` や `zzzz` を使用すると、それは [`DateTimeFormatterBuilder#appendZoneText(TextStyle)`](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatterBuilder.html#appendZoneText-java.time.format.TextStyle-) の呼び出しに相当します。この `appendZoneText` はかなり幅広いタイムゾーン名表現を受け付けるようになっています。 Javadoc にも以下のように注意書きがあります。
 
 > 解析時には、テキストでのゾーン名、ゾーンID、またはオフセットが受け入れられます。テキストでのゾーン名には、一意でないものが多くあります。たとえば、CSTは「Central Standard Time (中部標準時)」と「China Standard Time (中国標準時)」の両方に使用されます。この状況では、フォーマッタのlocaleから得られる地域情報と、その地域の標準ゾーンID (たとえば、America Easternゾーンの場合はAmerica/New_York)により、ゾーンIDが決定されます。appendZoneText(TextStyle, Set)を使用すると、この状況で優先するZoneIdのセットを指定できます。
 
-だからと言って `MST` は `America/Denver` にしないで `-07:00` にしてくれれば…。
+そもそも略称をオフセットに対応付けていれば、こんなことにはならなかったんですが。
 
-`DateTimeFormatter` に深入り
+DateTimeFormatter に深入り
 ---------------------------
 
 そんなわけで、少しだけ OpenJDK のコードに深入りしてみました。ひとまず [`DateTimeFormatterBuilder#appendZoneText` がタイムゾーン名の候補を引っ張ってきているのはこの行](https://github.com/openjdk/jdk/blob/jdk8-b120/jdk/src/share/classes/java/time/format/DateTimeFormatterBuilder.java#L3708)のようです。
@@ -576,20 +594,20 @@ Pacific/Honolulu, Hawaii Standard Time, HST, Hawaii Daylight Time, HDT, Hawaii T
 ... (snip) ...
 ```
 
-あー、いますね。 `America/Denver` と `MST` が紐付いているような雰囲気がぷんぷんします。この結果からすると、犯人はハードコードされているのではなく Locale データの中にいるのかもしれません。
+あー、いますね。 `America/Denver` と `MST` が紐付いているような雰囲気がします。この結果からすると、犯人はハードコードされているのではなく Locale データの中にいそうです。
 
-筆者はここで追うのをやめましたが、興味のある方はぜひ追いかけてみてください。 [^tell-me]
+筆者はここで追うのをやめましたが、興味のある方はぜひさらに追いかけてみてください。 [^tell-me]
 
 [^tell-me]: そしてぜひ筆者に教えてください。
 
-`DateTimeFormatter` 対策
+DateTimeFormatter 対策
 -----------------------
 
 さて、こういう混乱なく `DateTimeFormatter` を使うにはどうしたらいいでしょうか。以下は完全に筆者の私見ですが、少し検討してみます。
 
 まず Locale に踏み込むのはかなり大変そうです。
 
-そもそも `DateTimeFormatterBuilder#appendZoneText` が自由すぎる・寛容すぎるので、この問題だけがどうにかなっても、さらに予想外の地雷を踏む可能性が高そうだなあ、という気がします。
+そもそも `DateTimeFormatterBuilder#appendZoneText` が自由すぎる・寛容すぎるので、この問題だけがどうにかなっても、別の予想外の地雷を踏む可能性が高そうだなあ、という気がします。
 
 `DateTimeFormatterBuilder` でタイムゾーン情報の処理を追加するメソッドは `appendZoneText` 以外にもいくつかあります。そこで、用途に合うものから厳密に処理してくれるものを探して使う、というのが、一つよさそうな方針ではないでしょうか。
 
@@ -597,11 +615,11 @@ Pacific/Honolulu, Hawaii Standard Time, HST, Hawaii Daylight Time, HDT, Hawaii T
 
 パターン文字列の詳細な解説は [`DateTimeFormatterBuilder#appendPattern` の Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/time/format/DateTimeFormatterBuilder.html#appendPattern-java.lang.String-) にあります。
 
-どうなる `PST`
+どうなる PST
 -------------
 
-ところで、最初の方にも書きましたが、カリフォルニア州では 2018年の住民投票で夏時間の変更が支持されたそうです。
+ところで[「教養編」](./curse-of-timezones-common-ja)にも書きましたが、カリフォルニア州では 2018年の住民投票で夏時間の変更が支持されたそうです。
 
-もしこれが実施されたら、今まで `EST`, `MST`, `HST` だけだった特例に、今度は `PST` も追加する必要が出てくるかもしれません。はたして、これからなにが起こるでしょうか。
+もしこれが実施されたら、今まで `EST`, `MST`, `HST` だけだった特例に、今度は `PST` も追加する必要が出てくるかもしれません。はたして、これからなにが起こるのででしょうか。
 
 タイムゾーンの呪いは、そう簡単に解けることはなさそうです。
