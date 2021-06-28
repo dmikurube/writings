@@ -479,3 +479,74 @@ $ java MountainTime
 いまのところ Software Design 誌から抜き出した実装編と、元記事から分割した Java 編のみにリンクを張っています。他の言語やソフトウェア特有の話をまとめた記事があったら、そちらも紹介させていただくかもしれません。 [^implementation-and-software-specific]
 
 [^implementation-and-software-specific]: 本記事の筆者も、もう少しがんばったら Ruby の話 (Rails 以外) と Linux の話を少しくらいは書けるかもしれません。しかし Rails 特有の話や JavaScript を含む Web ブラウザ環境の話、あと MySQL の話など、本当に必要とされていそうなあたりの話は難しそうだなあ、と思っております。よければぜひ。
+
+おまけ: 環境変数 TZ
+====================
+
+(特に Unix-like な) OS のタイムゾーン設定といえば、一昔前は環境変数 `TZ` でした。 [^env-tz-now] そもそも tzdb 自体、環境変数 `TZ` の裏方でもある `zoneinfo` の「元データ」としてメンテナンスされたものです。
+
+[^env-tz-now]: いまでも完全に違うというわけではありませんが。
+
+ここで「環境変数 `TZ` の設定が実際の動作にどのように反映されるのか」とかの解説を始めると長文記事がもう一本できてしまうので、本記事ではそこは割愛します。 [^unix-chapter] しかしこの「教養編」でも、環境変数 `TZ` の書式については軽く触れておいたほうがよさそうなので、おまけとして追記することにしました。
+
+[^unix-chapter]: ぜひどなたか「Unix(-like) 編」を書いて、歴史なども含めてじっくり解説してください。
+
+UTC+9? JST-9?
+--------------
+
+日本時間は UTC から 9時間先行していますが、これを一般に `UTC+9` や `UTC+09:00` などと表記するのは前述したとおりです。一方、環境変数 `TZ` に `JST-9` などと設定したことがある方は多いのではないでしょうか。 `+` と `-` で符号が逆転していて混乱しますね。
+
+この `TZ` の設定フォーマットはいわゆる歴史的事情 [^unix-chapter] というやつですが、過去の経緯はともあれ現在 [POSIX](https://ja.wikipedia.org/wiki/POSIX) の一部として明記 [^posix-v1-chapter-8-1] されています。さらに glibc のマニュアルにも解説 [^glibc-21-5-6] があります。
+
+[^posix-v1-chapter-8-1]: [8. Environment Variables, The Open Group Base Specifications Issue 7, 2018 edition.](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html)
+
+[^glibc-21-5-6]: [21.5.6 Specifying the Time Zone with TZ, The GNU C Library](https://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html#TZ-Variable)
+
+そこから `TZ` の一般化フォーマットを以下に引用します。 (空白文字は筆者によるわかりやすさのための追記)
+
+```
+std offset [dst [offset] [,start[/time],end[/time]]]
+```
+
+必須項目は `std offset` ですね。 `JST-9` の `JST` の部分が `std` にあたり、次の `-9` の部分が `offset` にあたります。 `JST` は忌まわしきタイムゾーン略称ですが、これは歴史の経緯でいかんともしがたいところです。そして `offset` は以下のように解説されています。
+
+> Indicates the value added to the local time to arrive at Coordinated Universal Time.
+
+直訳すると「現地時刻にその値を足すことで UTC になる値」ですね。日本時間は UTC より 9時間先行するので、ここで「負の値 `-9` を足すことで UTC になる」わけです。 `UTC+9` と `JST-9` で符号が逆転しているのは、定義からどうしようもない、という身も蓋もない結論でした。
+
+PST8PDT
+--------
+
+さらに `TZ` の一般化フォーマットを再掲します。
+
+```
+std offset [dst [offset] [,start[/time],end[/time]]]
+```
+
+`JST-9` のような単なる略称とオフセットの組み合わせだけかと思ったら、なんか長いですよね。書いても書かなくてもいい `[...]` の項目がいくつもあります。とりあえず、この `dst` と二つ目の `offset` はなんでしょうか。
+
+アメリカ合衆国のタイムゾーン略称で、単なる `PST` や `EDT` などではない `PST8PDT` や `EST5EDT` という表記を見たことがある人もいるかもしれません。この表記こそが `std offset [dst]` まで使った表記です。 `PST8PDT` は、「標準時は `PST` で `8` 時間足すと UTC になる。そして夏時間は `PDT` である」を意味する `TZ` 表記だったんですね。
+
+この書式はアメリカ合衆国以外のタイムゾーンでも有効で、たとえばイギリスで `GMT0BST` や、フランス・ドイツで `CET-1CEST` と書いたりもできるようです。日本に夏時間が導入されたら `JST-9JDT` とかになるんでしょうか。ただ、アメリカ合衆国の `PST8PDT`, `MST7MDT`, `CST6CDT`, `EST5EDT` だけは一部で特別扱いされていて、[対応する項目が tzdb 中に直接書いてあった](https://github.com/eggert/tz/blob/2021a/northamerica#L203-L206)りもします。
+
+```
+Zone    EST5EDT                  -5:00  US      E%sT
+Zone    CST6CDT                  -6:00  US      C%sT
+Zone    MST7MDT                  -7:00  US      M%sT
+Zone    PST8PDT                  -8:00  US      P%sT
+```
+
+二つ目の `offset` が省略されていると、デフォルトで「夏時間は標準時より 1時間先行する」と解釈されます。ほとんどの夏時間制はそうですね。たとえば、その希少な例外である Lord Howe 島では、どうやら `LHST-10:30LHDT-11` などと書いたりするようです。
+
+それ以降の `[,start[/time],end[/time]]]` 部を直接書く機会は、おそらくないでしょう。興味がある方は POSIX [^posix-v1-chapter-8-1] や glibc のマニュアル [^glibc-21-5-6] などを読んでみてください。
+
+TZ=Asia/Tokyo
+--------------
+
+さて、昔からやっている人からすると「環境変数 `TZ` に設定する値は `JST-9` だ」という気がしてしまうのですが、少なくとも現在では `TZ=Asia/Tokyo` などとして tzdb ID を直接 `TZ` に設定できるし、そうすることが多いようです。 [^tzdb-id-in-tz]
+
+[^tzdb-id-in-tz]: `TZ=Asia/Tokyo` って、実は昔からできたんでしょうか? 筆者が Unix-like な OS をさわり始めた 2000年前後には `TZ=JST-9` とするのが一般的だった気がしていて、いつごろを境に実装や慣習が変わっていったのか、実は筆者は把握できていません。情報をお持ちの方はぜひお寄せください。 (というか「Unix 編」を…)
+
+タイムゾーン略称は使わないほうがいいこと (前述) や、この表記自体にあまり普遍性がないこと [^tz-universality] を考えると、現在ではやはり `TZ` にも tzdb ID を使うのがよさそうですね。
+
+[^tz-universality]: たとえばカリフォルニア州だけ夏時間を廃止したら、カリフォルニア州でだけいちいち `TZ=PST8PDT` から `TZ=PST8` に変えなければなりません。 `TZ=America/Los_Angeles` としてあれば tzdb を更新するだけで済みます。
