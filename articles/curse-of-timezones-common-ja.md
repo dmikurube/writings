@@ -4,7 +4,7 @@ emoji: "🌍" # アイキャッチとして使われる絵文字（1文字だけ
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [ "datetime", "timezone", "tzdb" ]
 layout: default
-published: false
+published: true
 ---
 
 「タイムゾーン呪いの書」は、もともと 2018年に [Qiita に投稿した記事](https://qiita.com/dmikurube/items/15899ec9de643e91497c)でしたが、大幅な改訂を 2021年におこない、同時にこちらの [Zenn](https://zenn.dev/) に引っ越すことにしました。
