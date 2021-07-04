@@ -87,10 +87,11 @@ UTC: タイムゾーンの基準
 
 国際的な基準として初期に使われたのが「[グリニッジ標準時](https://ja.wikipedia.org/wiki/%E3%82%B0%E3%83%AA%E3%83%8B%E3%83%83%E3%82%B8%E6%A8%99%E6%BA%96%E6%99%82)」 ([GMT: Greenwich Mean Time](https://en.wikipedia.org/wiki/Greenwich_Mean_Time)) です。 [^greenwich-mean-time] GMT はロンドンのグリニッジから観測される太陽の位置にもとづく時刻であり、これは太陽に合わせる一般の人々の日常生活にも、つまり「常用時」としても、そのまま有用でした。しかし、別の見方をすると GMT は地球の自転と観測にもとづく時刻ともいえます。地球の自転周期は常に一定というわけではなく、わずかなふらつきがあります。物理的に厳密な「24時間」とは一致しません。 [^physical-24-hours]
 
-また、数種類の「[世界時](https://ja.wikipedia.org/wiki/%E4%B8%96%E7%95%8C%E6%99%82)」 ([UT: Universal Time](https://en.wikipedia.org/wiki/Universal_Time)) が GMT を継承して定義されましたが、これらもやはり地球の自転にもとづくもので、同じ問題がありました。
+また、数種類の「[世界時](https://ja.wikipedia.org/wiki/%E4%B8%96%E7%95%8C%E6%99%82)」 ([UT: Universal Time](https://en.wikipedia.org/wiki/Universal_Time)) [^universal-time] が GMT を継承して定義されましたが、これらもやはり地球の自転にもとづくもので、同じ問題がありました。
 
 [^greenwich-mean-time]: グリニッジ標準時は、前述の「鉄道時間」 [^history-of-standard-time] でもありました。
 [^physical-24-hours]: 物理的に厳密な 24時間ってなんだ、という相対論的なツッコミはおいておいてください。
+[^universal-time]: 世界時の種類には UT0, UT1, UT2 などがあります。 UT2 の用途は後述の UTC でほぼ置き換えられ、もう実質的に使われていないようですが。
 
 地球の自転によらずに、原子時計をもとに定めた時刻が「[国際原子時](https://ja.wikipedia.org/wiki/%E5%9B%BD%E9%9A%9B%E5%8E%9F%E5%AD%90%E6%99%82)」 ([TAI: Temps Atomique International](https://en.wikipedia.org/wiki/International_Atomic_Time)) です。こちらは物理的に厳密な一秒を刻みますが、そうすると地球の一周と TAI の一日の間に「ズレ」が生じます。
 
