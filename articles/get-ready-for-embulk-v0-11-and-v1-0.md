@@ -33,10 +33,10 @@ published: true
 plugins {
     id "java"
     id "maven-publish"
-    id "org.embulk.embulk-plugins" version "0.4.2"  // 2021/04/27 時点の最新が 0.4.2
+    id "org.embulk.embulk-plugins" version "0.4.2"  // 2021-07-15 時点の最新が 0.4.2
 }
 
-group = "your.maven.group"  // "io.github.your_github_username" など、ご自身の Maven groupId を設定してください ("org.embulk" 以外)
+group = "your.maven.group"  // "io.github.your-github-username" など、ご自身の Maven groupId を設定してください ("org.embulk" 以外)
 version = "X.Y.Z"
 
 dependencies {
@@ -50,7 +50,7 @@ dependencies {
     // そのため Gradle 7 ではなく 6 に留める必要があります。 (Gradle 7 をサポートする予定はあります)
 
     // "org.embulk:embulk-util-*" というライブラリがいくつかあります。 "embulk-core" に直接依存する代わりにそれらを使ってください。
-    compile "org.embulk:embulk-util-config:0.3.0"  // 2021/04/27 時点の最新が 0.3.0
+    compile "org.embulk:embulk-util-config:0.3.1"  // 2021-07-15 時点の最新が 0.3.1
 
     // ...
 
@@ -78,7 +78,7 @@ JRuby は Embulk v0.11 以降にビルトインではありません。 Embulk v
 ./gradlew wrapper --gradle-version=6.8.3
 ```
 
-(2021/04/27 時点の最新が 6.8.3)
+(2021-04-27 時点の最新が 6.8.3)
 
 前述の通り、まだ Gradle 7 には対応していません。
 
@@ -97,7 +97,7 @@ Maven Central にリリースするには Maven の `groupId` を設定する必
 * Maven's [Guide to naming conventions on groupId, artifactId, and version](http://maven.apache.org/guides/mini/guide-naming-conventions.html)
 * Java's [Unique Package Names](https://docs.oracle.com/javase/specs/jls/se6/html/packages.html#7.7)
 
-例えば GitHub ドメイン名を使って `io.github.your_github_username` などにする案があります。その場合は、リリースする前に [GitHub Pages を設定・公開](https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages) しておくことをおすすめします。
+例えば GitHub ドメイン名を使って `io.github.your-github-username` などにする案があります。その場合は、リリースする前に [GitHub Pages を設定・公開](https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages) しておくことをおすすめします。
 
 あなたのプラグインの `groupId` に `org.embulk` を使わないでください。 `org.embulk` は [https://github.com/embulk](https://github.com/embulk) 以下で管理しているプラグイン用に予約されています。
 
@@ -154,9 +154,9 @@ publishing {
                 }
 
                 scm {
-                    connection = "scm:git:git://github.com/your_github_username/your_repository.git"
-                    developerConnection = "scm:git:git@github.com:your_github_username/your_repository.git"
-                    url = "https://github.com/your_github_username/your_repository"
+                    connection = "scm:git:git://github.com/your-github-username/your_repository.git"
+                    developerConnection = "scm:git:git@github.com:your-github-username/your_repository.git"
+                    url = "https://github.com/your-github-username/your_repository"
                 }
             }
         }
@@ -213,7 +213,7 @@ Embulk v0.11 以降の `org.embulk:embulk-api` と `org.embulk:embulk-spi` は�
 これまでプラグインは config を処理するのに `org.embulk.config.ConfigSource#loadConfig` と `org.embulk.config.TaskSource#loadTask` を使ってきました. しかし、これらはもう非推奨になりました。外部ライブラリになった [`org.embulk:embulk-util-config`](https://dev.embulk.org/embulk-util-config/) を代わりに使ってください。
 
 ```
-compile "org.embulk:embulk-util-config:0.3.0"
+compile "org.embulk:embulk-util-config:0.3.1"
 ```
 
 使い方はそこまで複雑ではありません。まず `@Config`, `@ConfigDefault`, `Task` を `embulk-util-config` のものに置き換えてください。
