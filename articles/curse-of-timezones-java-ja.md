@@ -666,14 +666,16 @@ DateTimeFormatter に深入り
                 zoneStrings = TimeZoneNameUtility.getZoneStrings(locale);
 ```
 
-[`sun.util.locale.provider.TimeZoneNameUtility`](https://github.com/openjdk/jdk/blob/jdk8-b120/jdk/src/share/classes/sun/util/locale/provider/TimeZoneNameUtility.java) という内部クラスで Locale をもとにタイムゾーン名候補を出しているみたいですね。ここまで来たらもう少しだけ追ってみましょう、以下の Java コードで、この候補をむりやり読んでみます。
+[`sun.util.locale.provider.TimeZoneNameUtility`](https://github.com/openjdk/jdk/blob/jdk8-b120/jdk/src/share/classes/sun/util/locale/provider/TimeZoneNameUtility.java) という内部クラスで Locale をもとにタイムゾーン名の候補を出しているみたいですね。ここまで来たらもう少しだけ追ってみましょう。
+
+`TimeZoneNameUtility` を参考にすると、以下のような Java コードで、タイムゾーン名の候補をむりやり読めそうなことがわかります。
 
 ```java
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Locale;
 
-public final class TimeZoneNames throws Exception {
+public final class TimeZoneNamesInternal {
     public static void main(final String[] args) throws Exception {
         for (final String[] e : getZoneStrings()) {
             System.out.println(String.join(", ", Arrays.asList(e)));
@@ -683,13 +685,29 @@ public final class TimeZoneNames throws Exception {
     private static String[][] getZoneStrings() throws Exception {
         final Class<?> clazz = Class.forName("sun.util.locale.provider.TimeZoneNameUtility");
         final Method method = clazz.getMethod("getZoneStrings", Locale.class);
-        final Object zoneStringsObject = method.invoke(null, Locale.ENGLISH);
+        final Object zoneStringsObject = method.invoke(null, Locale.ROOT);
         return (String[][]) zoneStringsObject;
     }
 }
 ```
 
-これを実行してみると…。
+実際これでも読めるのですが、実は標準 API の [`java.text.DateFormatSymbols`](https://docs.oracle.com/javase/jp/8/docs/api/java/text/DateFormatSymbols.html) でも同等のことができます。
+
+```java
+import java.text.DateFormatSymbols;
+import java.util.Arrays;
+import java.util.Locale;
+
+public final class TimeZoneNamesStandard {
+    public static void main(final String[] args) throws Exception {
+        for (final String[] e : DateFormatSymbols.getInstance(Locale.ROOT).getZoneStrings()) {
+            System.out.println(String.join(", ", Arrays.asList(e)));
+        }
+    }
+}
+```
+
+どちらを実行しても、出力される内容は同じです。実行してみると…。
 
 ```
 America/Los_Angeles, Pacific Standard Time, PST, Pacific Daylight Time, PDT, Pacific Time, PT
@@ -702,11 +720,17 @@ Pacific/Honolulu, Hawaii Standard Time, HST, Hawaii Daylight Time, HDT, Hawaii T
 ... (snip) ...
 ```
 
-いますね。 `America/Denver` と `MST` が同じ行にいて、二つがひもづいている雰囲気がします。この結果からすると、犯人はハードコードされているのではなく Locale データの中にいそうです。
+`America/Denver` と `MST` が同じ行にあります。この [`DateFormatSymbols#getZoneStrings()` の Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/text/DateFormatSymbols.html#getZoneStrings--) を見ると、各行は左から順に「タイムゾーンID」「標準時刻のゾーンの長い名前」「標準時刻のゾーンの短い名前」「夏時間のゾーンの長い名前」「夏時間のゾーンの短い名前」であるようです。
 
-Locale データまで追うのはかなり大変そうなので、筆者はここで追うのをやめました。興味のある方はぜひさらに追いかけてみてください。 [^tell-me]
+そして [`DateTimeFormatterBuilder#appendZoneText`](https://github.com/openjdk/jdk/blob/jdk8-b120/jdk/src/share/classes/java/time/format/DateTimeFormatterBuilder.java#L3709-L3720) が、同じ行にある `MST` を `America/Denver` にひもづけています。つまり JSR 310 の `DateTimeFormatter` が `MST` を `America/Denver` にしてしまう理由は、もとをたどれば Locale データにあるようです。
 
-[^tell-me]: そしてぜひ筆者に教えてください。
+その Locale データのおおもとを探すと [`sun.util.resources.TimeZoneNames`](https://github.com/openjdk/jdk/blob/jdk8-b120/jdk/src/share/classes/sun/util/resources/TimeZoneNames.java) という内部クラスでハードコードされています。 [^TimeZoneNames-jdk-17]
+
+[^TimeZoneNames-jdk-17]: [OpenJDK 17 でも同様](https://github.com/openjdk/jdk/blob/jdk-17+31/src/java.base/share/classes/sun/util/resources/TimeZoneNames.java) です。
+
+せっかく JSR 310 で古いしがらみを捨てられたんだから、ここからも脱却しておけばよかったのに、という気はしますが、まあなにか理由があったんでしょうか。 [^tell-me]
+
+[^tell-me]: ご存知のかたは、ぜひ教えてください。
 
 DateTimeFormatter 対策
 -----------------------
