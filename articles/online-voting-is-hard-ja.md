@@ -2,7 +2,7 @@
 title: "オンライン投票はなぜ『難しい』のか"
 emoji: "🗳️" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "idea" # tech: 技術記事 / idea: アイデア
-topics: [ "ballot", "poll", "voting", "投票", "選挙" ]
+topics: [ "ballot", "poll", "vote", "投票", "選挙" ]
 layout: default
 published: false
 ---
