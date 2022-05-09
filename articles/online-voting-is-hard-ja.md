@@ -722,3 +722,37 @@ Q&A と題してはいますが、筆者はコメント等でいただいた質�
 このあたりは Shin'ichiro Matsuo 先生による解説 [^matsuo] に詳しいかと思います。
 
 また、投票所方式における「距離」に相当する、「投票の記載を見ないままに、投票のプロセスに不正がないことは監視・確認する」ための仕組みは、シンプルなブロックチェーンとは少し違いそうな気はしますね。とはいえ、この点は解決の余地がありそうですし、既に解決した問題かもしれません。 (筆者は不勉強にして存じませんが)
+
+その他の参考文献
+-----------------
+
+### 論文等
+
+* 岡田 大助: 「[選挙過程におけるICTの憲法上の限界と可能性](https://cir.nii.ac.jp/crid/1050288547187338496)」 (2013年 3月 1日、千葉大学教育学部研究紀要)
+  * [PDF](https://opac.ll.chiba-u.jp/da/curator/900116867/13482084_61_373.pdf)
+* 湯淺 墾道: 「[エストニアの電子投票](https://cir.nii.ac.jp/crid/1050282676651905920)」 (2009年、九州国際大学 社会文化研究所紀要)
+  * [PDF](http://home.att.ne.jp/omega/yuasa/documents/e-voting%20in%20estonia.pdf)
+* 湯淺 墾道: 「[インターネット投票の実現に向けた検討状況について (PDF)](https://www.j-lis.go.jp/spd/fair/event/fair2018/img/j-lis_seminar01.pdf)」 (2018年、地方自治情報化推進フェア2018 J-LISセミナー)
+* 中井 遼: 「[エストニアにおけるインターネット投票導入に係る法改正の議事・投票記録](https://cir.nii.ac.jp/crid/1050564288372693248)」 (2018年、北九州市立大学法政論集)
+  * [PDF](https://www.kitakyu-u.ac.jp/law/kenkyu/pdf/46-1_2nakai2.pdf)
+
+### 行政資料等
+
+* 「[現行の投開票の仕組み・投票しにくい状況にある選挙人の投票環境向上・選挙における選挙人等の負担軽減、管理執行の合理化 (PDF)](https://www.soumu.go.jp/main_content/000524047.pdf)」 (時期不明、総務省資料)
+  * [2019年の記事](https://www.soumu.go.jp/senkyo/senkyo_s/news/touhyou/kijitsumae/kijitsumae01.html)からリンクがあるので、遅くとも2019年にはあった資料と思われる)
+
+### オンライン記事
+
+* 宮澤 暁: 『「秘密投票」はなぜ必要なのか。選挙の公平性と「抜け穴」』 (2021年 2月 24日、ハーバー・ビジネス・オンライン)
+  * [`https://hbol.jp/239755`](https://hbol.jp/239755) で掲載されていましたが、ハーバー・ビジネス・オンラインの配信停止にともなって (?) [`https://hbol.jp/`] に接続できなくなっているようです。
+  * [Internet Archive によるアーカイブ](https://web.archive.org/web/20210226230314/https://hbol.jp/239755)
+* 「[エストニアのインターネット投票について（勉強会の開催を検討中です）](https://www.jeeadis.jp/jeeadis-blog/6345028)」 (2019年 6月 2日、一般社団法人 日本・エストニアＥＵデジタルソサエティ推進協議会)
+* 「[ネット投票 なぜできない](https://www.nhk.or.jp/politics/articles/feature/4975.html)」 (2018年 5月 30日, NHK)
+* 「[ネット投票は実現するのか！？従来の選挙を一変するオンライン選挙の可能性](https://wisdom.nec.com/ja/technology/2019032701/index.html)」 (2019年 3月 27日, NEC)
+* Ashley Belanger: "[3 Questions: Ron Rivest on trusting electronic voting systems](http://news.mit.edu/2020/3-questions-ron-rivest-trusting-electronic-voting-systems-0226)" (February 26, 2020, MIT News)
+* Mike Orcutt: 「[民主主義を破壊したい？ インターネット投票でどうぞ](https://www.technologyreview.jp/s/5705/internet-voting-leaves-out-a-cornerstone-of-democracy-the-secret-ballot/)」 (2016年 8月 18日, MIT Technology Review)
+* シャーロット・ジー: [スイスの電子投票システムで「票のすり替え」ができる重大欠陥](https://www.technologyreview.jp/nl/a-major-flaw-has-been-found-in-switzerlands-online-voting-system/) (2019年 3月 13日, MIT Technology Review)
+* 大石 格: 「[買収の秘策は「白票送り」](https://www.nikkei.com/article/DGXMZO03581270U6A610C1000000/)」 (2016年 6月 15日、日本経済新聞)
+* 鈴木 亨: [インターネットが政治を変える日---暗号技術による電子投票の未来（前編）](https://xtech.nikkei.com/it/free/ITPro/OPINION/20000917/9/) (2000年 7月 4日、日経クロステック)
+* 鈴木 亨: [インターネットが政治を変える日---暗号技術による電子投票の未来（後編）](https://xtech.nikkei.com/it/free/ITPro/OPINION/20000917/8/) (2000年 7月 5日、日経クロステック)
+* "[Internet Voting in Estonia](https://www.ndi.org/e-voting-guide/examples/internet-voting-in-estonia)" (National Democratic Institute)
