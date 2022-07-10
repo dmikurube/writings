@@ -490,7 +490,7 @@ https://twitter.com/masanork/status/1279692884724215808
 
 「オンライン投票はなぜ『難しい』のか」と銘打っておきながら、ここまでずっと既存の投票方式の話ばかりしてきました。それは公職選挙の「秘密投票」という要件が、いかに重要で難しいものかを説明するためでしたが、ここからようやくオンライン投票の話題に入ります。
 
-オンライン投票・インターネット投票の話となると、さも日本が他国より遅れているかのように煽って話すタイプの人々が一部にいます。しかし 2022年 4月現在、国全体で、地方選挙でなく国政選挙に対して、オンライン投票を実施している国は、全世界でエストニアしかない、というのが現実のようです。 [^world-internet-voting-1] [^world-internet-voting-2] [^ndi-internet-voting]
+オンライン投票・インターネット投票の話となると、さも日本が他国より遅れているかのように煽って話すタイプの人々が一部にいます。しかし 2022年 4月現在、国全体で、全国民に対して、地方選挙でなく国政選挙でオンライン投票を実施している国は、全世界でエストニアしかない、というのが現実のようです。 [^world-internet-voting-1] [^world-internet-voting-2] [^ndi-internet-voting]
 
 [^world-internet-voting-1]: 水野 秀幸: 「[世界のインターネット投票（前編） ～オンライン選挙を進める国々の動向](https://www.icr.co.jp/newsletter/wtr381-20201228-mizuno.html)」 (2020年、株式会社 情報通信総合研究所)
 [^world-internet-voting-2]: 船津 宏輝: 「[世界のインターネット投票（後編） ～オンライン選挙を進める国々の動向](https://www.icr.co.jp/newsletter/wtr382-20210215-funatsu.html)」 (2021年、株式会社 情報通信総合研究所)
@@ -522,7 +522,7 @@ https://twitter.com/masanork/status/1279692884724215808
 エストニアの i-Voting
 ----------------------
 
-エストニアは 2022年 4月現在、国政選挙で全国的にオンライン投票を実施している唯一の国です。エストニアの公職選挙では "i-Voting" と呼ばれるオンライン (インターネット) 投票が 2005年から行われています。 [^estonia-i-voting] [^wikipedia-estonia] [^independent-report-on-e-voting-in-estonia] [^zdnet-estonia] [^tsumug-estonia]
+エストニアは 2022年 4月現在、国政選挙で全国的に全国民を対象にオンライン投票を実施している唯一の国です。エストニアの公職選挙では "i-Voting" と呼ばれるオンライン (インターネット) 投票が 2005年から行われています。 [^estonia-i-voting] [^wikipedia-estonia] [^independent-report-on-e-voting-in-estonia] [^zdnet-estonia] [^tsumug-estonia]
 
 [^estonia-i-voting]: "[i-Voting – the Future of Elections?](https://e-estonia.com/i-voting-the-future-of-elections/)" (March 6, 2019, e-Estonia)
 [^wikipedia-estonia]: [Wikipedia (en): Electronic voting in Estonia](https://en.wikipedia.org/wiki/Electronic_voting_in_Estonia)
