@@ -203,8 +203,8 @@ https://wakate.org/about/
 
 https://medium.com/@dmikurube/%E5%8C%97%E3%81%AE%E5%9B%BD%E3%81%8B%E3%82%89-2022-%E5%A4%8F-4a7b46c0d5da
 
-興味を持った方は
-=================
+プロシンに興味を持った方は
+===========================
 
 「少し興味は湧いたけど、いきなり飛び込むのはちょっと…」「まだよくわからないし、もう少し話を聞きたい」という方、いきなり筆者 ([Twitter: @dmikurube](https://twitter.com/dmikurube) / [GitHub: @dmikurube](https://github.com/dmikurube)) までご連絡いただいても大丈夫です。 (Twitter の DM は閉じているので Twitter の場合はとりあえず一度メンションをください。)
 
