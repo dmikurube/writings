@@ -206,7 +206,9 @@ https://medium.com/@dmikurube/%E5%8C%97%E3%81%AE%E5%9B%BD%E3%81%8B%E3%82%89-2022
 プロシンに興味を持った方は
 ===========================
 
-「少し興味は湧いたけど、いきなり飛び込むのはちょっと…」「まだよくわからないし、もう少し話を聞きたい」という方、いきなり筆者 ([Twitter: @dmikurube](https://twitter.com/dmikurube) / [GitHub: @dmikurube](https://github.com/dmikurube)) までご連絡いただいても大丈夫です。 (Twitter の DM は閉じているので Twitter の場合はとりあえず一度メンションをください。)
+「少し興味は湧いたけど、いきなり飛び込むのはちょっと…」「まだよくわからないし、もう少し話を聞きたい」という方、いきなり筆者 ([Twitter: @dmikurube](https://twitter.com/dmikurube) / [GitHub: @dmikurube](https://github.com/dmikurube)) までご連絡いただいても大丈夫です。 (Twitter の DM は閉じているので、もし Twitter の場合は、このあたりのツイートにでも一度メンションをください。)
+
+https://twitter.com/dmikurube/status/1577125112247033859
 
 また、オンライン開催の副産物と言いますか、過去 2 回、オンラインでの参加費はかなり抑えられています。 [^fee] まだ COVID-19 の心配もありますし、とりあえずオンラインで覗いてみようかな、オンラインで発表してみようかな、という方にも、ちょうどいい機会かもしれません。
 
