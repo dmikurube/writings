@@ -44,7 +44,10 @@ https://prosym.org/articles/2022/09/29/beginning.html
 
 2020 年の第 61 回 [^61st] に来ていたただいた山本ゆうかさんによるこちらの漫画が、場の「そのまんま」の雰囲気をとてもよく伝えてくれています。実際こんなノリです。 [^photos]
 
-https://www.ipsj.or.jp/magazine/ittravelogmanga/06.html
+![その6「難しくて理解不能！？　第61回プログラミング・シンポジウムに行ってみた！」（Vol.61 No.3） p.1](/images/ipsj_ittravelogmanga_06_page01.jpg)
+![その6「難しくて理解不能！？　第61回プログラミング・シンポジウムに行ってみた！」（Vol.61 No.3） p.2](/images/ipsj_ittravelogmanga_06_page02.jpg)
+
+([情報処理学会「情報処理」連載漫画「IT紀行」その6「難しくて理解不能！？　第61回プログラミング・シンポジウムに行ってみた！」（Vol.61 No.3）](https://www.ipsj.or.jp/magazine/ittravelogmanga/06.html) より許可を得て出典。漫画：山本ゆうか様)
 
 [^61st]: 第 61 回: COVID-19 前の最後の現地会場開催のプロシンでした。
 [^photos]: 出せる写真がないのが残念ですが、今後は、会の様子をもっと外に発信するようにしていきたいですね。
