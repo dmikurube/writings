@@ -32,7 +32,7 @@ EEP (Embulk Enhancement Proposal)
 
 プロセスは現時点でもなるべく簡略化したつもりですが、ゆるめられるところは今後もゆるめていきたいですね。
 
-ところで、なんかどこかで聞いたような名前だな、とお思いの方、正解です。 EEP は Python の [PEP](https://peps.python.org/pep-0001/) を大きく参考にして…、というか、かなりの部分を拝借しつつ簡略化して最初のバージョンとしました。 [^pep-cc0]
+ところで、なんかどこかで聞いたような名前だな、とお思いの方、正解です。 EEP は Python の [PEP](https://peps.python.org/pep-0001/) を大きく参考にして…、というか多くの部分を拝借しつつ簡略化して、最初のバージョンとしました。 [^pep-cc0]
 
 [^pep-cc0]: PEP 自体は "placed in the public domain or under [the CC0-1.0-Universal license](https://creativecommons.org/publicdomain/zero/1.0/deed.en), whichever is more permissive" ということだったので、ありがたくベースにさせてもらいました。 EEP 自体も CC0 にしています。
 
