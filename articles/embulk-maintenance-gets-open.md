@@ -81,7 +81,7 @@ CLA (Contributor License Agreement)
 * [@giwa](https://github.com/giwa)
   * embulk-output-bigquery(_java) などのメンテナとして
 * [@kekekenta](https://github.com/kekekenta)
-  * Embulk を使っていてプラグインも多くメンテナンスしている [trocco](https://trocco.io/) から
+  * 内部で Embulk を使っていて、多くのプラグインもメンテナンスしている [trocco](https://trocco.io/) から
 
 (Treasure Data からも、もう 1〜2 人くらい入るかもしれません)
 
