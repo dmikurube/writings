@@ -68,7 +68,8 @@ CLA (Contributor License Agreement)
 =============================
 
 * [@dmikurube](https://github.com/dmikurube)
-  * 筆者 @ Treasure Data
+  * 筆者
+  * ここ数年のメンテナとして
 * [@hiroyuki-sato](https://github.com/hiroyuki-sato)
   * embulk-parser-jsonpath などのメンテナとして
   * Twitter などで積極的にユーザーの声を聞いている key user representative として
