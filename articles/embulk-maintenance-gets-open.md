@@ -7,7 +7,7 @@ layout: default
 published: false
 ---
 
-ここ何年か、オープンソースのプラグイン型データ・ローダー [Embulk](https://www.embulk.org/) 本体 (`embulk-core`) のメンテナンスをやっている [@dmikurube](https://github.com/dmikurube) です。
+ここ何年か、オープンソースのプラグイン型データ・ローダー [Embulk](https://www.embulk.org/) のメンテナンスをやっている [@dmikurube](https://github.com/dmikurube) です。
 
 Embulk はオープンソースですが、本体のメンテナンスは Treasure Data でおこなっている、いわゆる「企業発オープンソース」でした。ライセンスは [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) で、その意味でちゃんと「オープンソース」ですが、メンテナンス体制や意思決定は実質的に Treasure Data が一手に握っていました。 [^pull-requests]
 
