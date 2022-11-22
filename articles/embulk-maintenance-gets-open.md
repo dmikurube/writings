@@ -7,28 +7,28 @@ layout: default
 published: false
 ---
 
-ここ何年か、オープンソースのプラグイン型データ・ローダー [Embulk](https://www.embulk.org/) のメンテナンスをやっている [@dmikurube](https://github.com/dmikurube) です。
+オープンソースのプラグイン型データ・ローダー [Embulk](https://www.embulk.org/) のメンテナンスをここ何年かやっている [@dmikurube](https://github.com/dmikurube) です。
 
-Embulk はオープンソースですが、本体のメンテナンスは Treasure Data でおこなっている、いわゆる「企業発オープンソース」でした。ライセンスは [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) で、その意味でちゃんと「オープンソース」ですが、メンテナンス体制や意思決定は実質的に Treasure Data が一手に握っていました。 [^pull-requests]
+Embulk はオープンソースですが、本体のメンテナンスは Treasure Data でおこなっている、いわゆる「企業発オープンソース」でした。ライセンスは [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) で、その意味でちゃんと「[オープンソース](https://opensource.org/osd)」ですが、メンテナンス体制や意思決定は実質的に Treasure Data で握っていました。 [^pull-requests]
 
 [^pull-requests]: GitHub からの Pull Requests を受け付けていないわけではなかったのですが。
 
-この Embulk のメンテナンス体制を、よりオープンにしていくことになりました。まだ準備を進めている段階ですが、本記事は、その概要のご紹介です。
+この Embulk のメンテナンス体制を、このたび、よりオープンにしていくことになりました。まだ準備を進めている段階ですが、本記事は、その概要のご紹介です。
 
 オープンって、具体的には?
 ==========================
 
 大きくは次の 2 点です。
 
-1. 特にプラグイン互換性に影響があるような大きな変更の意思決定プロセスの整備
-2. Embulk の意思決定にかかわる人を Treasure Data の外からも正式に加入
+1. 特にプラグイン互換性に影響があるような大きな変更の意思決定プロセスを整備する
+2. Treasure Data の外からも Embulk の意思決定に参加してもらう
 
 EEP (Embulk Enhancement Proposal)
 ----------------------------------
 
 まず、大きな変更を入れるための意思決定プロセスを整備しました。具体的には、変更の提案に必要な [EEP (Embulk Enhancement Proposal)](https://github.com/embulk/embulk/blob/master/docs/eeps/eep-0001.md) というドキュメントの書き方と、そのレビューのプロセスの定義です。
 
-ドキュメントとかレビューとかプロセスとか、かたっくるしいなー、と思われる方もいらっしゃるかもしれません。とはいえ Embulk はそれ単体では成立しない、いろいろなプラグインありきの「エコシステム」です。そのため、特にプラグイン互換性については慎重な判断が必要になります。その最低限必要な線を固めておこう、というのが EEP の趣旨です。
+ドキュメントとかレビューとかプロセスとか、かたっくるしいなー、と思われる方もいらっしゃるかもしれません。とはいえ Embulk はそれ単体では成立しない、いろいろなプラグインありきの「エコシステム」です。特にプラグイン互換性については、慎重な判断が必要になります。その判断のために最低限必要な線を固めておこう、というのが EEP の趣旨です。
 
 プロセスは現時点でもなるべく簡略化したつもりですが、ゆるめられるところは今後もゆるめていきたいですね。
 
@@ -49,7 +49,7 @@ Embulk core team
 2. key plugin developers
 3. key user representatives
 
-直接の committer でなくとも core team として入っているのは、上記のようにプラグイン互換性が重要になるためです。プラグイン開発者の視点から、「この変更は入れても本当に大丈夫?」とチェックを入れてもらうことを主眼としています。
+直接コミット権を持つ core committer でなくとも core team として入っているのは、上記のようにプラグイン互換性が重要になるためです。プラグイン開発者の視点から、「この変更は入れても本当に大丈夫?」とチェックを入れてもらうことを主眼としています。
 
 また、上記 2 や 3 の立場から committer になってもらうことも、もちろん視野に入っています。いま Embulk の本体は割とごちゃごちゃでして、いまの状態から「『committer になってよ!』といきなり言われても困る…」という声もあったため、段階を踏む意味も込めて、このようにしました。
 
@@ -68,7 +68,7 @@ CLA (Contributor License Agreement)
 =============================
 
 * [@dmikurube](https://github.com/dmikurube)
-  * 筆者
+  * 本記事の筆者
   * ここ数年のメンテナとして
 * [@hiroyuki-sato](https://github.com/hiroyuki-sato)
   * embulk-parser-jsonpath などのメンテナとして
@@ -84,7 +84,7 @@ CLA (Contributor License Agreement)
 * [@kekekenta](https://github.com/kekekenta)
   * 内部で Embulk を使っていて、多くのプラグインもメンテナンスしている [trocco](https://trocco.io/) から
 
-(Treasure Data からも、もう 1〜2 人くらい入るかもしれません)
+(Treasure Data からも、もう 1 〜 2 人くらい入るかもしれません)
 
 どうして「オープン」に?
 ========================
