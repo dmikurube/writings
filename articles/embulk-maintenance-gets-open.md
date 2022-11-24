@@ -67,6 +67,8 @@ CLA (Contributor License Agreement)
 最初の core team メンバーは?
 =============================
 
+承諾していただいた順で掲載しています。
+
 * [@dmikurube](https://github.com/dmikurube)
   * 本記事の筆者 / Treasure Data から
   * ここ数年のメンテナとして
