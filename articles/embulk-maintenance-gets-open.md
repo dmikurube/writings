@@ -81,11 +81,11 @@ CLA (Contributor License Agreement)
   * embulk-input/output-cassandra, embulk-input/output-kafka, embulk-parser-avro などのメンテナとして
 * [@giwa](https://github.com/giwa)
   * embulk-output-bigquery(_java) などのメンテナとして
-  * Embulk を使ったサービスを提供し、多くのプラグインのメンテナンスもしている [trocco](https://trocco.io/) から
+  * Embulk を使ったサービスを提供し、プラグインも多くメンテナンスする [trocco](https://trocco.io/) から
 * [@kekekenta](https://github.com/kekekenta)
-  * Embulk を使ったサービスを提供し、多くのプラグインのメンテナンスもしている [trocco](https://trocco.io/) から
+  * Embulk を使ったサービスを提供し、プラグインも多くメンテナンスする [trocco](https://trocco.io/) から
 * [@d-hrs](https://github.com/d-hrs)
-  * Embulk を使ったサービスを提供し、多くのプラグインのメンテナンスもしている [trocco](https://trocco.io/) から
+  * Embulk を使ったサービスを提供し、プラグインも多くメンテナンスする [trocco](https://trocco.io/) から
 
 (Treasure Data からも、もう 1 〜 2 人くらい入るかもしれません)
 
