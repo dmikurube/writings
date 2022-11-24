@@ -4,7 +4,7 @@ emoji: "🛫️" # アイキャッチとして使われる絵文字（1文字だ
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: [ "embulk", "OSS" ]
 layout: default
-published: false
+published: true
 ---
 
 オープンソースのプラグイン型データ・ローダー [Embulk](https://www.embulk.org/) のメンテナをここ何年かやっている [@dmikurube](https://github.com/dmikurube) です。
