@@ -7,9 +7,9 @@ layout: default
 published: false
 ---
 
-オープンソースのプラグイン型データ・ローダー [Embulk](https://www.embulk.org/) のメンテナンスをここ何年かやっている [@dmikurube](https://github.com/dmikurube) です。
+オープンソースのプラグイン型データ・ローダー [Embulk](https://www.embulk.org/) のメンテナをここ何年かやっている [@dmikurube](https://github.com/dmikurube) です。
 
-Embulk はオープンソースですが、本体のメンテナンスは Treasure Data でおこなっている、いわゆる「企業発オープンソース」でした。ライセンスは [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) で、その意味でちゃんと「[オープンソース](https://opensource.org/osd)」ですが、メンテナンス体制や意思決定は実質的に Treasure Data で握っていました。 [^pull-requests]
+Embulk はオープンソースですが、本体 (core) のメンテナンスは Treasure Data でおこなっている、いわゆる「企業発オープンソース」でした。ライセンスは [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) で、その意味でちゃんと「[オープンソース](https://opensource.org/osd)」ですが、メンテナンス体制や意思決定は実質的に Treasure Data で握っていました。 [^pull-requests]
 
 [^pull-requests]: GitHub からの Pull Requests を受け付けていないわけではなかったのですが。
 
@@ -28,7 +28,7 @@ EEP (Embulk Enhancement Proposal)
 
 まず、大きな変更を入れるための意思決定プロセスを整備しました。具体的には、変更の提案に必要な [EEP (Embulk Enhancement Proposal)](https://github.com/embulk/embulk/blob/master/docs/eeps/eep-0001.md) というドキュメントの書き方と、そのレビューのプロセスの定義です。
 
-ドキュメントとかレビューとかプロセスとか、かたっくるしいなー、と思われる方もいらっしゃるかもしれません。とはいえ Embulk はそれ単体では成立しない、いろいろなプラグインありきの「エコシステム」です。特にプラグイン互換性については、慎重な判断が必要になります。その判断のために最低限必要な線を固めておこう、というのが EEP の趣旨です。
+ドキュメントとかレビューとかプロセスとか、かたっくるしいなー、と思われる方もいらっしゃるかもしれません。とはいえ Embulk はそれ単体では成立しない、いろいろなプラグインありきの「エコシステム」です。プラグインは Treasure Data だけがメンテナンスしてきたわけではなく、多くのオープンソース開発者のプラグインに支えられてきました。そのため、特にプラグイン互換性については慎重な判断が必要になります。その判断のために最低限必要な線を固めておこう、というのが EEP の趣旨です。
 
 プロセスは現時点でもなるべく簡略化したつもりですが、ゆるめられるところは今後もゆるめていきたいですね。
 
@@ -82,7 +82,9 @@ CLA (Contributor License Agreement)
 * [@giwa](https://github.com/giwa)
   * embulk-output-bigquery(_java) などのメンテナとして
 * [@kekekenta](https://github.com/kekekenta)
-  * 内部で Embulk を使っていて、多くのプラグインもメンテナンスしている [trocco](https://trocco.io/) から
+  * Embulk を使ったサービスを提供し、多くのプラグインのメンテナンスもしている [trocco](https://trocco.io/) から
+* [@d-hrs](https://github.com/d-hrs)
+  * Embulk を使ったサービスを提供し、多くのプラグインのメンテナンスもしている [trocco](https://trocco.io/) から
 
 (Treasure Data からも、もう 1 〜 2 人くらい入るかもしれません)
 
