@@ -68,7 +68,7 @@ CLA (Contributor License Agreement)
 =============================
 
 * [@dmikurube](https://github.com/dmikurube)
-  * 本記事の筆者
+  * 本記事の筆者 / Treasure Data から
   * ここ数年のメンテナとして
 * [@hiroyuki-sato](https://github.com/hiroyuki-sato)
   * embulk-parser-jsonpath などのメンテナとして
@@ -81,6 +81,7 @@ CLA (Contributor License Agreement)
   * embulk-input/output-cassandra, embulk-input/output-kafka, embulk-parser-avro などのメンテナとして
 * [@giwa](https://github.com/giwa)
   * embulk-output-bigquery(_java) などのメンテナとして
+  * Embulk を使ったサービスを提供し、多くのプラグインのメンテナンスもしている [trocco](https://trocco.io/) から
 * [@kekekenta](https://github.com/kekekenta)
   * Embulk を使ったサービスを提供し、多くのプラグインのメンテナンスもしている [trocco](https://trocco.io/) から
 * [@d-hrs](https://github.com/d-hrs)
