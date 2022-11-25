@@ -76,7 +76,7 @@ CLA (Contributor License Agreement)
   * embulk-parser-jsonpath などのメンテナとして
   * Twitter などで積極的にユーザーの声を聞いている key user representative として
 * [@civitaspo](https://github.com/civitaspo)
-  * embulk-input/output-hdfs, embulk-filter-column, embulk-output-sftp などのメンテナとして
+  * embulk-input/output-hdfs, embulk-filter-copy, embulk-output-sftp などのメンテナとして
 * [@hito4t](https://github.com/hito4t)
   * JDBC プラグイン群のメンテナとして
 * [@joker1007](https://github.com/joker1007)
