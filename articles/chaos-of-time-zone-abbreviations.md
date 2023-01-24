@@ -1,6 +1,6 @@
 ---
 title: "タイムゾーン略称の闇"
-emoji: "🌏" # アイキャッチとして使われる絵文字（1文字だけ）
+emoji: "🌐" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [ "timezone" ]
 layout: default
