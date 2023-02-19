@@ -7,6 +7,14 @@ layout: default
 published: true
 ---
 
+* TODO:
+    * うるう秒におけるシステムクロックの挙動
+    * ISO 8601に言及
+    * データベース上でのタイムスタンプ逆進に触れていただけると、エンジニア的には身近な問題に感じる気がします。 https://www.ashisuto.co.
+jp/db_blog/article/20161111_leap_second_postgres.html
+
+----
+
 「タイムゾーン呪いの書」は、もともと 2018年に [Qiita に投稿した記事](https://qiita.com/dmikurube/items/15899ec9de643e91497c)でしたが、大幅な改訂を 2021年におこない、同時にこちらの [Zenn](https://zenn.dev/) に引っ越すことにしました。
 
 この改訂では [Software Design 誌の 2018年 12月号](https://gihyo.jp/magazine/SD/archive/2018/201812)に特集の一章として寄稿した内容も取り込みつつ、夏時間をめぐって各地で起きつつある変化について 2021年 6月現在の状況なども追加しました。そんな追記もしていたら記事全体が長大になってしまったため、この「知識編」と、[「実装編」](./curse-of-timezones-impl-ja)・[「Java 編」](./curse-of-timezones-java-ja)に記事を分けました。「知識編」は、導入にあたる第一部です。
