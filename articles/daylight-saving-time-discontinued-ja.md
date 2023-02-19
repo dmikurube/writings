@@ -1,6 +1,6 @@
 ---
 title: "夏時間制の終わり 〜 そのときなにが起こるのか"
-emoji: "🌞" # アイキャッチとして使われる絵文字（1文字だけ）
+emoji: "☀️" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [ "datetime", "time", "timezone", "dst" ]
 layout: default
