@@ -7,6 +7,10 @@ layout: default
 published: true
 ---
 
+:::message
+[本記事の英語版](https://www.embulk.org/articles/2023/03/10/embulk-maintenance-gets-open.html)を Embulk プロジェクトのサイトで公開しました。
+:::
+
 オープンソースのプラグイン型データ・ローダー [Embulk](https://www.embulk.org/) のメンテナをここ何年かやっている [@dmikurube](https://github.com/dmikurube) です。
 
 Embulk はオープンソースですが、本体 (core) のメンテナンスは Treasure Data でおこなっている、いわゆる「企業発オープンソース」でした。ライセンスは [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) で、その意味でちゃんと「[オープンソース](https://opensource.org/osd)」ですが、メンテナンス体制や意思決定は実質的に Treasure Data で握っていました。 [^pull-requests]
