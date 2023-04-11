@@ -21,7 +21,7 @@ published: false
 
 まず、本日時点で [Embulk v0.10.48](https://github.com/embulk/embulk/releases/tag/v0.10.48) がリリースされています。
 
-この v0.10.48 は v0.10 系の最終バージョンとすることを意図したリリースであり、そして v0.11.0 の実質的な Release Candidate でもあります。ここで問題が見つからなければ、この v0.10.48 と同じものが v0.11.0 としてリリースされます。
+この v0.10.48 は v0.10 系の最終バージョンとすることを意図したリリースであり、そして実質的な v0.11.0 の Release Candidate でもあります。ここで問題が見つからなければ v0.10.48 と同じものが v0.11.0 としてリリースされます。
 
 ですので、ぜひ v0.11.0 のリリース前に v0.10.48 を試してみてください。そして、もし問題が見つかったら [User forum](https://github.com/orgs/embulk/discussions/categories/user-forum) ([日本語版](https://github.com/orgs/embulk/discussions/categories/user-forum-ja)) などで報告をお願いします。大きな問題が見つからなければ v0.11.0 は 2023 年 6 月中にリリースする予定です。
 
