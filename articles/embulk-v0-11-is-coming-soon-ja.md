@@ -79,7 +79,7 @@ Embulk v0.10.48 や v0.11.0 の時点で正式に対応している Java のバ�
 
 ## JRuby
 
-Embulk v0.10.48 や v0.11.0 には JRuby が含まれません。 Ruby の gem 形式の Embulk プラグインを使う場合 (おそらく現時点ではほとんどの場合) は、別途 JRuby の "Complete .jar" を [JRuby Downloads](https://www.jruby.org/download) からダウンロードして、それを実行時に指定する必要があります。 (指定には後述の Embulk System Properties を用います)
+Embulk v0.10.48 や v0.11.0 には JRuby が含まれません。 Ruby の gem 形式の Embulk プラグインを使う場合 (おそらく現時点ではほとんどの場合) は、別途 [JRuby をダウンロード](https://www.jruby.org/download) して、それを実行時に指定する必要があります。 (指定には後述の Embulk System Properties を用います)
 
 一見すると面倒になっているのですが、いままで Embulk 内蔵の JRuby のバージョンを上げられなかったのが、好きな JRuby のバージョンを (自己責任で) 使えるようになった、ととらえてください。複数の JRuby バージョンでテストしているわけではないので、動かないバージョンはあると思われますが、自由度はかなり向上したはずです。
 
