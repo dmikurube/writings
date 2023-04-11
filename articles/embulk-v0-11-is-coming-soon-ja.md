@@ -37,9 +37,27 @@ v0.10.48 == v0.11.0 で動かなくなるプラグインは、上記のとおり
 
 (Embulk の [User forum](https://github.com/orgs/embulk/discussions/categories/user-forum) ([日本語版](https://github.com/orgs/embulk/discussions/categories/user-forum-ja)) などに報告をいただいてもかまいませんが、対応版がリリースされるかどうかは、最終的には各プラグインの開発者次第になります。)
 
+## ダウンロード
+
+いままでの Embulk では `selfupdate` というコマンドで Embulk 自体を更新できていましたが、この `selfupdate` コマンドは廃止になります。 `selfupdate` 単体で最新バージョンに更新するコマンドは、もう無効になっています。 `selfupdate X.Y.Z` という書式で指定のバージョンに更新するコマンドはまだ有効ですが、こちらもいずれ廃止されます。
+
+ダウンロード先としては、以下から合うものを選択してください。
+
+* [GitHub Releases](https://github.com/embulk/embulk/releases) からバージョンを確認してダウンロードする。
+    * そのバージョンの変更点を確認できます。
+    * 手動でダウンロードする場合はこちらが適切でしょう。
+* `https://dl.embulk.org/embulk-X.Y.Z.jar` というバージョン固定の形式の URL からダウンロードする。
+    * 自動でダウンロードする場合は、こちらの方がいい場合があるかもしれません。
+    * 上の GitHub Releases のファイルへのリダイレクトです。
+    * 例: https://dl.embulk.org/embulk-0.10.48.jar
+* `https://dl.embulk.org/embulk-latest.jar` から最新バージョンをダウンロードする。
+    * 上の `https://dl.embulk.org/embulk-X.Y.Z.jar` へのリダイレクトです。
+    * v0.10 系は開発版のため、この URL はまだ v0.9.24 を指しています。
+    * v0.11.0 のリリース後、しばらくしてからこの URL を更新します。
+
 ## コマンドラインの変更
 
-いままでと同様に v0.10.48 を起動すると、まず次のようなメッセージを目にすることになります。
+ダウンロードした `embulk-X.Y.Z.jar` のファイル名を `embulk` に変更して、いままでと同様に起動すると、まず次のようなメッセージを目にすることになります。
 
 これは `$ embulk run ...` のようなコマンドでは近いうちに Embulk を起動できなくなりますよ、という警告です。
 
@@ -77,15 +95,35 @@ Embulk v0.10.48 や v0.11.0 の時点で正式に対応している Java のバ�
 
 [^javax-xml]: 典型的なのは、標準 API から削除された `javax.xml.*` のクラスを使っているケースです。プラグインが依存しているライブラリが `javax.xml.*` を呼んでいる場合もあるので、ひと目では判断できないことも多いですが…。
 
+## Embulk System Properties
+
+Embulk のグローバルな設定をおこなう Embulk System Properties という仕組みが入りました。 `embulk.properties` という Java properties 形式のファイルで設定でき、さらにコマンドラインオプション `-Xkey=value` で上書きすることもできます。
+
+`embulk.properties` の置き場所にはいくつかのパターンが使えますが、ひとまず v0.10.48 や v0.11 への移行に際しては `~/.embulk/` 以下に `~/.embulk/embulk.properties` として置くところから始めるのが簡単でしょう。 `~/.embulk/` は v0.9 まででもプラグインのインストール先だったディレクトリです。
+
 ## JRuby
 
-Embulk v0.10.48 や v0.11.0 には JRuby が含まれません。 Ruby の gem 形式の Embulk プラグインを使う場合 (おそらく現時点ではほとんどの場合) は、別途 [JRuby をダウンロード](https://www.jruby.org/download)して、それを実行時に指定する必要があります。 (指定には後述の Embulk System Properties を用います)
+Embulk v0.10.48 や v0.11.0 には JRuby が含まれません。 Ruby の gem 形式の Embulk プラグインを使う場合 (おそらく現時点ではほとんどの場合) は、別途 [JRuby をダウンロード](https://www.jruby.org/download)してきて、それを使うように Embulk System Properties を設定する必要があります。 (具体例は後述)
 
 一見すると面倒になっているのですが、いままで Embulk 内蔵の JRuby のバージョンを上げられなかったのが、好きな JRuby のバージョンを (自己責任で) 使えるようになった、ととらえてください。複数の JRuby バージョンでテストしているわけではないので、動かないバージョンはあると思われますが、自由度はかなり向上したはずです。
 
 ただし Embulk の (J)Ruby サポートは徐々に縮小していく計画です。 [^jruby-contributors] 今後は JRuby を必要としない Maven 形式の Embulk プラグインをより使いやすくして v0.11 以降のプラグインの主体としていきます。
 
 [^jruby-contributors]: 「それは困る! 引き続き JRuby を第一線でサポートしてほしい!」というかたは、ぜひ Embulk 本体のメンテナンスにご参加ください :)
+
+### JRuby の設定例
+
+かなり古いのですが、いままでと同じ JRuby 9.1.15.0 をセットアップしてみましょう。
+
+まず JRuby 9.1.15.0 の `jruby-complete-9.1.15.0.jar` を [JRuby Files/downloads/9.1.15.0](https://www.jruby.org/files/downloads/9.1.15.0/index.html) からダウンロードして、適当なディレクトリに配置してください。
+
+その `jruby-complete-9.1.15.0.jar` の場所を、以下のように `file:` 形式の URL で `embulk.properties` に指定します。 (`/home/user/` は適切に置き換えてください)
+
+```properties:~/.embulk/embulk.properties
+jruby=file:///home/user/jruby-complete-9.1.15.0.jar
+```
+
+これが Embulk v0.10.48 や v0.11 で Ruby gem 形式のプラグインを使うための最初の設定です。
 
 ### `embulk.gem`
 
@@ -115,17 +153,8 @@ $ java -jar embulk-0.10.48.jar gem install liquid -v 4.0.0
 
 ただしこちらも、あまりテストしていません。いままでと同じ Bundler 1.16.0 と Liquid 4.0.0 はいまのところ同様に動いていますし、新しいバージョンもおそらく動くと思われますが、新しいバージョンは自己責任でお試しください。 (フィードバックはお待ちしています)
 
-## Embulk System Properties
 
-Embulk のグローバルな設定をおこなう Embulk System Properties という仕組みが入りました。 `embulk.properties` という Java properties 形式のファイルで設定できます。コマンドラインオプション `-Xkey=value` で上書きすることもできます。
 
-読み込む `embulk.properties` の置き場所にはいくつかのパターンが使えますが、ひとまず v0.10.48 や v0.11 への移行に際しては `~/.embulk/` 以下に `~/.embulk/embulk.properties` として置くのが簡単でしょう。 v0.9 までも、プラグインのインストール先だったディレクトリです。
-
-ひとまず、ほとんどの場合で必要になる JRuby の設定は以下のようになります。まずはいままでと同じ JRuby 9.1.15.0 の `jruby-complete-9.1.15.0.jar` を [JRuby Files/downloads/9.1.15.0](https://www.jruby.org/files/downloads/9.1.15.0/index.html) からダウンロードしてきて、適当なディレクトリに配置してください。その `jruby-complete-9.1.15.0.jar` の場所を、以下のように `file:` 形式の URL で指定します。 (`/home/user/` は適切に置き換えてください)
-
-```properties:~/.embulk/embulk.properties
-jruby=file:///home/user/jruby-complete-9.1.15.0.jar
-```
 
 #### Embulk home
 
