@@ -153,3 +153,5 @@ Maven アーティファクトのための `m2_repo` も含め、これらは以
 2. `embulk.properties` ファイルから Embulk System Properties `m2_repo`, `gem_home`, `gem_path` を設定できます。これらを二番目の優先度で、絶対パスか、または Embulk home ディレクトリからの相対パスです。その後、これらの Embulk System Properties は絶対パスにリセットされます。
 3. 環境変数 `M2_REPO`, `GEM_HOME`, `GEM_PATH` が設定されていたら、それぞれ対応する Embulk System Properties が設定されます。これは三番目の優先度で、絶対パスのみです。
 4. もし上記のいずれにも当たらなければ `m2_repo` は `${embulk_home}/lib/m2/repository` に、また `gem_home` は `${embulk_home}/lib/gems` に設定され、最後に `gem_path` は空に設定されます。
+
+その `.jar` ファイルへのパスを `file:` URL 形式で Embulk System Properties `jruby` に指定する必要があります。例えば `-X jruby=file:///your/path/to/jruby-complete-9.1.15.0.jar` のようになります。 (今のところ `file:` 形式しか動きません)
