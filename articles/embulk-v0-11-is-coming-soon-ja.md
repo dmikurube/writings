@@ -46,7 +46,7 @@ v0.10.48 == v0.11.0 で動かなくなるプラグインは、上記のとおり
 * [GitHub Releases](https://github.com/embulk/embulk/releases) からバージョンを確認してダウンロードする。
     * そのバージョンの変更点を確認できます。
     * 手動でダウンロードする場合はこちらが適切でしょう。
-* `https://dl.embulk.org/embulk-X.Y.Z.jar` というバージョンごとの URL からダウンロードする。
+* バージョンごとの URL `https://dl.embulk.org/embulk-X.Y.Z.jar` からダウンロードする。
     * 自動でダウンロードする場合は、こちらの方がいい場合があるかもしれません。
     * 上の GitHub Releases のファイルへのリダイレクトです。
     * 例: https://dl.embulk.org/embulk-0.10.48.jar
