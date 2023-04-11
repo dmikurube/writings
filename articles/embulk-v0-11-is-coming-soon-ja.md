@@ -39,21 +39,21 @@ v0.10.48 == v0.11.0 で動かなくなるプラグインは、上記のとおり
 
 ## ダウンロード
 
-いままでの Embulk では `selfupdate` というコマンドで Embulk 自体を更新できていましたが、この `selfupdate` コマンドは廃止になります。 `selfupdate` 単体で最新バージョンに更新するコマンドは、もう無効になっています。 `selfupdate X.Y.Z` という書式で指定のバージョンに更新するコマンドはまだ有効ですが、こちらもいずれ廃止されます。
+いままでの Embulk では `selfupdate` というコマンドで Embulk 自体を更新していましたが、この `selfupdate` コマンドは廃止になります。 `selfupdate` 単体で最新バージョンに更新するコマンドは、すでに無効になっています。 `selfupdate X.Y.Z` という書式で指定のバージョンに更新するコマンドはまだ有効ですが、これもいずれ廃止されます。
 
 ダウンロード先としては、以下から合うものを選択してください。
 
 * [GitHub Releases](https://github.com/embulk/embulk/releases) からバージョンを確認してダウンロードする。
     * そのバージョンの変更点を確認できます。
     * 手動でダウンロードする場合はこちらが適切でしょう。
-* `https://dl.embulk.org/embulk-X.Y.Z.jar` というバージョン固定の形式の URL からダウンロードする。
+* `https://dl.embulk.org/embulk-X.Y.Z.jar` というバージョンごとの URL からダウンロードする。
     * 自動でダウンロードする場合は、こちらの方がいい場合があるかもしれません。
     * 上の GitHub Releases のファイルへのリダイレクトです。
     * 例: https://dl.embulk.org/embulk-0.10.48.jar
-* `https://dl.embulk.org/embulk-latest.jar` から最新バージョンをダウンロードする。
+* [`https://dl.embulk.org/embulk-latest.jar`](https://dl.embulk.org/embulk-latest.jar) から最新バージョンをダウンロードする。
     * 上の `https://dl.embulk.org/embulk-X.Y.Z.jar` へのリダイレクトです。
     * v0.10 系は開発版のため、この URL はまだ v0.9.24 を指しています。
-    * v0.11.0 のリリース後、しばらくしてからこの URL を更新します。
+    * v0.11.0 のリリースのあと、しばらくしてからこの URL を更新します。
 
 ## コマンドラインの変更
 
