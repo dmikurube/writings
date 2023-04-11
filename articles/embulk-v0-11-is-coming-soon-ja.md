@@ -117,13 +117,15 @@ $ java -jar embulk-0.10.48.jar gem install liquid -v 4.0.0
 
 ## Embulk System Properties
 
-Embulk v0.11 では、システム全体の設定を行っていた "System Config" の代わりに "Embulk System Properties" が導入されました。旧 System Config が Embulk の `ConfigSource` をベースにしていたのと違って Embulk System Properties は [Java の `Properties`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Properties.html) をベースにしています。
+Embulk のグローバルな設定をおこなう Embulk System Properties という仕組みが入りました。 `embulk.properties` という Java properties 形式のファイルで設定できます。コマンドラインオプション `-Xkey=value` で上書きすることもできます。
 
-実は Java の `Properties` は JSON と同等の表現力があった `ConfigSource` より表現力が弱いです。それでも Properties を使うことにしたのは、プロセスの一番最初から、外部ライブラリを追加することなく Properties をロードできるからです。
+読み込む `embulk.properties` の置き場所にはいくつかのパターンが使えますが、ひとまず v0.10.48 や v0.11 への移行に際しては `~/.embulk/` 以下に `~/.embulk/embulk.properties` として置くのが簡単でしょう。 v0.9 までも、プラグインのインストール先だったディレクトリです。
 
-旧 System Config は `ConfigSource` の高い表現力を特に活用していませんでした。 System Config を設定するコマンドライン・オプションの `-X` は文字列のキーに文字列の値を設定するだけのもので、それは Properties でもできることでした。いくつかの System Config では内部的にリストのような複雑な構造を使っていましたが、どれも単純な文字列に置き換えられるものでした。 `ConfigSource` ほどの表現力は、実は必要なかったのです。
+ひとまず、ほとんどの場合で必要になる JRuby の設定は以下のようになります。まずはいままでと同じ JRuby 9.1.15.0 の `jruby-complete-9.1.15.0.jar` を [JRuby Files/downloads/9.1.15.0](https://www.jruby.org/files/downloads/9.1.15.0/index.html) からダウンロードしてきて、適当なディレクトリに配置してください。その `jruby-complete-9.1.15.0.jar` の場所を、以下のように `file:` 形式の URL で指定します。 (`/home/user/` は適切に置き換えてください)
 
-なので、ユーザー視点では旧 System Config からなにか悪くなったようには見えないでしょう。一方 Properties のおかげで、以下で説明していくようなメリットを実現できました。
+```properties:~/.embulk/embulk.properties
+jruby=file:///home/user/jruby-complete-9.1.15.0.jar
+```
 
 #### Embulk home
 
