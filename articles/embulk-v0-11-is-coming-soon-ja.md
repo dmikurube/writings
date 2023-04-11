@@ -83,7 +83,7 @@ Embulk v0.10.48 や v0.11.0 には JRuby が含まれません。 Ruby の gem �
 
 一見すると面倒になっているのですが、いままで Embulk 内蔵の JRuby のバージョンを上げられなかったのが、好きな JRuby のバージョンを (自己責任で) 使えるようになった、ととらえてください。複数の JRuby バージョンでテストしているわけではないので、動かないバージョンはあると思われますが、自由度はかなり向上したはずです。
 
-ただし Embulk の (J)Ruby サポートは徐々に縮小していく計画です。 [^jruby-contributors] JRuby を必要としない Maven 形式の Embulk プラグインをより使いやすくして v0.11 以降のプラグインの主体としていきます。
+ただし Embulk の (J)Ruby サポートは徐々に縮小していく計画です。 [^jruby-contributors] 今後は JRuby を必要としない Maven 形式の Embulk プラグインをより使いやすくして v0.11 以降のプラグインの主体としていきます。
 
 [^jruby-contributors]: 「それは困る! 引き続き JRuby を第一線でサポートしてほしい!」というかたは、ぜひ Embulk 本体のメンテナンスにご参加ください :)
 
@@ -92,7 +92,8 @@ Embulk v0.10.48 や v0.11.0 には JRuby が含まれません。 Ruby の gem �
 JRuby や gem 形式のプラグインを使うには、さらに [`embulk.gem`](https://rubygems.org/gems/embulk) をインストールする必要があります。さらに、これは Embulk 本体と同じバージョンの `embulk.gem` でなければなりません。
 
 ```
-$ java -jar embulk-0.10.48.jar gem install embulk -v 0.10.48  # Embulk 本体が v0.10.48 なら embulk.gem も 0.10.48
+# Embulk 本体が v0.10.48 なら embulk.gem も 0.10.48
+$ java -jar embulk-0.10.48.jar gem install embulk -v 0.10.48
 ```
 
 :::message
