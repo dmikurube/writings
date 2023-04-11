@@ -71,11 +71,11 @@ v0.10.48 や v0.11.0 の時点では、まだ `$ embulk run ...` などで起動
 
 Embulk v0.10.48 や v0.11.0 の時点で正式に対応している Java のバージョンは、残念ながらまだ Java 8 のみです。ですが現時点の Embulk でも、基本的なところは Java 11 や Java 17 で動作するはずだと考えています。興味のあるかたは、ぜひ試してみてください。
 
-これから v0.11 系の開発を進めながら新しい Java でのテストなどを拡充し、正式に Java 11 や Java 17 への対応を宣言したいと考えています。
+これから v0.11 系を進める中で新しい Java でのテストなどを拡充し、どこかで正式に Java 11 や Java 17 への対応を宣言したいと考えています。
 
 ただし、プラグインのほうが新しい Java に対応していないケースがあります。 [^javax-xml] ここでもプラグイン側の対応が必要になります。
 
-[^javax-xml]: 典型的なのは、標準 API から削除された `javax.xml.*` のクラスを使っているケースです。プラグインが依存しているライブラリが `javax.xml.*` を呼んでいる場合もあるので、判断がひと目ではつかないことも多いですが…。
+[^javax-xml]: 典型的なのは、標準 API から削除された `javax.xml.*` のクラスを使っているケースです。プラグインが依存しているライブラリが `javax.xml.*` を呼んでいる場合もあるので、ひと目では判断できないことも多いですが…。
 
 ## JRuby
 
@@ -116,3 +116,40 @@ $ java -jar embulk-0.10.48.jar gem install liquid -v 4.0.0
 ただしこちらも、あまりテストしていません。いままでと同じ Bundler 1.16.0 と Liquid 4.0.0 はいまのところ同様に動いていますし、新しいバージョンもおそらく動くと思われますが、新しいバージョンは自己責任でお試しください。 (フィードバックはお待ちしています)
 
 ## Embulk System Properties
+
+Embulk v0.11 では、システム全体の設定を行っていた "System Config" の代わりに "Embulk System Properties" が導入されました。旧 System Config が Embulk の `ConfigSource` をベースにしていたのと違って Embulk System Properties は [Java の `Properties`](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Properties.html) をベースにしています。
+
+実は Java の `Properties` は JSON と同等の表現力があった `ConfigSource` より表現力が弱いです。それでも Properties を使うことにしたのは、プロセスの一番最初から、外部ライブラリを追加することなく Properties をロードできるからです。
+
+旧 System Config は `ConfigSource` の高い表現力を特に活用していませんでした。 System Config を設定するコマンドライン・オプションの `-X` は文字列のキーに文字列の値を設定するだけのもので、それは Properties でもできることでした。いくつかの System Config では内部的にリストのような複雑な構造を使っていましたが、どれも単純な文字列に置き換えられるものでした。 `ConfigSource` ほどの表現力は、実は必要なかったのです。
+
+なので、ユーザー視点では旧 System Config からなにか悪くなったようには見えないでしょう。一方 Properties のおかげで、以下で説明していくようなメリットを実現できました。
+
+#### Embulk home
+
+Embulk v0.11 では "Embulk home" ディレクトリという新しいコンセプトを導入しました。これは v0.9 までハードコードされていた `~/.embulk/` とほぼ同等のものです。
+
+Embulk v0.11 では、特別な設定や特別なファイルを用意しない限り v0.9 と同様に `~/.embulk/` を Embulk home として動作します。 Embulk home ディレクトリは、以下のルールで選ばれます。
+
+1. コマンドラインからオプション `-X` で Embulk System Properties `embulk_home` を設定すると Embulk home ディレクトリを設定できます。これは最高優先度で、絶対パスか、またはカレント・ディレクトリ ([Java `user.dir`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html)) からの相対パスです。
+2. 環境変数 `EMBULK_HOME` が設定されていたら、そこから Embulk home ディレクトリを設定できます。これは二番目の優先度で、絶対パスのみです。
+3. 1 と 2 のどちらも設定されていなければ、カレント・ディレクトリ ([Java `user.dir`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html)) から親ディレクトリに向かって、順に移動しながら『`.embulk/` という名前で、かつ `embulk.properties` という名前の通常ファイルを直下に含むディレクトリ』を探します。そのようなディレクトリが見つかれば、そのディレクトリが Embulk home ディレクトリとして選ばれます。
+    * もしカレント・ディレクトリがユーザーのホーム・ディレクトリ ([Java `user.home`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html)) 以下であれば、探索はホーム・ディレクトリで止まります。そうでなければ、探索はルート・ディレクトリまで続きます。
+4. もし上記のいずれにも当たらなければ、今までどおりの `~/.embulk` を Embulk home ディレクトリとして設定します。
+
+そして Embulk home ディレクトリ直下にある `embulk.properties` ファイル ([Java の `.properties` フォーマット](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Properties.html#load-java.io.Reader-)) が、自動的に Embulk System Properties としてロードされます。
+
+最後に Embulk System Property `embulk_home` は、見つかった Embulk home ディレクトリの**絶対パスで**強制的に上書きされます。
+
+#### m2_repo, gem_home, and gem_path
+
+次に重要なディレクトリの設定が、どこから Embulk プラグインをロードするかです。それも Embulk System Properties `m2_repo`, `gem_home`, `gem_path` と Embulk home ディレクトリから設定されます。
+
+まず JRuby の `Gem` をEmbulk System Properties の `gem_home` と `gem_path` から設定できます。この設定には、内部的に [`Gem.use_paths`](https://www.rubydoc.info/stdlib/rubygems/Gem.use_paths) が使われます。ここで、環境変数の `GEM_HOME` と `GEM_PATH` は変更されないことに注意してください。どこかで `Gem.clear_paths` が呼ばれると `Gem` の設定は環境変数でリセットされてしまいます。
+
+Maven アーティファクトのための `m2_repo` も含め、これらは以下のルールで設定されます。
+
+1. コマンドラインからオプション `-X` で Embulk System Properties `m2_repo`, `gem_home`, `gem_path` を設定できます。これらは最高優先度で、絶対パスか、またはカレント・ディレクトリ ([Java `user.dir`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html)) からの相対パスです。その後、これらの Embulk System Properties は絶対パスにリセットされます。
+2. `embulk.properties` ファイルから Embulk System Properties `m2_repo`, `gem_home`, `gem_path` を設定できます。これらを二番目の優先度で、絶対パスか、または Embulk home ディレクトリからの相対パスです。その後、これらの Embulk System Properties は絶対パスにリセットされます。
+3. 環境変数 `M2_REPO`, `GEM_HOME`, `GEM_PATH` が設定されていたら、それぞれ対応する Embulk System Properties が設定されます。これは三番目の優先度で、絶対パスのみです。
+4. もし上記のいずれにも当たらなければ `m2_repo` は `${embulk_home}/lib/m2/repository` に、また `gem_home` は `${embulk_home}/lib/gems` に設定され、最後に `gem_path` は空に設定されます。
