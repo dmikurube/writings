@@ -27,9 +27,9 @@ published: false
 
 Embulk v0.11 系には、前の v0.9 系と互換性のない変更が数多く入っており、古いままのプラグインの多くが動かなくなっていると考えられます。公式 (https://github.com/embulk) でメンテナンスしているプラグインの主要なものは v0.11 系への対応を済ませていますが、まだ対応が済んでいないプラグインも数多くあるでしょう。
 
-ほとんどのプラグインは、その開発者の方が[この記事](https://zenn.dev/dmikurube/articles/get-ready-for-embulk-v0-11-and-v1-0)に沿って修正すれば v0.11 に対応できるはずです。
+ほとんどのプラグインは、その開発者のかたが[この記事](https://zenn.dev/dmikurube/articles/get-ready-for-embulk-v0-11-and-v1-0)に沿って修正すれば v0.11 に対応できるはずです。
 
-ただ、もしかすると Embulk 本体の方を変えないと対応できないケースがあるかもしれません。安定版の v0.11.0 を出す前であれば、そのようなケースにも本体を変更して対応できる可能性が高いです。しかし、一度 v0.11.0 を正式に出してしまうと「本体のその部分はもう変えられない」となってしまう可能性があります。そうなる前に、ぜひ v0.10.48 をお試しください。
+ただ、もしかすると Embulk 本体のほうを変えないと対応できないケースがあるかもしれません。安定版の v0.11.0 を出す前であれば、そのようなケースにも本体を変更して対応できる可能性が高いです。しかし、一度 v0.11.0 を正式に出してしまうと「本体のその部分はもう変えられない」となってしまう可能性があります。そうなる前に、ぜひ v0.10.48 をお試しください。
 
 ## プラグインの v0.11 対応
 
@@ -76,3 +76,40 @@ Embulk v0.10.48 や v0.11.0 の時点で正式に対応している Java のバ�
 ただし、プラグインのほうが新しい Java に対応していないケースがあります。 [^javax-xml] ここでもプラグイン側の対応が必要になります。
 
 [^javax-xml]: 典型的なのは、標準 API から削除された `javax.xml.*` のクラスを使っているケースです。プラグインが依存しているライブラリが `javax.xml.*` を呼んでいる場合もあるので、判断がひと目ではつかないことも多いですが…。
+
+## JRuby
+
+Embulk v0.10.48 や v0.11.0 には JRuby が含まれません。 Ruby の gem 形式の Embulk プラグインを使う場合 (おそらく現時点ではほとんどの場合) は、別途 JRuby の "Complete .jar" を [JRuby Downloads](https://www.jruby.org/download) からダウンロードして、それを実行時に指定する必要があります。 (指定には後述の Embulk System Properties を用います)
+
+一見すると面倒になっているのですが、いままで Embulk 内蔵の JRuby のバージョンを上げられなかったのが、好きな JRuby のバージョンを (自己責任で) 使えるようになった、ととらえてください。複数の JRuby バージョンでテストしているわけではないので、動かないバージョンはあると思われますが、自由度はかなり向上したはずです。
+
+ただし Embulk の (J)Ruby サポートは徐々に縮小していく計画です。 [^jruby-contributors] JRuby を必要としない Maven 形式の Embulk プラグインをより使いやすくして v0.11 以降のプラグインの主体としていきます。
+
+[^jruby-contributors]: 「それは困る! 引き続き JRuby を第一線でサポートしてほしい!」というかたは、ぜひ Embulk 本体のメンテナンスにご参加ください :)
+
+### `embulk.gem`
+
+JRuby や gem 形式のプラグインを使うには、さらに [`embulk.gem`](https://rubygems.org/gems/embulk) をインストールする必要があります。さらに、これは Embulk 本体と同じバージョンの `embulk.gem` でなければなりません。
+
+```
+$ java -jar embulk-0.10.48.jar gem install embulk -v 0.10.48  # Embulk 本体が v0.10.48 なら embulk.gem も 0.10.48
+```
+
+:::message
+この `embulk.gem` は v0.8 以前の `embulk.gem` とはまったく別物です。これが若干の混乱を招くことがわかったので、古い v0.8 以前の `embulk.gem` を yank することを検討しています。ご意見があるかたは、以下の GitHub Discussions にコメントをください。
+
+https://github.com/orgs/embulk/discussions/3
+:::
+
+`embulk.gem` は [`msgpack.gem`](https://rubygems.org/gems/msgpack) に依存しています。場合によっては、明示的にインストールしてください。
+
+### Bundler と Liquid
+
+[Bundler](https://bundler.io/) や [Liquid](https://shopify.github.io/liquid/) を使う場合、それぞれ明示的にインストールする必要があります。
+
+```
+$ java -jar embulk-0.10.48.jar gem install bundler -v 1.16.0
+$ java -jar embulk-0.10.48.jar gem install liquid -v 4.0.0
+```
+
+ただしこちらも、あまりテストしていません。いままでと同じ Bundler 1.16.0 と Liquid 4.0.0 はいまのところ同様に動いていますし、新しいバージョンもおそらく動くと思われますが、新しいバージョンは自己責任でお試しください。 (フィードバックはお待ちしています)
