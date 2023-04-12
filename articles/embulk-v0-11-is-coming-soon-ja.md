@@ -1,5 +1,5 @@
 ---
-title: "Embulk v0.11 がまもなくリリースです"
+title: "Embulk v0.11 がまもなく出ます"
 emoji: "🐳" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [ "embulk" ]
@@ -155,7 +155,7 @@ $ java -jar embulk-0.10.48.jar gem install liquid -v 4.0.0
 
 ## Embulk home
 
-Embulk v0.10.48 == v0.11.0 では "Embulk home" ディレクトリという概念があります。これは v0.9 までの `~/.embulk/` とほぼ同等のもので、デフォルトでは引き続き `~/.embulk/` です。前述の Embulk System Properties も、まずは `~/.embulk/` に `embulk.properties` を置くことから始めました。
+Embulk v0.10.48 や v0.11.0 では "Embulk home" というディレクトリの設定があります。これは v0.9 までの `~/.embulk/` とほぼ同等のもので、デフォルトでは引き続き `~/.embulk/` です。前述の Embulk System Properties も、まずは `~/.embulk/` に `embulk.properties` を置くことから始めましたね。
 
 この Embulk home を `~/.embulk/` とは別のディレクトリにして、そこから `embulk.properties` を読み込むことができます。 Embulk home は、以下の優先順位で選ばれます。
 
@@ -193,6 +193,12 @@ Embulk home に付随して、プラグインのインストール先・ロー�
     * `env GEM_HOME=/var/tmp/gem java -jar embulk-0.10.48.jar gem install ...` (絶対パス)
 4. もし 1 〜 3 のいずれにも該当しなければ Ruby gem 形式のプラグインのインストール先は Embulk home 直下の `lib/gems` に、そして Maven 形式のプラグインのインストール先は Embulk home 直下の `lib/m2/repository` に設定されます。
 
-最後に Embulk System Property `gem_home`, `gem_path`, `m2_repo` は、それぞれ選ばれたディレクトリの **絶対パス** に上書きされます。明示的な設定がなければ `gem_path` は空になります。
+最後に Embulk System Property の `gem_home`, `gem_path`, `m2_repo` は、それぞれ選ばれたディレクトリの **絶対パス** に上書きされます。明示的な設定がなければ `gem_path` は空になります。
 
 一方、環境変数 `GEM_HOME`, `GEM_PATH`, `M2_REPO` が書き換わることはなく、上の 1 や 2 による設定があれば環境変数のほうは無視されます。
+
+## まとめ
+
+以上のような設定で、とりあえず Embulk v0.10.48 を動かしていただけると思います。 v0.11.0 が出る予定の 2023 年 6 月の前に、ぜひ試してみてください。
+
+なにかうまく動かないことがあれば [User forum](https://github.com/orgs/embulk/discussions/categories/user-forum) ([日本語版](https://github.com/orgs/embulk/discussions/categories/user-forum-ja)) などに報告をお願いします。
