@@ -60,6 +60,8 @@ Embulk の [User forum](https://github.com/orgs/embulk/discussions/categories/us
     * v0.10 系は開発版のため、この URL はまだ v0.9.24 を指しています。
     * v0.11.0 のリリースのあと、しばらくしてからこの URL を更新します。
 
+ちなみに Embulk v0.9.24 本体のファイル (`embulk-0.9.24.jar`) が 42.4 MB だったのに対して v0.10.48 本体のファイル (`embulk-0.10.48.jar`) は 6.84 MB と、大幅に軽量化していたりします。
+
 ## コマンドラインの変更
 
 ダウンロードした `embulk-X.Y.Z.jar` のファイル名を `embulk` に変更して、いままでと同様に起動すると、まず次のようなメッセージを目にすることになります。
