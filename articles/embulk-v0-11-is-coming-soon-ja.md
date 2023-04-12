@@ -47,7 +47,7 @@ v0.10.48 == v0.11.0 で動かなくなるプラグインは、上記のとおり
     * そのバージョンの変更点を確認できます。
     * 手動でダウンロードする場合はこちらが適切でしょう。
 * バージョンごとの URL `https://dl.embulk.org/embulk-X.Y.Z.jar` からダウンロードする。
-    * 自動でダウンロードする場合は、こちらの方がいい場合があるかもしれません。
+    * 自動でダウンロードする場合は、こちらのほうがいい場合があるかもしれません。
     * 上の GitHub Releases のファイルへのリダイレクトです。
     * 例: https://dl.embulk.org/embulk-0.10.48.jar
 * [`https://dl.embulk.org/embulk-latest.jar`](https://dl.embulk.org/embulk-latest.jar) から最新バージョンをダウンロードする。
@@ -77,7 +77,7 @@ v0.10.48 == v0.11.0 で動かなくなるプラグインは、上記のとおり
 ================================================================================
 ```
 
-v0.10.48 や v0.11.0 の時点では、まだ `$ embulk run ...` などで起動できます。コマンドラインを、試行や移行と同時に変更する必要はありません。ですが、近い将来の v0.11 系のどこかでは `$ embulk run ...` のようなコマンドラインが使えなくなります。いまのうちに、起動用のスクリプトや `java` で始まるコマンドラインの準備を始めておいてください。
+v0.10.48 や v0.11.0 の時点では、まだ `$ embulk run ...` などで起動できます。ですので、試行や移行と同時に、コマンドラインを変更する必要はありません。ですが、近い将来の v0.11 系のどこかでは `$ embulk run ...` のようなコマンドラインが使えなくなります。起動用のスクリプトや `java` で始まるコマンドラインの準備を、いまのうちに始めておいてください。
 
 :::message
 `$ embulk run ...` のようなコマンドでの起動を止めるのは、次項の新しい Java への対応が主な理由です。この `embulk` コマンドとしての起動はシェルスクリプトの埋め込みで実現されていたのですが、複数のディストリビューターから頻繁にリリースされるようになった Java 9 以降の、さまざまなコマンドライン (オプション) への対応を、シェルスクリプトで吸収し続けるのは不可能だ、という結論に達しました。
@@ -99,7 +99,7 @@ Embulk v0.10.48 や v0.11.0 の時点で正式に対応している Java のバ�
 
 Embulk のグローバルな設定をおこなう Embulk System Properties という仕組みが入りました。 `embulk.properties` という Java properties 形式のファイルで設定でき、さらにコマンドラインオプション `-Xkey=value` で上書きすることもできます。
 
-`embulk.properties` の置き場所にはいくつかのパターンが使えますが、ひとまず v0.10.48 や v0.11 への移行に際しては `~/.embulk/` 以下に `~/.embulk/embulk.properties` として置くところから始めるのが簡単でしょう。 `~/.embulk/` は v0.9 まででもプラグインのインストール先だったディレクトリです。
+`embulk.properties` の置き場所にはいくつかのパターンが使えますが (後述) ひとまず v0.10.48 や v0.11 への移行に際しては `~/.embulk/` 以下に `~/.embulk/embulk.properties` として置くところから始めるのが簡単でしょう。 `~/.embulk/` は v0.9 まででもプラグインのインストール先だったディレクトリです。
 
 ## JRuby
 
@@ -153,36 +153,46 @@ $ java -jar embulk-0.10.48.jar gem install liquid -v 4.0.0
 
 ただしこちらも、あまりテストしていません。いままでと同じ Bundler 1.16.0 と Liquid 4.0.0 はいまのところ同様に動いていますし、新しいバージョンもおそらく動くと思われますが、新しいバージョンは自己責任でお試しください。 (フィードバックはお待ちしています)
 
+## Embulk home
 
+Embulk v0.10.48 == v0.11.0 では "Embulk home" ディレクトリという概念があります。これは v0.9 までの `~/.embulk/` とほぼ同等のもので、デフォルトでは引き続き `~/.embulk/` です。前述の Embulk System Properties の設定でも、まずはここに `~/.embulk/embulk.properties` を置くことから始めました。
 
+この Embulk home を `~/.embulk/` とは別のディレクトリにして、そこから `embulk.properties` を読ませることができます。 Embulk home は、以下の優先順位で選ばれます。
 
-#### Embulk home
+1. コマンドラインからオプション `-X` で Embulk System Properties `embulk_home` を設定すると Embulk home ディレクトリを設定できます。
+    * 絶対パスか、またはカレント・ディレクトリからの相対パスです。
+    * `java -jar embulk-0.10.48.jar -Xembulk_home=/var/tmp/embulk run ...` (絶対パス)
+    * `java -jar embulk-0.10.48.jar -Xembulk_home=.embulk-secondary/foo run ...` (相対パス)
+2. 環境変数 `EMBULK_HOME` が設定されていたら、そこから Embulk home ディレクトリを設定できます。
+    * 絶対パスのみです。
+    * `env EMBULK_HOME=/var/tmp/embulk java -jar embulk-0.10.48.jar run ...` (絶対パス)
+3. 1 と 2 のどちらも設定がなければ、以下の条件に沿って探索します。
+    * カレント・ディレクトリから親ディレクトリに向かって一つずつ移動しながら探索します。
+    * その中で「`.embulk/` という名前」で、かつ「直下に `embulk.properties` という名前の通常ファイルを含む」ディレクトリを探します。
+    * そのようなディレクトリが見つかれば、そのディレクトリが Embulk home として選ばれます。
+    * もしカレント・ディレクトリがユーザーのホーム・ディレクトリ以下であれば、探索はホーム・ディレクトリで止まります。
+    * そうでなければ、探索はルート・ディレクトリまで続きます。
+4. もし 1 〜 3 のいずれにも該当しなければ、無条件で `~/.embulk` を Embulk home とします。
 
-Embulk v0.11 では "Embulk home" ディレクトリという新しいコンセプトを導入しました。これは v0.9 までハードコードされていた `~/.embulk/` とほぼ同等のものです。
+そして Embulk home の直下にある `embulk.properties` ファイルが Embulk System Properties として使われます。
 
-Embulk v0.11 では、特別な設定や特別なファイルを用意しない限り v0.9 と同様に `~/.embulk/` を Embulk home として動作します。 Embulk home ディレクトリは、以下のルールで選ばれます。
+最後に Embulk System Property `embulk_home` は、見つかった Embulk home ディレクトリの **絶対パス** に上書きされます。
 
-1. コマンドラインからオプション `-X` で Embulk System Properties `embulk_home` を設定すると Embulk home ディレクトリを設定できます。これは最高優先度で、絶対パスか、またはカレント・ディレクトリ ([Java `user.dir`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html)) からの相対パスです。
-2. 環境変数 `EMBULK_HOME` が設定されていたら、そこから Embulk home ディレクトリを設定できます。これは二番目の優先度で、絶対パスのみです。
-3. 1 と 2 のどちらも設定されていなければ、カレント・ディレクトリ ([Java `user.dir`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html)) から親ディレクトリに向かって、順に移動しながら『`.embulk/` という名前で、かつ `embulk.properties` という名前の通常ファイルを直下に含むディレクトリ』を探します。そのようなディレクトリが見つかれば、そのディレクトリが Embulk home ディレクトリとして選ばれます。
-    * もしカレント・ディレクトリがユーザーのホーム・ディレクトリ ([Java `user.home`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html)) 以下であれば、探索はホーム・ディレクトリで止まります。そうでなければ、探索はルート・ディレクトリまで続きます。
-4. もし上記のいずれにも当たらなければ、今までどおりの `~/.embulk` を Embulk home ディレクトリとして設定します。
+## プラグインのインストール先
 
-そして Embulk home ディレクトリ直下にある `embulk.properties` ファイル ([Java の `.properties` フォーマット](https://docs.oracle.com/javase/jp/8/docs/api/java/util/Properties.html#load-java.io.Reader-)) が、自動的に Embulk System Properties としてロードされます。
+Embulk home に付随して、プラグインのインストール先・ロード先の設定も、より明示的になりました。こちらは、以下の優先順位で選ばれます。
 
-最後に Embulk System Property `embulk_home` は、見つかった Embulk home ディレクトリの**絶対パスで**強制的に上書きされます。
+1. コマンドラインからオプション `-X` で Embulk System Properties `gem_home`, `gem_path`, `m2_repo` を設定すると、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
+    * 絶対パスか、またはカレント・ディレクトリからの相対パスです。
+    * `java -jar embulk-0.10.48.jar -Xgem_home=/var/tmp/gem gem install ...` (絶対パス)
+    * `java -jar embulk-0.10.48.jar -Xm2_repo=.m2/repository run ...` (相対パス)
+2. Embulk home の `embulk.properties` ファイルから Embulk System Properties `gem_home`, `gem_path`, `m2_repo` を設定すると、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
+    * 絶対パスか、または Embulk home ディレクトリからの相対パスです。
+3. 環境変数 `GEM_HOME`, `GEM_PATH`, `M2_REPO` を設定すると、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
+    * 絶対パスのみです。
+    * `env GEM_HOME=/var/tmp/gem java -jar embulk-0.10.48.jar gem install ...` (絶対パス)
+4. もし 1 〜 3 のいずれにも該当しなければ Ruby gem 形式のプラグインのインストール先は Embulk home 直下の `lib/gems` に、そして Maven 形式のプラグインのインストール先は Embulk home 直下の `lib/m2/repository` に設定されます。
 
-#### m2_repo, gem_home, and gem_path
+最後に Embulk System Property `gem_home`, `gem_path`, `m2_repo` は、それぞれ選ばれたディレクトリの **絶対パス** に上書きされます。明示的な設定がなければ `gem_path` は空になります。
 
-次に重要なディレクトリの設定が、どこから Embulk プラグインをロードするかです。それも Embulk System Properties `m2_repo`, `gem_home`, `gem_path` と Embulk home ディレクトリから設定されます。
-
-まず JRuby の `Gem` をEmbulk System Properties の `gem_home` と `gem_path` から設定できます。この設定には、内部的に [`Gem.use_paths`](https://www.rubydoc.info/stdlib/rubygems/Gem.use_paths) が使われます。ここで、環境変数の `GEM_HOME` と `GEM_PATH` は変更されないことに注意してください。どこかで `Gem.clear_paths` が呼ばれると `Gem` の設定は環境変数でリセットされてしまいます。
-
-Maven アーティファクトのための `m2_repo` も含め、これらは以下のルールで設定されます。
-
-1. コマンドラインからオプション `-X` で Embulk System Properties `m2_repo`, `gem_home`, `gem_path` を設定できます。これらは最高優先度で、絶対パスか、またはカレント・ディレクトリ ([Java `user.dir`](https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html)) からの相対パスです。その後、これらの Embulk System Properties は絶対パスにリセットされます。
-2. `embulk.properties` ファイルから Embulk System Properties `m2_repo`, `gem_home`, `gem_path` を設定できます。これらを二番目の優先度で、絶対パスか、または Embulk home ディレクトリからの相対パスです。その後、これらの Embulk System Properties は絶対パスにリセットされます。
-3. 環境変数 `M2_REPO`, `GEM_HOME`, `GEM_PATH` が設定されていたら、それぞれ対応する Embulk System Properties が設定されます。これは三番目の優先度で、絶対パスのみです。
-4. もし上記のいずれにも当たらなければ `m2_repo` は `${embulk_home}/lib/m2/repository` に、また `gem_home` は `${embulk_home}/lib/gems` に設定され、最後に `gem_path` は空に設定されます。
-
-その `.jar` ファイルへのパスを `file:` URL 形式で Embulk System Properties `jruby` に指定する必要があります。例えば `-X jruby=file:///your/path/to/jruby-complete-9.1.15.0.jar` のようになります。 (今のところ `file:` 形式しか動きません)
+一方、環境変数 `GEM_HOME`, `GEM_PATH`, `M2_REPO` が書き換わることはなく、上の 1 や 2 による設定があれば環境変数のほうは無視されます。
