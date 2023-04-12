@@ -155,40 +155,40 @@ $ java -jar embulk-0.10.48.jar gem install liquid -v 4.0.0
 
 ## Embulk home
 
-Embulk v0.10.48 == v0.11.0 では "Embulk home" ディレクトリという概念があります。これは v0.9 までの `~/.embulk/` とほぼ同等のもので、デフォルトでは引き続き `~/.embulk/` です。前述の Embulk System Properties の設定でも、まずはここに `~/.embulk/embulk.properties` を置くことから始めました。
+Embulk v0.10.48 == v0.11.0 では "Embulk home" ディレクトリという概念があります。これは v0.9 までの `~/.embulk/` とほぼ同等のもので、デフォルトでは引き続き `~/.embulk/` です。前述の Embulk System Properties も、まずは `~/.embulk/` に `embulk.properties` を置くことから始めました。
 
-この Embulk home を `~/.embulk/` とは別のディレクトリにして、そこから `embulk.properties` を読ませることができます。 Embulk home は、以下の優先順位で選ばれます。
+この Embulk home を `~/.embulk/` とは別のディレクトリにして、そこから `embulk.properties` を読み込むことができます。 Embulk home は、以下の優先順位で選ばれます。
 
-1. コマンドラインからオプション `-X` で Embulk System Properties `embulk_home` を設定すると Embulk home ディレクトリを設定できます。
+1. コマンドライン・オプション `-X` による Embulk System Properties の `embulk_home` から Embulk home を設定できます。
     * 絶対パスか、またはカレント・ディレクトリからの相対パスです。
-    * `java -jar embulk-0.10.48.jar -Xembulk_home=/var/tmp/embulk run ...` (絶対パス)
-    * `java -jar embulk-0.10.48.jar -Xembulk_home=.embulk-secondary/foo run ...` (相対パス)
-2. 環境変数 `EMBULK_HOME` が設定されていたら、そこから Embulk home ディレクトリを設定できます。
+    * `java -jar embulk-0.10.48.jar -Xembulk_home=/var/tmp/foo run ...` (絶対パス)
+    * `java -jar embulk-0.10.48.jar -Xembulk_home=.embulk2/bar run ...` (相対パス)
+2. 環境変数 `EMBULK_HOME` から Embulk home を設定できます。
     * 絶対パスのみです。
-    * `env EMBULK_HOME=/var/tmp/embulk java -jar embulk-0.10.48.jar run ...` (絶対パス)
-3. 1 と 2 のどちらも設定がなければ、以下の条件に沿って探索します。
-    * カレント・ディレクトリから親ディレクトリに向かって一つずつ移動しながら探索します。
-    * その中で「`.embulk/` という名前」で、かつ「直下に `embulk.properties` という名前の通常ファイルを含む」ディレクトリを探します。
-    * そのようなディレクトリが見つかれば、そのディレクトリが Embulk home として選ばれます。
+    * `env EMBULK_HOME=/var/tmp/baz java -jar embulk-0.10.48.jar run ...` (絶対パス)
+3. 1 と 2 のどちらもなければ、以下の条件に沿って探索します。
+    * カレント・ディレクトリから親に向かって一つずつ移動しながら探索します。
+    * それぞれのディレクトリの直下で、「`.embulk/` という名前」の、かつ「直下に `embulk.properties` という名前の通常ファイルを含む」ディレクトリを探します。
+    * そのようなディレクトリが見つかれば、それが Embulk home として選ばれます。
     * もしカレント・ディレクトリがユーザーのホーム・ディレクトリ以下であれば、探索はホーム・ディレクトリで止まります。
     * そうでなければ、探索はルート・ディレクトリまで続きます。
 4. もし 1 〜 3 のいずれにも該当しなければ、無条件で `~/.embulk` を Embulk home とします。
 
-そして Embulk home の直下にある `embulk.properties` ファイルが Embulk System Properties として使われます。
+そして Embulk home の直下にある `embulk.properties` ファイルが Embulk System Properties として読み込まれます。
 
-最後に Embulk System Property `embulk_home` は、見つかった Embulk home ディレクトリの **絶対パス** に上書きされます。
+最後に Embulk System Property の `embulk_home` は、見つかった Embulk home の **絶対パス** に上書きされます。
 
 ## プラグインのインストール先
 
 Embulk home に付随して、プラグインのインストール先・ロード先の設定も、より明示的になりました。こちらは、以下の優先順位で選ばれます。
 
-1. コマンドラインからオプション `-X` で Embulk System Properties `gem_home`, `gem_path`, `m2_repo` を設定すると、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
+1. コマンドライン・オプション `-X` による Embulk System Properties の `gem_home`, `gem_path`, `m2_repo` から、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
     * 絶対パスか、またはカレント・ディレクトリからの相対パスです。
     * `java -jar embulk-0.10.48.jar -Xgem_home=/var/tmp/gem gem install ...` (絶対パス)
     * `java -jar embulk-0.10.48.jar -Xm2_repo=.m2/repository run ...` (相対パス)
-2. Embulk home の `embulk.properties` ファイルから Embulk System Properties `gem_home`, `gem_path`, `m2_repo` を設定すると、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
-    * 絶対パスか、または Embulk home ディレクトリからの相対パスです。
-3. 環境変数 `GEM_HOME`, `GEM_PATH`, `M2_REPO` を設定すると、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
+2. Embulk home の `embulk.properties` ファイルの `gem_home`, `gem_path`, `m2_repo` から、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
+    * 絶対パスか、または **Embulk home からの** 相対パスです。
+3. 環境変数 `GEM_HOME`, `GEM_PATH`, `M2_REPO` から、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
     * 絶対パスのみです。
     * `env GEM_HOME=/var/tmp/gem java -jar embulk-0.10.48.jar gem install ...` (絶対パス)
 4. もし 1 〜 3 のいずれにも該当しなければ Ruby gem 形式のプラグインのインストール先は Embulk home 直下の `lib/gems` に、そして Maven 形式のプラグインのインストール先は Embulk home 直下の `lib/m2/repository` に設定されます。
