@@ -7,6 +7,8 @@ layout: default
 published: true
 ---
 
+(英語版はこちら: https://www.embulk.org/articles/2023/04/13/embulk-v0.11-is-coming-soon.html)
+
 プラグイン型バルク・データ・ローダーの [Embulk](https://www.embulk.org/) をメンテナンスしている [@dmikurube](https://github.com/dmikurube) です。
 
 「開発版」として Embulk v0.10 系の開発を始めてから、かなり時間が経ってしまいました。 [^embulk-in-td]
