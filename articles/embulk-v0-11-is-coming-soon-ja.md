@@ -19,13 +19,17 @@ published: true
 
 [^addition-to-what-changes-in-embulk-v0-11]: 約 2 年前の「[Embulk v0.11 でなにが変わるのか: ユーザーの皆様へ](https://zenn.dev/dmikurube/articles/what-changes-in-embulk-v0-11)」でご案内済みの内容もありますが、さらなる変更や注意事項もあります。
 
-## Embulk v0.10.48
+## Embulk v0.10.49
 
-まず、本日時点で [Embulk v0.10.48](https://github.com/embulk/embulk/releases/tag/v0.10.48) がリリースされています。
+まず、本日時点で [Embulk v0.10.49](https://github.com/embulk/embulk/releases/tag/v0.10.49) がリリースされています。
 
-この v0.10.48 は v0.10 系の最終バージョンとすることを意図したリリースであり、そして実質的な v0.11.0 の Release Candidate でもあります。ここで問題が見つからなければ v0.10.48 と同じものが v0.11.0 としてリリースされます。
+この v0.10.49 は v0.10 系の最終バージョンとすることを意図したリリースであり、そして実質的な v0.11.0 の Release Candidate でもあります。ここで問題が見つからなければ v0.10.49 と同じものが v0.11.0 としてリリースされます。
 
-ですので、ぜひ v0.11.0 のリリース前に v0.10.48 を試してみてください。そして、もし問題が見つかったら [User forum](https://github.com/orgs/embulk/discussions/categories/user-forum) ([日本語版](https://github.com/orgs/embulk/discussions/categories/user-forum-ja)) などで報告をお願いします。大きな問題が見つからなければ v0.11.0 は 2023 年 6 月中にリリースする予定です。
+:::message
+本記事の公開時点では v0.10.48 を最終バージョンとする意図でしたが、記事の公開後に、まだ新しい Java への対応に不備があることがわかったので、修正版として v0.10.49 をリリースしました。
+:::
+
+ですので、ぜひ v0.11.0 のリリース前に v0.10.49 を試してみてください。そして、もし問題が見つかったら [User forum](https://github.com/orgs/embulk/discussions/categories/user-forum) ([日本語版](https://github.com/orgs/embulk/discussions/categories/user-forum-ja)) などで報告をお願いします。大きな問題が見つからなければ v0.11.0 は 2023 年 6 月中にリリースする予定です。
 
 Embulk v0.11 系には、前の v0.9 系と互換性のない変更が数多く入っており、古いままのプラグインの多くが動かなくなっていると考えられます。公式 (https://github.com/embulk) でメンテナンスしているプラグインの主要なものは v0.11 系への対応を済ませていますが、まだ対応が済んでいないプラグインも数多くあるでしょう。
 
@@ -33,11 +37,11 @@ Embulk v0.11 系には、前の v0.9 系と互換性のない変更が数多く�
 
 ただ、もしかすると Embulk 本体のほうを変えないと対応できないケースがあるかもしれません。安定版の v0.11.0 を出す前であれば、そのようなケースにも本体を変更して対応できる可能性が高いです。
 
-しかし、一度 v0.11.0 を正式に出してしまうと「本体のその部分はもう変えられない」となって、どうにもならなくなってしまう可能性があります。そうなる前に、ぜひ v0.10.48 をお試しください。
+しかし、一度 v0.11.0 を正式に出してしまうと「本体のその部分はもう変えられない」となって、どうにもならなくなってしまう可能性があります。そうなる前に、ぜひ v0.10.49 をお試しください。
 
 ## プラグインの v0.11 対応
 
-v0.10.48 (v0.11.0) で動かなくなるプラグインは、上記のとおり数多くあると考えられます。ほとんどはプラグイン側で対応すれば動くようになるはずですので、各プラグインの開発者までご連絡ください。
+v0.10.49 (v0.11.0) で動かなくなるプラグインは、上記のとおり数多くあると考えられます。ほとんどはプラグイン側で対応すれば動くようになるはずですので、各プラグインの開発者までご連絡ください。
 
 Embulk の [User forum](https://github.com/orgs/embulk/discussions/categories/user-forum) ([日本語版](https://github.com/orgs/embulk/discussions/categories/user-forum-ja)) にプラグインの報告をいただいてもかまいませんが、最終的にそのプラグインの v0.11 対応版がリリースされるかどうかは、それぞれのプラグインの開発者次第になります。
 
@@ -56,13 +60,13 @@ Embulk の [User forum](https://github.com/orgs/embulk/discussions/categories/us
 * バージョンごとの URL `https://dl.embulk.org/embulk-X.Y.Z.jar` からダウンロードする。
     * 自動でダウンロードする場合は、こちらのほうがいい場合があるかもしれません。
     * 上の GitHub Releases のファイルへのリダイレクトです。
-    * 例: https://dl.embulk.org/embulk-0.10.48.jar
+    * 例: https://dl.embulk.org/embulk-0.10.49.jar
 * [`https://dl.embulk.org/embulk-latest.jar`](https://dl.embulk.org/embulk-latest.jar) から最新バージョンをダウンロードする。
     * 上の `https://dl.embulk.org/embulk-X.Y.Z.jar` へのリダイレクトです。
     * v0.10 系は開発版のため、この URL はまだ v0.9.24 を指しています。
     * v0.11.0 のリリースのあと、しばらくしてからこの URL を更新します。
 
-ちなみに Embulk v0.9.24 本体のファイル (`embulk-0.9.24.jar`) が 42.4 MB だったのに対して v0.10.48 本体のファイル (`embulk-0.10.48.jar`) は 6.84 MB と、大幅に軽量化していたりします。
+ちなみに Embulk v0.9.24 本体のファイル (`embulk-0.9.24.jar`) が 42.4 MB だったのに対して v0.10.49 本体のファイル (`embulk-0.10.49.jar`) は 6.39 MB と、大幅に軽量化していたりします。
 
 ## コマンドラインの変更
 
@@ -86,7 +90,7 @@ Embulk の [User forum](https://github.com/orgs/embulk/discussions/categories/us
 ================================================================================
 ```
 
-v0.10.48 や v0.11.0 の時点では、まだ `$ embulk run ...` などで起動できます。ですので、試行や移行と同時に、コマンドラインを変更する必要はありません。ですが、近い将来の v0.11 系のどこかでは `$ embulk run ...` のようなコマンドラインが使えなくなります。起動用のスクリプトや `java` で始まるコマンドラインの準備を、いまのうちに始めておいてください。
+v0.10.49 や v0.11.0 の時点では、まだ `$ embulk run ...` などで起動できます。ですので、試行や移行と同時に、コマンドラインを変更する必要はありません。ですが、近い将来の v0.11 系のどこかでは `$ embulk run ...` のようなコマンドラインが使えなくなります。起動用のスクリプトや `java` で始まるコマンドラインの準備を、いまのうちに始めておいてください。
 
 :::message
 `$ embulk run ...` のようなコマンドでの起動を止めるのは、次項の新しい Java への対応が主な理由です。この `embulk` コマンドとしての起動はシェルスクリプトの埋め込みで実現されていたのですが、複数のディストリビューターから頻繁にリリースされるようになった Java 9 以降の、さまざまなコマンドライン (オプション) への対応を、シェルスクリプトで吸収し続けるのは不可能だ、という結論に達しました。
@@ -96,7 +100,7 @@ v0.10.48 や v0.11.0 の時点では、まだ `$ embulk run ...` などで起動
 
 ## 新しい Java への対応
 
-Embulk v0.10.48 や v0.11.0 の時点で正式に対応している Java のバージョンは、残念ながらまだ Java 8 のみです。ですが現時点の Embulk でも、基本的なところは Java 11 や Java 17 で動作するはずだと考えています。興味のあるかたは、ぜひ試してみてください。
+Embulk v0.10.49 や v0.11.0 の時点で正式に対応している Java のバージョンは、残念ながらまだ Java 8 のみです。ですが現時点の Embulk でも、基本的なところは Java 11 や Java 17 で動作するはずだと考えています。興味のあるかたは、ぜひ試してみてください。
 
 これから v0.11 系を進める中で新しい Java でのテストなどを拡充し、どこかで正式に Java 11 や Java 17 への対応を宣言したいと考えています。
 
@@ -108,11 +112,11 @@ Embulk v0.10.48 や v0.11.0 の時点で正式に対応している Java のバ�
 
 Embulk のグローバルな設定をおこなう Embulk System Properties という仕組みが入りました。 `embulk.properties` という Java properties 形式のファイルで設定でき、さらにコマンドラインオプション `-Xkey=value` で上書きすることもできます。
 
-`embulk.properties` の置き場所にはいくつかのパターンが使えますが (後述) ひとまず v0.10.48 や v0.11 への移行に際しては `~/.embulk/` 以下に `~/.embulk/embulk.properties` として置くところから始めるのが簡単でしょう。 `~/.embulk/` は v0.9 まででもプラグインのインストール先だったディレクトリです。
+`embulk.properties` の置き場所にはいくつかのパターンが使えますが (後述) ひとまず v0.10.49 や v0.11 への移行に際しては `~/.embulk/` 以下に `~/.embulk/embulk.properties` として置くところから始めるのが簡単でしょう。 `~/.embulk/` は v0.9 まででもプラグインのインストール先だったディレクトリです。
 
 ## JRuby
 
-Embulk v0.10.48 や v0.11.0 には JRuby が含まれません。 Ruby の gem 形式の Embulk プラグインを使う場合 (おそらく現時点ではほとんどの場合) は、別途 [JRuby をダウンロード](https://www.jruby.org/download)してきて、それを使うように Embulk System Properties を設定する必要があります。 (具体例は後述)
+Embulk v0.10.49 や v0.11.0 には JRuby が含まれません。 Ruby の gem 形式の Embulk プラグインを使う場合 (おそらく現時点ではほとんどの場合) は、別途 [JRuby をダウンロード](https://www.jruby.org/download)してきて、それを使うように Embulk System Properties を設定する必要があります。 (具体例は後述)
 
 一見すると面倒になっているのですが、いままで Embulk 内蔵の JRuby のバージョンを上げられなかったのが、好きな JRuby のバージョンを (自己責任で) 使えるようになった、ととらえてください。複数の JRuby バージョンでテストしているわけではないので、動かないバージョンはあると思われますが、自由度はかなり向上したはずです。
 
@@ -132,15 +136,15 @@ Embulk v0.10.48 や v0.11.0 には JRuby が含まれません。 Ruby の gem �
 jruby=file:///home/user/jruby-complete-9.1.15.0.jar
 ```
 
-これが Embulk v0.10.48 や v0.11 で Ruby gem 形式のプラグインを使うための最初の設定です。
+これが Embulk v0.10.49 や v0.11 で Ruby gem 形式のプラグインを使うための最初の設定です。
 
 ### `embulk.gem`
 
 JRuby や gem 形式のプラグインを使うには、さらに [`embulk.gem`](https://rubygems.org/gems/embulk) をインストールする必要があります。さらに、これは Embulk 本体と同じバージョンの `embulk.gem` でなければなりません。
 
 ```
-# Embulk 本体が v0.10.48 なら embulk.gem も 0.10.48
-$ java -jar embulk-0.10.48.jar gem install embulk -v 0.10.48
+# Embulk 本体が v0.10.49 なら embulk.gem も 0.10.49
+$ java -jar embulk-0.10.49.jar gem install embulk -v 0.10.49
 ```
 
 :::message
@@ -156,25 +160,25 @@ https://github.com/orgs/embulk/discussions/3
 [Bundler](https://bundler.io/) や [Liquid](https://shopify.github.io/liquid/) を使う場合、それぞれ明示的にインストールする必要があります。
 
 ```
-$ java -jar embulk-0.10.48.jar gem install bundler -v 1.16.0
-$ java -jar embulk-0.10.48.jar gem install liquid -v 4.0.0
+$ java -jar embulk-0.10.49.jar gem install bundler -v 1.16.0
+$ java -jar embulk-0.10.49.jar gem install liquid -v 4.0.0
 ```
 
 ただしこちらも、あまりテストしていません。いままでと同じ Bundler 1.16.0 と Liquid 4.0.0 はいまのところ同様に動いていますし、新しいバージョンもおそらく動くと思われますが、新しいバージョンは自己責任でお試しください。 (フィードバックはお待ちしています)
 
 ## Embulk home
 
-Embulk v0.10.48 や v0.11.0 では "Embulk home" というディレクトリの設定があります。これは v0.9 までの `~/.embulk/` とほぼ同等のもので、デフォルトでは引き続き `~/.embulk/` です。前述の Embulk System Properties も、まずは `~/.embulk/` に `embulk.properties` を置くことから始めましたね。
+Embulk v0.10.49 や v0.11.0 では "Embulk home" というディレクトリの設定があります。これは v0.9 までの `~/.embulk/` とほぼ同等のもので、デフォルトでは引き続き `~/.embulk/` です。前述の Embulk System Properties も、まずは `~/.embulk/` に `embulk.properties` を置くことから始めましたね。
 
 この Embulk home を `~/.embulk/` とは別のディレクトリにして、そこから `embulk.properties` を読み込むことができます。 Embulk home は、以下の優先順位で選ばれます。
 
 1. コマンドライン・オプション `-X` による Embulk System Properties の `embulk_home` から Embulk home を設定できます。
     * 絶対パスか、またはカレント・ディレクトリからの相対パスです。
-    * `java -jar embulk-0.10.48.jar -Xembulk_home=/var/tmp/foo run ...` (絶対パス)
-    * `java -jar embulk-0.10.48.jar -Xembulk_home=.embulk2/bar run ...` (相対パス)
+    * `java -jar embulk-0.10.49.jar -Xembulk_home=/var/tmp/foo run ...` (絶対パス)
+    * `java -jar embulk-0.10.49.jar -Xembulk_home=.embulk2/bar run ...` (相対パス)
 2. 環境変数 `EMBULK_HOME` から Embulk home を設定できます。
     * 絶対パスのみです。
-    * `env EMBULK_HOME=/var/tmp/baz java -jar embulk-0.10.48.jar run ...` (絶対パス)
+    * `env EMBULK_HOME=/var/tmp/baz java -jar embulk-0.10.49.jar run ...` (絶対パス)
 3. 1 と 2 のどちらもなければ、以下の条件に沿って探索します。
     * カレント・ディレクトリから親に向かって一つずつ移動しながら探索します。
     * それぞれのディレクトリの直下で、「`.embulk/` という名前」の、かつ「直下に `embulk.properties` という名前の通常ファイルを含む」ディレクトリを探します。
@@ -193,13 +197,13 @@ Embulk home に付随して、プラグインのインストール先・ロー�
 
 1. コマンドライン・オプション `-X` による Embulk System Properties の `gem_home`, `gem_path`, `m2_repo` から、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
     * 絶対パスか、またはカレント・ディレクトリからの相対パスです。
-    * `java -jar embulk-0.10.48.jar -Xgem_home=/var/tmp/bar gem install ...` (絶対パス)
-    * `java -jar embulk-0.10.48.jar -Xm2_repo=.m2/repository run ...` (相対パス)
+    * `java -jar embulk-0.10.49.jar -Xgem_home=/var/tmp/bar gem install ...` (絶対パス)
+    * `java -jar embulk-0.10.49.jar -Xm2_repo=.m2/repository run ...` (相対パス)
 2. Embulk home の `embulk.properties` ファイルの `gem_home`, `gem_path`, `m2_repo` から、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
     * 絶対パスか、または **Embulk home からの** 相対パスです。
 3. 環境変数 `GEM_HOME`, `GEM_PATH`, `M2_REPO` から、それぞれ Ruby gem 形式のプラグインのインストール先と Maven 形式のプラグインのインストール先を設定できます。
     * 絶対パスのみです。
-    * `env GEM_HOME=/var/tmp/baz java -jar embulk-0.10.48.jar gem ...` (絶対パス)
+    * `env GEM_HOME=/var/tmp/baz java -jar embulk-0.10.49.jar gem ...` (絶対パス)
 4. もし 1 〜 3 のいずれにも該当しなければ Ruby gem 形式のプラグインのインストール先は Embulk home 直下の `lib/gems` に、そして Maven 形式のプラグインのインストール先は Embulk home 直下の `lib/m2/repository` に設定されます。
 
 最後に Embulk System Property の `gem_home`, `gem_path`, `m2_repo` は、それぞれ選ばれたディレクトリの **絶対パス** に上書きされます。明示的な設定がなければ `gem_path` は空になります。
@@ -208,7 +212,7 @@ Embulk home に付随して、プラグインのインストール先・ロー�
 
 ## まとめ
 
-以上のような設定で、とりあえず Embulk v0.10.48 を動かしていただけると思います。 v0.11.0 が出る予定の 2023 年 6 月より前に、ぜひ試してみてください。
+以上のような設定で、とりあえず Embulk v0.10.49 を動かしていただけると思います。 v0.11.0 が出る予定の 2023 年 6 月より前に、ぜひ試してみてください。
 
 なにかうまく動かないことがあれば [User forum](https://github.com/orgs/embulk/discussions/categories/user-forum) ([日本語版](https://github.com/orgs/embulk/discussions/categories/user-forum-ja)) などに報告をお願いします。
 
