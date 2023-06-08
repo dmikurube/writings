@@ -53,9 +53,6 @@ Treasure Data の中の Embulk
 
 @[card](https://docs.google.com/presentation/d/e/2PACX-1vQf7dSmMDTBqQQgF-NcMqCssWv34BIVacK6_4xrMAIJnbqNXt65goIW0PhzfXIUSJf_SKgEmS5Ujqvo/pub?start=false&loop=false&slide=id.p)
 
-プラグイン・メカニズムの光と影
--------------------------------
-
 明示的なインターフェース
 -------------------------
 
@@ -78,6 +75,13 @@ Data Connector のインターフェース
 ----------------------------------
 
 ...
+
+
+プラグイン・メカニズムの光と影
+-------------------------------
+
+...
+
 
 寿命のズレ
 -----------
