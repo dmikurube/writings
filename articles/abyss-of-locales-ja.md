@@ -1,6 +1,6 @@
 ---
-title: "ロケールの塔"
-emoji: "🧱" # アイキャッチとして使われる絵文字（1文字だけ）
+title: "ロケールの深淵"
+emoji: "⬛" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [ "locale", "cldr", "posix" ]
 layout: default
