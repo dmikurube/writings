@@ -2,7 +2,7 @@
 title: "営利とオープンソースの間で 〜 Embulk の場合"
 emoji: "🧬️" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "idea" # tech: 技術記事 / idea: アイデア
-topics: [ "embulk", "opensource", "OSS" ]
+topics: [ "embulk", "opensource", "OSS", "plugin" ]
 layout: default
 published: false
 ---
