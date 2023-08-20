@@ -45,7 +45,7 @@ Embulk とプラグイン
 
 Amazon S3 からデータを転送するための [`embulk-input-s3`](https://github.com/embulk/embulk-input-s3) や、そこにあるファイルをパースするための各種 parser プラグインに始まり、転送先として MySQL や PostgreSQL に書き込むための [`embulk-output-mysql`, `embulk-output-postgresql`](https://github.com/embulk/embulk-output-jdbc) など、いろいろなプラグインが Embulk 本体 (`embulk-core`) とは別のパッケージとしてメンテナンス、公開されています。
 
-実は Embulk は、本体だけではほとんどなにもできません。実際にデータを読んだり書いたりするのはすべてプラグインです。 Embulk におけるプラグインは、実は「プラグイン」という名前で思い浮かぶような「追加オプション」ではなく、つまり Embulk は「プラグインありき」のソフトウェアなのです。
+実は Embulk は、本体だけではほとんどなにもできません。実際にデータを読んだり書いたりするのはすべてプラグインです。 Embulk におけるプラグインは「プラグイン」という名前で思い浮かぶような「追加オプション」ではなく、つまり Embulk は「プラグインありき」のソフトウェアなのです。
 
 Embulk エコシステムとトレジャーデータ
 --------------------------------------
