@@ -7,29 +7,29 @@ layout: default
 published: false
 ---
 
-2023 年は、企業活動 (ビジネス) とオープンソースの関係が難しくなった年であったように思います。
+2023 年はビジネスとオープンソースの関係が難しくなった年であったように思います。
 
-6 月には、フルタイムの Ruby コミッターとして研究開発を行っていたお二人がクックパッド社の人員削減の影響を受けたことに端を発し、オープンソースに深く関わってきた一部のソフトウェア・エンジニアを中心に、企業活動とオープンソースの関係について議論がありました。
+6 月には、フルタイムの Ruby コミッターとして研究開発を行っていたお二人がクックパッド社の人員削減の影響を受けたことに端を発し、オープンソースに深く関わってきた一部のソフトウェア・エンジニアを中心に、ビジネス (企業活動) とオープンソースの関係について議論がありました。
 
-https://xtech.nikkei.com/atcl/nxt/column/18/00001/08432/
+@[card](https://xtech.nikkei.com/atcl/nxt/column/18/00001/08432/)
 
-https://note.com/ruiu/n/ndfcda9adb748
+@[card](https://note.com/ruiu/n/ndfcda9adb748)
 
-https://knqyf263.hatenablog.com/entry/2023/06/07/175830
+@[card](https://knqyf263.hatenablog.com/entry/2023/06/07/175830)
 
 8 月には HashiCorp 社が自社のオープンソース製品群のライセンスを Business Source License 1.1 (BSL) に変更したことも話題になりました。
 
-https://www.hashicorp.com/blog/hashicorp-adopts-business-source-license
+@[card](https://www.hashicorp.com/blog/hashicorp-adopts-business-source-license)
 
-また 2023 年は、一年を通して大規模言語モデル (Large Language Models; LLM) が話題になった年でもあり、企業活動にも大きな影響がありました。
+また 2023 年は、一年を通して大規模言語モデル (Large Language Models; LLM) が話題になった年でもあり、ビジネスにも大きな影響がありました。
 
-大規模言語モデルとオープンソースの関係に注目しても、「非オープンソースのライセンスで公開されている言語モデルが『オープンソース』と呼ばれがち問題 [^open-source-llm]」や、「言語モデルがオープンソースのコードのクローンをライセンス要件を満たさずに生成しがち問題」など、まだまだ課題があります。
+大規模言語モデルとオープンソースの関係に注目しても、「非オープンソースのライセンスで公開された言語モデルが『オープンソース』と呼ばれがち問題 [^open-source-llm]」や、「言語モデルがオープンソースのコードのクローンをライセンス要件を満たさずに生成しがち問題」など、まだまだ課題があります。
 
 [^open-source-llm]: 個人的には、自分が書いたわけでもない多くの文章から学習した結果である言語モデルにおける「ソース (source)」ってなに? というあたりに、そもそも疑問があったりしますが。
 
-https://www.itmedia.co.jp/news/articles/2308/22/news146.html
+@[card](https://www.itmedia.co.jp/news/articles/2308/22/news146.html)
 
-https://gigazine.net/news/20221018-github-copilot-emit-copyrighted-code/
+@[card](https://gigazine.net/news/20221018-github-copilot-emit-copyrighted-code/)
 
 さて、この記事の筆者は ["Open Source is in our DNA"](https://www.treasuredata.com/opensource/) をうたう [Treasure Data](https://www.treasuredata.com/) (TD) という会社で、自社発の [Embulk](https://www.embulk.org/) というオープンソース・ソフトウェアのメンテナンスを原作者から引き継いで、かれこれ 5 〜 6 年ほどメンテナーをやっています。「『Treasure Data 発』のオープンソース・ソフトウェアのメンテナーをやっている Treasure Data の従業員」としては、いまではおそらく最長になったんじゃないでしょうか。
 
@@ -45,7 +45,7 @@ Embulk と Treasure Data
 
 [^apache-license-2]: [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) です。
 
-https://frsyuki.hatenablog.com/entry/2015/02/16/080150
+@[card](https://frsyuki.hatenablog.com/entry/2015/02/16/080150)
 
 Embulk は、オープンソースのプロジェクトとしてだけではなく Treasure Data の中でも動いています。 [Data Connector](https://docs.treasuredata.com/display/public/PD/Integrations+Hub+Overview) というサービスとして TD のサーバー環境で Embulk が動き、顧客の環境から TD にデータを取り込んだり、逆に TD のクエリの結果を顧客の環境に書き出したりしています。
 
@@ -251,7 +251,7 @@ Core Team と EEP
 
 そんなわけで Embulk では "Core Team" という体制を明示的に作りました。これは社外でも主要なプラグインの開発者の方々にお声をかけて入ってもらったものです。本体のコミット権を持っているのはまだ私だけですが、まずは私が本体に加える変更を監視 (レビュー) してもらうチームとしてスタートしました。コミッターが「善き貢献者」でいることを確認してもらい、同時に、プラグイン開発者の方々にも正式に「中の人」になってもらうことでメンテナンスの責任を分散・分担するものでもあります。いずれ Core Team からコミッター・メンテナーになる人が現れることを期待してもいます。
 
-https://zenn.dev/dmikurube/articles/embulk-maintenance-gets-open
+@[card](https://zenn.dev/dmikurube/articles/embulk-maintenance-gets-open)
 
 そして Embulk の本体に大きめの変更を入れるための明示的なプロセス ([EEP: Embulk Enhance Proposal](https://github.com/embulk/embulk/tree/master/docs/eeps)) も整えました。これは特にプラグインとの互換性に影響があるような変更に対して、「なぜそれが必要なのか」「誰がどう使うのか」「プラグインとのインターフェースはどう変えるのか」「移行はどういう手順で進めるのか」などを明示的なドキュメントにして Core Team で確認・承認してもらうものです。
 
