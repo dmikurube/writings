@@ -208,7 +208,7 @@ Embulk v0.10
 
 結局、上記の v0.10.32 を社内の Data Connector で使い始められたのは、オープンソースとして v0.10.32 をリリースしてから、さらに 1 年後のことでした。プラグインを追いつかせる (#1) チームの仕事にも時間がかかりましたし、癒着を引き剥がす (#2) 私の仕事も難関でした。 [^class-loader-leak]
 
-[^class-loader-leak]: 例: Data Connector の中には「REST API サーバーとして 1 プロセスで Embulk を繰り返し動かす」という根本的におかしいアーキテクチャのサービスもあったのですが、これが内部的にメモリリーク ([クラス・ローダーのリーク](https://www.ibm.com/docs/ja/was-nd/8.5.5?topic=cmlp-memory-leaks-in-java-platform-enterprise-edition-applications#ctrb_memleakdetection__title__2)) を起こしていて、根源的な解決は不可能だとわかったので、このサービス自体をほぼ一から再構築したりしました。
+[^class-loader-leak]: 例: Data Connector の中には「REST API サーバーとして 1 つの Java プロセス内で Embulk を繰り返し動かす」というそもそもおかしなアーキテクチャのサービスもあったのですが、これが内部的にメモリリーク ([クラス・ローダーのリーク](https://www.ibm.com/docs/ja/was-nd/8.5.5?topic=cmlp-memory-leaks-in-java-platform-enterprise-edition-applications#ctrb_memleakdetection__title__2)) を起こしていて、いわゆる「修正」で済む範囲では根治不可能とわかったので、このサービス自体をほぼ一から再構築したりしました。
 
 さらに「オープンソースの Embulk としてここまでは作らないと一貫性がない、つまり Embulk として使い物にならないんだけど、でも Data Connector で使う予定はない」というところ (#3) をそれまで見なかったことにしてずっと後回しにしていたのですが、そこにも手を付けないといよいよ Embulk として話が進まなくなっていました。
 
