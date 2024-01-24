@@ -98,7 +98,7 @@ TD は「Embulk というソフトウェアの本体」を世に送り出した�
 
 Embulk は JRuby も使っていたので JRuby の更新も考えなければなりません。 Java は互換性をかなり気にする部類のプラットフォームですが、一方の JRuby は (Ruby という言語としてではなく JRuby という処理系実装として) 互換性をそこまでは気にせず、特に Java と Ruby の間をつなぐインターフェースにはわりと非互換が入ります。 [^jruby-constructor]
 
-[^jruby-constructor]: 例: 「[Java のクラスを継承した Ruby クラスのコンストラクタの中で条件分岐して `super()` を呼び分けるようなことが、以前の JRuby ではできたけど JRuby 9.3 以降はできなくなったよ](https://github.com/jruby/jruby/wiki/CallingJavaFromJRuby#subclassing-a-java-class) 」みたいなこともあり、「いやわかるんだけどさあ…」と思いながら Embulk に[非互換変更](https://github.com/embulk/embulk/blob/v0.11.2/embulk-ruby/lib/embulk/error.rb#L6-L49)として入れたりしました。
+[^jruby-constructor]: 例: [「Java のクラスを継承した Ruby クラスのコンストラクタの中で条件分岐して `super()` を呼び分けるようなことが、以前の JRuby ではできたけど JRuby 9.3 以降はできなくなったよ」](https://github.com/jruby/jruby/wiki/CallingJavaFromJRuby#subclassing-a-java-class) みたいなこともあり、「いやわかるんだけどさあ…」と思いながら Embulk に[非互換変更](https://github.com/embulk/embulk/blob/v0.11.2/embulk-ruby/lib/embulk/error.rb#L6-L49)として入れたりしました。
 
 JRuby のそういった情報をメンテナー一人でいちいち追いかけるのは難しく、結論として JRuby のサポートは第一線から落とすことにしました。しかしその「落とす」決定さえも容易ではなく、たとえばいきなりまったく動かなくするわけにはいきません。どういう段階を踏むか、移行期間はどうするか、どこまでサポートするか、どこからあきらめるか。技術的な実験をして、コミュニケーションを取って、コミュニティでも受け入れてもらえそうなラインを探って、最近ようやく着地点が見えてきた、くらいの状態です。 [^eep-6]
 
