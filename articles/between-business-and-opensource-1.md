@@ -196,7 +196,7 @@ Embulk v0.10
 
 この大改修は、本体にある程度の変更を加え、[「プラグインをこう書き換えれば新しい Embulk に対応できますよ」というアナウンスを出し](https://zenn.dev/dmikurube/articles/get-ready-for-embulk-v0-11-and-v1-0)、公式で管理しているプラグインを実際に書き換えてリリースする、くらいまではスムーズに進みました。実際 v0.10 を始めて 1 年と少しで、依存ライブラリ問題で最重量級だった [Jackson](https://github.com/FasterXML/jackson) に対処した [Embulk v0.10.32](https://github.com/embulk/embulk/releases/tag/v0.10.32) のリリースまでこぎつけています。
 
-しかし、そこからがなかなか進まなくなります。その主な理由として、以下の 3 点が挙げられます。 [^td-tech-talk-2022-blog]
+しかしそこからがなかなか進まなくなります。主な理由として以下の 3 点が挙げられます。 [^td-tech-talk-2022-blog]
 
 1. Data Connector 用に社内で開発・管理しているクローズドのプラグインが 200 近くある [^200-plugins]
     * 「プラグインとの互換性を大きく壊す」大改修なので、この 200 近くあるプラグインをすべて新しい Embulk に対応させないとなりません。
