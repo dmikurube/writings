@@ -54,6 +54,31 @@ h2 {
     font-size: 1.1rem;
 }
 
+h2.writing span.en {
+    display: block;
+    border-bottom: 1px solid #919599;
+}
+
+h2.writing span.ja {
+    color: #919599;
+    display: block;
+    font-size: 0.9rem;
+    text-align: right;
+}
+
+section.article {
+    margin-top: 2rem;
+}
+
+section.article p {
+    margin-left: 2rem;
+}
+
+section.article ul {
+    margin-left: 2rem;
+    padding-left: 1rem;
+}
+
 html#index section {
 }
 
