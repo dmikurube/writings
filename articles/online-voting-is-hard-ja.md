@@ -137,7 +137,7 @@ Wikipedia の「秘密投票」 [^wikipedia-himitsu-touhyou] にもあるとお�
 [^nikkei-xtech-suzuki-2000-1]: 鈴木 亨: 「[インターネットが政治を変える日---暗号技術による電子投票の未来（前編）](https://xtech.nikkei.com/it/free/ITPro/OPINION/20000917/9/)」 (2000 年 7 月 4 日、日経クロステック)
 [^nikkei-xtech-suzuki-2000-2]: 鈴木 亨: 「[インターネットが政治を変える日---暗号技術による電子投票の未来（後編）](https://xtech.nikkei.com/it/free/ITPro/OPINION/20000917/8/)」 (2000 年 7 月 5 日、日経クロステック)
 [^mike-orcutt-2016]: Mike Orcutt: 「[民主主義を破壊したい？ インターネット投票でどうぞ](https://www.technologyreview.jp/s/5705/internet-voting-leaves-out-a-cornerstone-of-democracy-the-secret-ballot/)」 (2016 年 8 月 18 日, MIT Technology Review)
-[^nec-2019] 「[ネット投票は実現するのか！？従来の選挙を一変するオンライン選挙の可能性](https://wisdom.nec.com/ja/technology/2019032701/index.html)」 (2019 年 3 月 27 日, NEC)
+[^nec-2019]: 「[ネット投票は実現するのか！？従来の選挙を一変するオンライン選挙の可能性](https://wisdom.nec.com/ja/technology/2019032701/index.html)」 (2019 年 3 月 27 日, NEC)
 
 そこで本記事では、秘密投票に絞って議論を進めます。まずは、既存の投票方式で秘密投票を守る努力がどのように払われているのかを振り返ります。
 
