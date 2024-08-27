@@ -5,6 +5,7 @@ type: "idea" # tech: 技術記事 / idea: アイデア
 topics: [ "prosym", "ipsj", "conference", "カンファレンス", "論文" ]
 layout: default
 published: true
+publication_name: "prosym"
 ---
 
 :::message
