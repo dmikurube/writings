@@ -86,7 +86,7 @@ publication_name: "prosym"
 [^jouhou-shori-vol-1]: 例: [会誌「情報処理」 Vol.1 (1960)](https://ipsj.ixsq.nii.ac.jp/ej/index.php?action=pages_view_main&active_action=repository_view_main_item_snippet&index_id=576&pn=1&count=20&order=7&lang=japanese&page_id=13&block_id=8)
 [^prosym-digital-library]: 過去の論文を掲載できていなかったのは、プロシンと情報処理学会では設立の過程が異なっていて運営も独立していたため、著作権処理などが情報処理学会のものとそろっていなかった、などが主な理由です。
 
-関係者には「おもしろい議論がされている論文も多いのに読めないのはもったいない」こと、そして「せっかく書いた論文へのアクセスがかぎられることは著者にとっても本懐ではないはずだ」という思いがありました。そこで 2020 年、千葉大学の辻尚史先生に音頭を取っていただき、過去のプログラミング・シンポジウム論文集の内容を情報処理学会の情報学広場に掲載する活動が始まりました。 [^past-reports-copyrights]
+関係者には、「おもしろい議論がされている論文も多いのに読めないのはもったいない」という気持ち、そして「せっかく書いた論文へのアクセスがかぎられることは著者にとっても本懐ではないはずだ」という思いがありました。そこで 2020 年、千葉大学の辻尚史先生に音頭を取っていただき、過去のプログラミング・シンポジウム論文集の内容を情報処理学会の情報学広場に掲載する活動が始まりました。 [^past-reports-copyrights]
 
 [^past-reports-copyrights]: 著作権の利用許諾などについて、権利者捜索のためのご連絡が「[過去のプログラミング・シンポジウム報告集の利用許諾について](https://www.ipsj.or.jp/topics/Past_reports.html)」に掲載されています。
 
