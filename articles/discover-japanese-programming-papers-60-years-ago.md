@@ -59,7 +59,7 @@ publication_name: "prosym"
 [^lisp]: [LISP (Wikipedia)](https://ja.wikipedia.org/wiki/LISP)
 [^fortran]: [Fortran (Wikipedia)](https://ja.wikipedia.org/wiki/Fortran)
 
-あたりになるでしょう。 (歴史の話なので近年のものは最初から除いています)
+みたいな時間軸を見ることができると思います。 (歴史の話なので近年のものは最初から除いています)
 
 プログラミング黎明期とプロシン
 ===============================
