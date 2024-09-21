@@ -126,7 +126,7 @@ publication_name: "prosym"
 数値計算・行列計算など
 -----------------------
 
-特に「[第 1 回](https://ipsj.ixsq.nii.ac.jp/ej/index.php?action=pages_view_main&active_action=repository_view_main_item_snippet&index_id=11573&pn=1&count=20&order=7&lang=japanese&page_id=13&block_id=8)」から[第 3 回](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_opensearch&index_id=11731&count=20&order=7&pn=1)あたりのリストを眺めてみると、「計算」の話題がよく出てきます。特に当時の大学や研究機関では、コンピュータが主に使われていたのは物理のシミュレーション計算であったり行列計算であったり、というのがよくわかります。
+特に[第 1 回](https://ipsj.ixsq.nii.ac.jp/ej/index.php?action=pages_view_main&active_action=repository_view_main_item_snippet&index_id=11573&pn=1&count=20&order=7&lang=japanese&page_id=13&block_id=8)から[第 3 回](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_opensearch&index_id=11731&count=20&order=7&pn=1)あたりのリストを眺めてみると、「計算」の話題がよく出てきます。特に当時の大学や研究機関では、コンピュータが主に使われていたのは物理のシミュレーション計算であったり行列計算であったり、というのがよくわかります。
 
 * [関数の関数をn回微分するためのサブルーチンとエルミット多項式Hk(x)のサブルーチン](https://ipsj.ixsq.nii.ac.jp/ej/?action=pages_view_main&active_action=repository_view_main_item_detail&item_id=232018&item_no=1&page_id=13&block_id=8) (1; 1960)
 * [エラトステネスのふるいによる素数の計算について](https://ipsj.ixsq.nii.ac.jp/ej/?action=pages_view_main&active_action=repository_view_main_item_detail&item_id=232019&item_no=1&page_id=13&block_id=8) (1; 1960)
