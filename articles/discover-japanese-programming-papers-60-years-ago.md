@@ -4,7 +4,7 @@ emoji: "📜" # アイキャッチとして使われる絵文字（1文字だけ
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: [ "prosym", "ipsj", "論文", "history", "computerscience" ]
 layout: default
-published: false
+published: true
 publication_name: "prosym"
 ---
 
