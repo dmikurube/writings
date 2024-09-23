@@ -85,7 +85,7 @@ publication_name: "prosym"
 
 さてこのプロシン、いちおう学会系のイベントなので、第 1 回から毎回いわゆる「論文集 (報告集・予稿集)」が出版されています。しかし当時のシンポジウムに参加していなかった人には、これまで第 46 回 (2006 年) 以前の論文集にアクセスする方法がありませんでした。主にシンポジウムの参加者に配布された論文集 (物理冊子) しか、実質的に存在しなかったんですね。
 
-情報処理学会として開かれていた会議の論文や会誌「情報処理」の記事などは、スキャンしたものが最初期のものから「[情報学広場](https://ipsj.ixsq.nii.ac.jp/ej/)」 (情報処理学会の電子図書館) に掲載されています。 [^jouhou-shori-vol-1] しかしプロシンの論文は、長い間、第 47 回以降のものしか掲載がありませんでした。 [^prosym-digital-library]
+プロシン以外の、情報処理学会として開かれていた会議の論文や会誌「情報処理」の記事などは、スキャンしたものが最初期のものから「[情報学広場](https://ipsj.ixsq.nii.ac.jp/ej/)」 (情報処理学会の電子図書館) に掲載されています。 [^jouhou-shori-vol-1] しかしプロシンの論文は、長らく第 47 回以降のものしか掲載がありませんでした。 [^prosym-digital-library]
 
 [^jouhou-shori-vol-1]: 例: [会誌「情報処理」 Vol.1 (1960)](https://ipsj.ixsq.nii.ac.jp/ej/index.php?action=pages_view_main&active_action=repository_view_main_item_snippet&index_id=576&pn=1&count=20&order=7&lang=japanese&page_id=13&block_id=8)
 [^prosym-digital-library]: 過去の論文を掲載できていなかったのは、プロシンと情報処理学会では設立の過程が異なっていて運営も独立していたため、著作権処理などが情報処理学会のものとそろっていなかった、などが主な理由です。
