@@ -178,11 +178,11 @@ OCR (文字認識) の話かー、ふーん、と思えば、発表は三越の�
 
 トヨタの方が自動車ボディの開発に使っていた (1981) CAD・CAM の話をしていたり。
 
-* [トヨタ自工におけるボデー開発工程CAD・CAM](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238286), 田辺 和夫, トヨタ自動車工業(株), 第22回プログラミング・シンポジウム報告集 (1981)
+* [トヨタ自工におけるボデー開発工程CAD・CAM](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238286), 田辺 和夫 (トヨタ自動車工業(株)), 第22回プログラミング・シンポジウム報告集 (1981)
 
 また産業分野にかぎらず、異分野の研究領域との協業、のような話が紹介されたりもします。
 
-* [天文観測整約用言語「アカイホシ」](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238104), 近田,義広 (東京大学), 第18回プログラミング・シンポジウム報告集 (1977)
+* [天文観測整約用言語「アカイホシ」](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238104), 近田 義広 (東京大学), 第18回プログラミング・シンポジウム報告集 (1977)
 * [地震予知観測情報のオンライン・データベースシステムについて](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232230), 桧山 澄子, 安永 尚志 (東京大学地震研究所), 第21回プログラミング・シンポジウム報告集 (1980)
 * [計算機屋と歴史学者の協調作業 ～計算機の専門家が非専門家のプロジェクトに参加して～](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239617), 並木 美太郎 (東京農工大学), 第39回プログラミング・シンポジウム報告集 (1998)
 
@@ -214,7 +214,7 @@ OCR (文字認識) の話かー、ふーん、と思えば、発表は三越の�
 
 「外務省における情報検索システム」とかいきなり出てきて「ファッ!?」となったりもします。
 
-* [外務省における情報検索システム](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237783), 鈴木 幸雄(外務省電子計算機室), 第7回プログラミング—シンポジウム報告集 (1966)
+* [外務省における情報検索システム](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237783), 鈴木 幸雄 (外務省電子計算機室), 第7回プログラミング—シンポジウム報告集 (1966)
 
 最近 (2010 年〜) のプロシンではデータベース的な話はそんなに多くないなあと思っていたのですが、歴史を振り返るとけっこうあったんですね。関係する話題は、継続的にいろいろな形で出てきます。
 
@@ -225,7 +225,7 @@ OCR (文字認識) の話かー、ふーん、と思えば、発表は三越の�
 2000 年代にはオープンソースの XML-DB なんかの話がされていたり PostgreSQL の話がされていたりもします。
 
 * [RDBとODBを融合するXML-DBフレームワーク ～オープンソースがもたらすXML-DBの未来～](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239817), 小松 誠 (有限会社メディアフロント 日本PostgreSQLユーザー会), 第43回プログラミング・シンポジウム報告集 (2002)
-* [PostgreSQLを用いた分散データベースの開発](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239878), 永安 悟史(慶應義塾大学大学院 政策メディア研究科), 第44回プログラミング・シンポジウム報告集 (2003)
+* [PostgreSQLを用いた分散データベースの開発](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239878), 永安 悟史 (慶應義塾大学大学院 政策メディア研究科), 第44回プログラミング・シンポジウム報告集 (2003)
 
 円周率
 -------
@@ -254,7 +254,7 @@ OCR (文字認識) の話かー、ふーん、と思えば、発表は三越の�
 『UNIXについて』
 -----------------
 
-UNIX を含む歴史についても上で軽く触れましたが、その UNIX そのものについて「他のシステムに余りみられない UNIX の特徴をあげてみると」などと紹介しているものもありました。 UNIX の開発・登場 (1969) から数年経った (1978) ところでの紹介ですが、いまとなっては (Linux として) 当たり前になってしまった UNIX 的なものについての、当時の空気感が少しわかるかもしれません。
+UNIX を含む歴史についても上で軽く触れましたが、その UNIX そのものについて「他のシステムに余りみられない UNIX の特徴をあげてみると」のように紹介している論文もありました。 UNIX の開発・登場 (1969) から数年経った (1978) ところでの紹介ですが、いまとなっては (Linux として) 当たり前になってしまった UNIX 的なものについての、当時の空気感が少しわかるかもしれません。
 
 * [使いやすさを狙ったTSS用OS―UNIXについて](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238132), 石田 晴久, 和田 英一, 安村 通晃 (東京大学), 第19回プログラミング・シンポジウム報告集 (1978)
 
@@ -317,9 +317,9 @@ C 言語についても UNIX の文脈の中で紹介されています。
 * [大規模漢字データの検証(姓, 名ファイルを用いて)](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232217), 田中 康仁 (日本ユニバック(株)), 第21回プログラミング・シンポジウム報告集 (1980)
 * [日本語文書処理用入力設計と国語辞典の一分析](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238283), 木村 泉 (東京工業大学・カーネギーメロン大学), 第22回プログラミング・シンポジウム報告集 (1981)
 * [マイクロ・コンピュータによる漢字処理システム](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238284), 小川 志俊, 坂東 浩之, 野田 晴義, 三島 良武, 大駒 誠一, 浦 昭二 (慶応義塾大学), 第22回プログラミング・シンポジウム報告集 (1981)
-* [Unix Emacsに漢字を教えた話](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238414), 植田,健治 ((株)リコー), 第26回プログラミング・シンポジウム報告集 (1985)
+* [Unix Emacsに漢字を教えた話](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238414), 植田 健治 ((株)リコー), 第26回プログラミング・シンポジウム報告集 (1985)
 * [多層テキスト構造を持つ日本語エディタ](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238442), 角田 博保 (電気通信大学), 第27回プログラミング・シンポジウム報告集 (1986)
-* [漢字スケルトンフォントの生成支援システム](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237489), 田中 哲朗, 石井 裕一郎, 長橋 賢児, 竹内 幹雄, 岩崎 英哉, 和田 英一, 第32回プログラミング・シンポジウム報告集 (1991)
+* [漢字スケルトンフォントの生成支援システム](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237489), 田中 哲朗, 石井 裕一郎, 長橋 賢児, 竹内 幹雄, 岩崎 英哉, 和田 英一 (東京大学), 第32回プログラミング・シンポジウム報告集 (1991)
 * [振り仮名を振ること (フリガナオフルコト)](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239758), 橋爪 宏達 (国立情報学研究所), 杉本 雅則 (東京大学), 第42回プログラミング・シンポジウム報告集 (2001)
 * [Webにおける外字の取り扱い方式の提案](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239779), 来住 伸子 (津田塾大学), 第42回プログラミング・シンポジウム報告集 (2001)
 
@@ -337,7 +337,7 @@ C 言語についても UNIX の文脈の中で紹介されています。
 また、英語でも日本語でもない国際化について議論されたこともあったようです。
 
 * [アラビア語ワード・プロセッサの諸問題](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238285), 矢島 敬二, 平島 守 (日本科学技術研修所), 第22回プログラミング・シンポジウム報告集 (1981)
-* [コンピュータの『国際化』に関する一考察](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238466), Beshr B. Bakhit, 遠山,元道, 浦,昭二 (慶応義塾大学), 第28回プログラミング・シンポジウム報告集 (1987)
+* [コンピュータの『国際化』に関する一考察](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238466), Beshr B. Bakhit, 遠山 元道, 浦 昭二 (慶応義塾大学), 第28回プログラミング・シンポジウム報告集 (1987)
 
 自然言語処理
 -------------
@@ -360,7 +360,7 @@ C 言語についても UNIX の文脈の中で紹介されています。
 
 * [ALGOLの文法](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232033), 森口 繁一 (東大工), 第1回プログラミング–シンポジウム報告集 (1960)
 * [ALGOL 60のCompiler](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237669), 中島 勝也, 藤野 喜一, 小島 惇 (早大理工), 第3回プログラミング—シンポジウム報告集 (1962)
-* [ALGŌL言語によるALGŌLコムパイラの製作](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=223036), 井上 謙蔵 高橋 秀知, 清水 公子 (東大物性研究所), 第6回プログラミング—シンポジウム報告集 (1965)
+* [ALGŌL言語によるALGŌLコムパイラの製作](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=223036), 井上 謙蔵, 高橋 秀知, 清水 公子 (東大物性研究所), 第6回プログラミング—シンポジウム報告集 (1965)
 * [ALGOLコンパイラにおける最適化について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232104), 島内 剛一 (立大理), 広瀬 健 (早大理工), 佐久間 紘一 (東大数理研), 福田 康夫 (東芝), 志村 昭雄 (日科技研), 第12回プログラミング—シンポジウム報告集 (1971)
 
 ### PL/I
@@ -370,7 +370,7 @@ PL/I なんかも (新しいプログラミング言語として) 出てきた�
 * [新しいプログラミング言語: PL/I (その出現までの経過，すぐれた特色，既存の言語との比較)](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237782), 竹下 享 (日本アイ・ビー・エム株式会社), 第7回プログラミング—シンポジウム報告集 (1966)
 * [PL/IWによるシステムの開発](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237984), 浜田 穂積, 中田 育男, 霜田 忠孝, 小林 正和 (日立製作所中央研究所), 第11回プログラミング—シンポジウム報告集 (1970)
 * [PL/1WによるTSS用コンパイラコンパイラ作成](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232098), 二村 良彦, 西野 秀毅, 吉村 一馬 (日立中央研究所), 第12回プログラミング—シンポジウム報告集 (1971)
-* [コンパイラ記述言語としての標準PL/I](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238035), 村上 正裄, 桑原 道明, 若山 正道, 田村,由紀子 (東京芝浦電気(株)), 第16回プログラミング—シンポジウム報告集 (1975)
+* [コンパイラ記述言語としての標準PL/I](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238035), 村上 正裄, 桑原 道明, 若山 正道, 田村 由紀子 (東京芝浦電気(株)), 第16回プログラミング—シンポジウム報告集 (1975)
 
 ### FORTRAN
 
@@ -383,7 +383,7 @@ FORTRAN はいまも数値計算系では現役ですが、もちろんその話
 プログラムの間違いや移植に関する話なども見かけやすいような気がします。
 
 * [FORTRANプログラムにおける誤まりの傾向について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232050), 五十嵐 滋 (東京大学), 第9回プログラミング—シンポジウム報告集 (1968)
-* [数式解析のプログラムをFORTRANで書いた話](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232060), 戸川 隼人 (航技研), 照井 勝利 (HSE), 西村 剛 (成蹊大), 戸川,保子 (航技研), 第9回プログラミング—シンポジウム報告集 (1968)
+* [数式解析のプログラムをFORTRANで書いた話](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232060), 戸川 隼人 (航技研), 照井 勝利 (HSE), 西村 剛 (成蹊大), 戸川 保子 (航技研), 第9回プログラミング—シンポジウム報告集 (1968)
 * [FORTRANプログラムの動的解析システムの移し換えについて](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238072), 藤村 直美, 牛島 和夫 (九州大学), 第17回プログラミング・シンポジウム報告集 (1976)
 * [ソフトウェアの移換性から見たFORTRANとCOBOLの比較](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232231), 藤村 直美 (九州大学), 第21回プログラミング・シンポジウム報告集 (1980)
 
@@ -404,8 +404,8 @@ LISP という言語とは独立に、いわゆる記号処理の文脈で「リ
 * [木表現とリスト処理の算法](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237792), 西村 恕彦 (電気試験所), 第7回プログラミング—シンポジウム報告集 (1966)
 * [シンタックス・チェッカーとストレッジ・アロケータにおけるリスト・プロセッシング](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237793), 浅井 清, 根田 美佐子 (日本原子力研究所), 第7回プログラミング—シンポジウム報告集 (1966)
 * [リスト・プロセッサーELIS](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237794), 池野 信一 (通研), 第7回プログラミング—シンポジウム報告集 (1966)
-* [行列の基本演算の数式処理とリスト処理言語](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232062), 石黒 美佐子, 中村 康弘, 稲見 泰生 斉藤 直之 (原子力研究所), 第9回プログラミング—シンポジウム報告集 (1968)
-* [リスト処理言語L6について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237924), 高橋 耕貴, 原 文子 渋谷 政昭 (統計数理研究所), 第10回プログラミング—シンポジウム報告集 (1969)
+* [行列の基本演算の数式処理とリスト処理言語](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232062), 石黒 美佐子, 中村 康弘, 稲見 泰生, 斉藤 直之 (原子力研究所), 第9回プログラミング—シンポジウム報告集 (1968)
+* [リスト処理言語L6について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237924), 高橋 耕貴, 原 文子, 渋谷 政昭 (統計数理研究所), 第10回プログラミング—シンポジウム報告集 (1969)
 
 もちろん「LISP という言語」の話題も、早くから近年まで、非常に多く出ています。
 
@@ -426,7 +426,7 @@ Prolog や、論理型言語に関連した話題もいくつか出てきます�
 * [プログラム開発環境としての機能を重視したマイコンのためのPrologシステム](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238387), 萩野 達也 (Edinburgh大学), 桜川 貴司 (京都大学 数理解析研究所), 柴山 悦哉 (東京工業大学), 第25回プログラミング・シンポジウム報告集 (1984)
 * [論理型言語におけるexplicitな否定知識](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238434), 中川 裕志 (横浜国立大学), 第27回プログラミング・シンポジウム報告集 (1986)
 * [A Proposal for a Practical Prolog Dialect](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238478), Toshiaki Kurokawa, Naoyuki Tamura, Yasuo Asakawa, Hideaki Komatsu, Hiroaki, Etoh, Toshiyuki, Hama (Tokyo Research Laboratory, IBM Japan, Ltd.), 第28回プログラミング・シンポジウム報告集 (1987)
-* [依存伝播](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237446), 橋田,浩一 (電子技術総合研究所), 第29回プログラミング・シンポジウム報告集 (1988)
+* [依存伝播](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237446), 橋田 浩一 (電子技術総合研究所), 第29回プログラミング・シンポジウム報告集 (1988)
 
 ### C言語
 
@@ -457,7 +457,7 @@ Ruby の話題は、特に電子図書館に掲載されるようになったく
     * すみません、第 46 回は電子図書館に掲載されていなかった最後の年で、鋭意作業中です。まもなく掲載できると思います。
     * 参考までに: [第 46 回のプログラム](https://prosym.org/46/program46.html)
 * [Ruby1.9での高速なFiberの実装](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=91444), 芝 哲史, 笹田 耕一 (東京大学), 第51回プログラミング・シンポジウム予稿集 (2010)
-* [RubyによるOSの構築を目指して](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=91436), 吉原 陽香 (東京農工大学), 笹田 耕一 (東京大学), 佐藤未来子, 並木美太郎 (東京農工大学), 第52回プログラミング・シンポジウム予稿集 (2011)
+* [RubyによるOSの構築を目指して](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=91436), 吉原 陽香 (東京農工大学), 笹田 耕一 (東京大学), 佐藤 未来子, 並木 美太郎 (東京農工大学), 第52回プログラミング・シンポジウム予稿集 (2011)
 * [Rubyのスレッド実装の改善](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=91437), 笹田 耕一 (東京大学), 第52回プログラミング・シンポジウム予稿集 (2011)
 * [Rubyに対するGradual typingの導入に向けて](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=222480), 丹治 将貴，中野 圭介，岩崎 英哉 (電気通信大学), 第58回プログラミング・シンポジウム予稿集 (2017)
 
@@ -540,7 +540,7 @@ JavaScript の話題も、やはり電子図書館に掲載されるようにな
 
 オブジェクト指向の前には「構造化プログラミング」というのが言われたこともありました。 (今ではもう当たり前のものになっていますが)
 
-* [ストラクチャードプログラミング支援システムSPOTとその評価](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238026), 紫合 治 下村 建之, 井元 邦夫, 岩本 莞二, 前島 亨 (日本電気), 第16回プログラミング—シンポジウム報告集 (1975)
+* [ストラクチャードプログラミング支援システムSPOTとその評価](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238026), 紫合 治, 下村 建之, 井元 邦夫, 岩本 莞二, 前島 亨 (日本電気), 第16回プログラミング—シンポジウム報告集 (1975)
 * [構造化プログラミング例とデータ構造](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238027), 溝口 徹夫, 厚井 裕司, 田中 千代治, 首藤 勝 (三菱電機), 第16回プログラミング—シンポジウム報告集 (1975)
 
 ### 型
@@ -581,7 +581,7 @@ JavaScript の話題も、やはり電子図書館に掲載されるようにな
 * [コンパイラ・コンパイラ手法による問題向き言語Xのコンパイラ作成](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=223396), 森 洋之, 中島 秀和, 下村 津之 (日本電気株式会社), 第14回プログラミング—シンポジウム報告集 (1973)
 * [順位文法によるプログラミング言語の解析とコンパイラの構成](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=223405), 浅井 清, 富山 峯秀 (日本原子力研究所), 第14回プログラミング—シンポジウム報告集 (1973)
 * [文脈自由言語の誤り訂正時間](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=223402), 沢野 明郎, 岩元 莞二 (日本電気中央研究所), 第14回プログラミング—シンポジウム報告集 (1973)
-* [SYNTAX-DIRECTED PRETTY-PRINTER](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238077), 鶴田 陽和, 武市 正人, 和田,英一 (東京大学), 第17回プログラミング・シンポジウム報告集 (1976)
+* [SYNTAX-DIRECTED PRETTY-PRINTER](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238077), 鶴田 陽和, 武市 正人, 和田 英一 (東京大学), 第17回プログラミング・シンポジウム報告集 (1976)
 * [字句解析部の高速化について－ソフトウェアの調整技法－](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232179), 白濱 律雄, 前野 年紀 (東京工業大学), 第20回プログラミング・シンポジウム報告集 (1979)
 * [属性文法によるコンパイラ生成系](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238412), 石塚 治志, 佐々 政孝 (筑波大学), 第26回プログラミング・シンポジウム報告集 (1985)
 * [再帰呼び出しのコード生成と速度](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238488), 梅村 恭司 (NTT 電気通信研究所), 第28回プログラミング・シンポジウム報告集 (1987)
@@ -604,20 +604,20 @@ GC (Garbage Collection) に特化したような話も、一定程度あった�
 
 プログラミング言語処理系をハードウェア化してしまおう、みたいな話も、実はけっこう以前からしばしばなされています。
 
-* [マイクロPlanエンジン](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238291), 和田,英一, 戸村 哲, 梅村 恭司, 寺田,実 (東京大学), 第22回プログラミング・シンポジウム報告集 (1981)
+* [マイクロPlanエンジン](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238291), 和田 英一, 戸村 哲, 梅村 恭司, 寺田 実 (東京大学), 第22回プログラミング・シンポジウム報告集 (1981)
 * [数式処理・LISPマシンFLATSについて](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238385), 後藤 英一, 鈴木 正幸, 清水 謙多郎 (東京大学), 相場 嵩, 稲田 信幸 (理化学研究所), 第25回プログラミング・シンポジウム報告集 (1984)
-* [マルチプロセッサLISPマシンMacELIS II](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237531), 三上,博英, 村上,健一郎 (NTTソフトウェア研究所), 第31回プログラミング・シンポジウム報告集 (1990)
-* [マイクロPlanの近代的な実現法 ―μPlan'93 (15年ぶりの帰ってきたマイクロPlan)―](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238933), 多田,好克 (電気通信大学), 第34回プログラミング・シンポジウム報告集 (1993)
+* [マルチプロセッサLISPマシンMacELIS II](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237531), 三上 博英, 村上 健一郎 (NTTソフトウェア研究所), 第31回プログラミング・シンポジウム報告集 (1990)
+* [マイクロPlanの近代的な実現法 ―μPlan'93 (15年ぶりの帰ってきたマイクロPlan)―](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238933), 多田 好克 (電気通信大学), 第34回プログラミング・シンポジウム報告集 (1993)
 
 検証・テスト・プロファイル
 ---------------------------
 
 プログラムの検証、テストなどに関連する話題も一定数ありますね。
 
-* [プログラムの診断 (1)](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237939), 大槻 説乎, 久原 由美子 (九州大学) 秦野 和郎 (名古屋大学), 第10回プログラミング—シンポジウム報告集 (1969)
+* [プログラムの診断 (1)](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237939), 大槻 説乎, 久原 由美子 (九州大学), 秦野 和郎 (名古屋大学), 第10回プログラミング—シンポジウム報告集 (1969)
 * [計算機システム評価の数学的理論―システム性能の感度について―](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238053), 原田 紀夫 (日本電気中央研究所), 第16回プログラミング—シンポジウム報告集 (1975)
 * [高度な並列性を内部にもつソフトウェアシステムに対する仕様及び検証技法について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232186), 米澤 明憲 (東京工業大学), 第20回プログラミング・シンポジウム報告集 (1979)
-* [アドレスの誤操作に起因するプログラムの虫の検出方法について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238319), 井田 哲雄 (理化学研究所) 板野 肯三 (筑波大学), 第23回プログラミング・シンポジウム報告集 (1982)
+* [アドレスの誤操作に起因するプログラムの虫の検出方法について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238319), 井田 哲雄 (理化学研究所), 板野 肯三 (筑波大学), 第23回プログラミング・シンポジウム報告集 (1982)
 * [一二の並行プロセスの検証問題について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238930), 水谷 哲也, 五十嵐 滋, 小宮山 弘樹, 辻 尚史 (筑波大学), 第34回プログラミング・シンポジウム報告集 (1993)
 
 証明・算術
@@ -651,9 +651,9 @@ GC (Garbage Collection) に特化したような話も、一定程度あった�
 
 * [企業における計算センターの運営について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237759), 魚木 五夫 (東洋工業), 第5回プログラミング—シンポジウム報告集 (1964)
 * [計算センターの運営について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237760) 森口 繁一 (東京大学), 第5回プログラミング—シンポジウム報告集 (1964)
-* [九州工業大学情報処理教育センターのシステム開発・運用状況について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238118), 中山 泰雄, 深川 幸紀, 矢鳴 虎夫, 吉田,将 (九州工業大学), 第18回プログラミング・シンポジウム報告集 (1977)
+* [九州工業大学情報処理教育センターのシステム開発・運用状況について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238118), 中山 泰雄, 深川 幸紀, 矢鳴 虎夫, 吉田 将 (九州工業大学), 第18回プログラミング・シンポジウム報告集 (1977)
 * [手作り計算機実習室の手作りCCTV --計算機教育用映像システムの構築--](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237461), 和田 勉 (長野大学), 堀内 一夫 (第一無線), 第30回プログラミング・シンポジウム報告集 (1989)
-* [スーパーコンピュータ, UNIX, ワークステーション --東工大の計算機環境はどうなったか--](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237462), 前野 年紀, 松田 裕幸, 太田 昌孝, 大野,浩之 (東京工業大学)
+* [スーパーコンピュータ, UNIX, ワークステーション --東工大の計算機環境はどうなったか--](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237462), 前野 年紀, 松田 裕幸, 太田 昌孝, 大野 浩之 (東京工業大学)
 
 高性能計算 (スパコン)
 ----------------------
@@ -675,7 +675,7 @@ GC (Garbage Collection) に特化したような話も、一定程度あった�
 * [junetの漢字コード ―決定顛末記―](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238465), 小川 貴英 (津田塾大学), 第28回プログラミング・シンポジウム報告集 (1987)
 * [NTT-Internet構築の経験と実際](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237463), 村上 健一郎, 天海 良治 (NTTソフトウェア研究所), 第30回プログラミング・シンポジウム報告集 (1989)
 * [学術・研究目的のコンピュータコミュニケーション基盤の構築](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237530), 村井 純 (東京大学), 第31回プログラミング・シンポジウム報告集 (1990)
-* [会議とネットワーク環境](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238889), 村井 純, 楠本 博之 加藤 朗 (慶應義塾大学), 稗田 薫 (上智大学), 第33回プログラミング・シンポジウム報告集 (1992)
+* [会議とネットワーク環境](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238889), 村井 純, 楠本 博之, 加藤 朗 (慶應義塾大学), 稗田 薫 (上智大学), 第33回プログラミング・シンポジウム報告集 (1992)
 * [高品質な遠隔授業/会議システムにおける問題点と使い勝手について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239868), 中野 瞳, 堀 良彰, 河原 一彦, 平山 善一, 藤村 直美 (九州芸術工科大学), 第44回プログラミング・シンポジウム報告集 (2003)
 
 教育
@@ -684,10 +684,10 @@ GC (Garbage Collection) に特化したような話も、一定程度あった�
 プログラミングの教育の話がちょくちょくあるのも、かなり初期からのようです。
 
 * [日本の大学における計算機教育について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237789), 一松 信 (立教大理), 第7回プログラミング—シンポジウム報告集 (1966)
-* [高校における電子計算機教育について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237832), 藤野 喜一 喜多見 孟 (早稲田大学), 第8回プログラミング—シンポジウム報告集 (1967)
+* [高校における電子計算機教育について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237832), 藤野 喜一, 喜多見 孟 (早稲田大学), 第8回プログラミング—シンポジウム報告集 (1967)
 * [中学生を対象とするプログラミング実験教室](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237945), 竹下 亨, 苅部 英司 (日本アイ・ビー・エム(株)), 第10回プログラミング—シンポジウム報告集 (1969)
 * [教育実習用ミニコンピュータのコンパイラ開発コンクールについて](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=232162), 森口 繁一 (東京大学), 第13回プログラミング—シンポジウム報告集 (1972)
-* [PL/I初心者エラー相談システム](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237521), 木下 成顕 平賀 譲 (図書館情報大学), 第31回プログラミング・シンポジウム報告集 (1990)
+* [PL/I初心者エラー相談システム](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237521), 木下 成顕, 平賀 譲 (図書館情報大学), 第31回プログラミング・シンポジウム報告集 (1990)
 * [計算機実習の実態調査 ― 事象時刻データから何がわかるか? ―](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239202), 角田 博保 (電気通信大学), 第35回プログラミング・シンポジウム報告集 (1994)
 * [教育用オブジェクト指向言語「ドリトル」を活用した学校教育](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239867), 兼宗 進 (筑波大学), 中谷 多哉子 ((有)エス・ラグーン), 御手洗 理英 ((株)アーマット), 福井 眞吾, 久野 靖 (筑波大学), 第44回プログラミング・シンポジウム報告集 (2003)
 
@@ -697,7 +697,7 @@ GC (Garbage Collection) に特化したような話も、一定程度あった�
 プロシンには [GPCC (Games and Puzzles Competitions on Computers)](https://hp.vector.co.jp/authors/VA003988/gpcc/gpcc.htm) という分科会もあるのですが、「ゲームやパズルを解く」という話題もかなり以前からよくあるようです。
 
 * [パネル討論 電子計算機とゲーム](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237918), 一松 信 (立教大理), 池野 信一 (通研), 越智 利夫 (日立), 清水 達雄 (清水建設), 細井 勉 (東大理), 中山 健 (武蔵工大), 第10回プログラミング—シンポジウム報告集 (1969)
-* [箱入娘パズルをめぐって](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=223419), 加藤 美治, 鈴木 洋介, 江守 泰文 (慶大工), 戸田,英雄 (ETL), 第15回プログラミング—シンポジウム報告集 (1974)
+* [箱入娘パズルをめぐって](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=223419), 加藤 美治, 鈴木 洋介, 江守 泰文 (慶大工), 戸田 英雄 (ETL), 第15回プログラミング—シンポジウム報告集 (1974)
 * [計算機によるゲームとパズル](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238025), 一松 信 (京都大学数理解析研究所), 第16回プログラミング—シンポジウム報告集 (1975)
 * [将棋ゲームの指し手の理解モデルとオンライン処理について](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238110), 坂本 義行 (電子技術総合研究所), 佐藤 雅之 (電気通信大学), 第18回プログラミング・シンポジウム報告集 (1977)
 * [コンピュータを用いた詰め将棋の評価と分析](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237504), 松原 仁, 半田 剣一, 元吉 文男 (電子技術総合研究所), 第32回プログラミング・シンポジウム報告集 (1991)
@@ -720,7 +720,7 @@ GC (Garbage Collection) に特化したような話も、一定程度あった�
 * [窓はねずみ無しでも繰れるか](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237469), 久野 靖 (東京工業大学), 角田 博保 (電気通信大学), 第30回プログラミング・シンポジウム報告集 (1989)
 * [Xウィンドゥ上のマルチメディアユーザインタフェース構築環境: 鼎](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=237470), 暦本 純一, 菅井 勝, 森 岳志, 内山 厚子, 垂水 浩幸, 杉山 高弘, 秋口 忠三, 山崎 剛 (日本電気株式会社), 第30回プログラミング・シンポジウム報告集 (1989)
 * [航行めがねワールド: 反応する現実のビュー](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238885), 大座畑 重光 (マッキンテリジェンス(株)), 第33回プログラミング・シンポジウム報告集 (1992)
-* [視線風ポインティングデバイスの試作と評価 ― 目は口ほどにものをいうか? ―](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239214), 赤池 英夫, 角田 博保 (電気通信大学) 飯島,純一 (明星大学), 第35回プログラミング・シンポジウム報告集 (1994)
+* [視線風ポインティングデバイスの試作と評価 ― 目は口ほどにものをいうか? ―](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239214), 赤池 英夫, 角田 博保 (電気通信大学) 飯島 純一 (明星大学), 第35回プログラミング・シンポジウム報告集 (1994)
 * [ユーザインターフェースの独立](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239215), 立山 義祐, 寺田 実 (東京大学), 第35回プログラミング・シンポジウム報告集 (1994)
 * [アイコンは投げられるか?](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239216), 久野 靖, 角田 博保, 大木 敦雄, 粕川 正充 (筑波大学), 第35回プログラミング・シンポジウム報告集 (1994)
 * [なめらかなユーザインタフェース](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239111), 増井 俊之, 水口 充, George Borden, 柏木 宏一 (シャープ株式会社), 第37回プログラミング・シンポジウム報告書 (1996)
@@ -775,8 +775,8 @@ GC (Garbage Collection) に特化したような話も、一定程度あった�
 
 その他、「えっ」と目を引くようなタイトルの論文もしばしば…。
 
-* [超時空プログラミングシステムUranus](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238404), 中島,秀之 (電子技術総合研究所), 第26回プログラミング・シンポジウム報告集 (1985)
-* [日常語によるソフトウェア物理学](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238482), 日野,克重 (富士通株式会社), 第28回プログラミング・シンポジウム報告集 (1987)
+* [超時空プログラミングシステムUranus](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238404), 中島 秀之 (電子技術総合研究所), 第26回プログラミング・シンポジウム報告集 (1985)
+* [日常語によるソフトウェア物理学](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238482), 日野 克重 (富士通株式会社), 第28回プログラミング・シンポジウム報告集 (1987)
 
 分類が難しいものの、「おっ」と思わせるタイトルもあったり。
 
