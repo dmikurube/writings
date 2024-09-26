@@ -235,7 +235,7 @@ OCR (文字認識) の話かー、ふーん、と思えば、発表は三越の�
 [^kanada]: [金田康正 (Wikipedia)](https://ja.wikipedia.org/wiki/%E9%87%91%E7%94%B0%E5%BA%B7%E6%AD%A3)
 
 * [円周率 ―高速計算法と数値の統計性―](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238374), 田村 良明 (緯度観測所), 吉野 さやか (筑波大学), 後 保範 (日立製作所), 金田 康正 (東京大学), 第25回プログラミング・シンポジウム報告集 (1984)
-* [円周率 ―高速計算法と統計性― (2)](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238490), 金田 康正 (東京大学), 田村 良明 (緯度観所測), 第28回プログラミング・シンポジウム報告集 (1987)
+* [円周率 ―高速計算法と統計性― (2)](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=238490), 金田 康正 (東京大学), 田村 良明 (緯度観測所), 第28回プログラミング・シンポジウム報告集 (1987)
 * [円周率 ―高速計算法と統計性― (3)](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_uri&item_id=239120), 高橋 大介, 金田 康正 (東京大学), 第37回プログラミング・シンポジウム報告書 (1996)
 
 数値計算・行列計算など
