@@ -9,9 +9,11 @@ publication_name: "prosym"
 ---
 
 :::message
-第 66 回プログラミング・シンポジウム、論文・発表募集が始まっています!
+第 66 回プログラミング・シンポジウム、参加募集が始まっています!
 
-@[card](https://prosym.org/66/cfp.html)
+現地参加の申し込みは 2024 年 11 月 29 日 (金) が締め切りです。
+
+@[card](https://prosym.org/66/cfa.html)
 :::
 
 「[プログラミング・シンポジウム](https://prosym.org/)」という催しがあります。「プロシン (prosym)」が通称です。
