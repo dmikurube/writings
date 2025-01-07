@@ -4,7 +4,7 @@ emoji: "🤝" # アイキャッチとして使われる絵文字（1文字だけ
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: [ "embulk", "opensource", "OSS" ]
 layout: default
-published: false
+published: true
 ---
 
 (この記事は `www.embulk.org` にある [Looking for long-term maintainers around the Embulk eco-system](https://www.embulk.org/articles/2024/11/28/looking-for-long-term-maintainers.html) の日本語訳と、同じ筆者によるもう少しぶっちゃけた追記です。)
