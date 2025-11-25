@@ -4,7 +4,7 @@ emoji: "🚪️" # アイキャッチとして使われる絵文字（1文字だ
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: [ "opensource", "embulk" ]
 layout: default
-published: false
+published: true
 ---
 
 本記事は [Embulk](https://www.embulk.org/) に関する以下のアナウンスの、非公式日本語版 + α です。
