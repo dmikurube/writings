@@ -4,7 +4,7 @@ emoji: "🪵" # アイキャッチとして使われる絵文字（1文字だけ
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: [ "opensource", "embulk", "community", "github" ]
 layout: default
-published: false
+published: true
 ---
 
 [Embulk](https://www.embulk.org/) というオープンソース・ソフトウェアのメンテナーをやっていました。
