@@ -568,7 +568,9 @@ Wikipedia の「秘密投票」 [^wikipedia-himitsu-touhyou] にもあるとお�
 [^ndi-internet-voting-estonia]: "[Internet Voting in Estonia](https://www.ndi.org/e-voting-guide/examples/internet-voting-in-estonia)" (National Democratic Institute)
 [^nakai-2018]: 中井 遼: 「[エストニアにおけるインターネット投票導入に係る法改正の議事・投票記録](https://cir.nii.ac.jp/crid/1050564288372693248)」 ([PDF](https://www.kitakyu-u.ac.jp/law/kenkyu/pdf/46-1_2nakai2.pdf)) (2018 年、北九州市立大学法政論集)
 
-オンライン投票が話題になると、エストニアは必ずといっていいほど引き合いに出されます。エストニアのオンライン投票方式はよく考えられてはいますが、しかし銀の弾丸というわけではありません。やはり秘密投票を一部犠牲にしているのです。
+オンライン投票が話題になると、エストニアは必ずといっていいほど引き合いに出されます。エストニアのオンライン投票方式はよく考えられてはいますが、しかし銀の弾丸というわけではありません。やはり秘密投票を一部犠牲にしているのです。 [^mart-poder-2023-03]
+
+[^mart-poder-2023-03]: Märt Põder: "[What's (still) wrong with Estonian e-voting?](https://gafgaf.infoaed.ee/en/posts/perils-of-electronic-voting/)" (March 5, 2023, Üks Tartu krants)
 
 「手元にある自分の端末で、どこからでも投票できる」ことの大きな問題は、「投票の秘密が破られないように監視してくれる、同じ有権者の立場の立会人、がいない環境」で投票させられてしまう可能性があることでした。この問題に対してエストニアの i-Voting では、前述したスウェーデンの Ångerröstning のような仕組みを援用して緩和を試みています。
 
